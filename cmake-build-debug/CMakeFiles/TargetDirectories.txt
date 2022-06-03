@@ -1,0 +1,3 @@
+/Users/nanadaug/School21/s21_decimal/cmake-build-debug/CMakeFiles/s21_decimal.dir
+/Users/nanadaug/School21/s21_decimal/cmake-build-debug/CMakeFiles/edit_cache.dir
+/Users/nanadaug/School21/s21_decimal/cmake-build-debug/CMakeFiles/rebuild_cache.dir
