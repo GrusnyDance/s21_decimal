@@ -14,6 +14,7 @@
 #define SIGN_BIT 31
 #define START_EXP_BIT 16
 #define END_EXP_BIT 23
+#define BITS_IN_INT 32
 
 typedef struct {
     int bits[4];

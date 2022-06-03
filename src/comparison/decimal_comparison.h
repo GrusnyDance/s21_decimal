@@ -6,7 +6,7 @@
 #define S21_DECIMAL_DECIMAL_COMPARISON_H
 
 
-#include "../s21_decimal.h"
+#include "../core/decimal_core.h"
 
 
 int s21_is_less(s21_decimal a, s21_decimal b);

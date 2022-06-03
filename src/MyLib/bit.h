@@ -9,7 +9,7 @@
 
 #define ON_BIT(int, bit) (int |= _2(bit))
 #define OFF_BIT(int, bit) (int &= (~_2(bit)))
-#define SET_BIT(int, bit, new_bit) (OFF_BIT(int, bit) + 1 && new_bit && ON_BIT(int, bit))
+#define SET_BIT(int, bit, new_bit) ((OFF_BIT(int, bit) + 1) && new_bit && (ON_BIT(int, bit) + 1))
 
 #define GET_BIT(int, bit) (int & _2(bit))
 
