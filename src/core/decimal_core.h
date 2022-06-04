@@ -5,7 +5,7 @@
 #ifndef S21_DECIMAL_DECIMAL_CORE_H
 #define S21_DECIMAL_DECIMAL_CORE_H
 
-#include "MyLib/style.h"
+#include "../MyLib/style.h"
 #include "constants.h"
 
 #include <string.h>
