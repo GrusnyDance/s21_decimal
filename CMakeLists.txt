@@ -7,4 +7,18 @@ include_directories(src)
 
 add_executable(s21_decimal
         src/s21_decimal.c
-        src/s21_decimal.h src/core/sign.c src/core/decimal_core.h src/another/s21_floor.c src/another/decimal_another.h src/comparison/decimal_comparison.h src/comparison/s21_less.c src/MyLib/style.h test.c src/core/exponent.c src/MyLib/bit.h)
+        src/s21_decimal.h
+        src/core/bit.c
+        src/core/sign.c
+        src/core/exponent.c
+        src/core/decimal_core.h
+        src/another/s21_floor.c
+        src/another/decimal_another.h
+        src/another/balancing.c
+        src/comparison/decimal_comparison.h
+        src/comparison/s21_less.c
+        src/arithmetic/add.c
+        src/arithmetic/sub.c
+        src/MyLib/style.h
+        test.c
+        )

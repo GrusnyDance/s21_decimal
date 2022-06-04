@@ -7,7 +7,6 @@
 
 #include "core/decimal_core.h"
 
-#include "comparison/decimal_comparison.h"
-#include "another/decimal_another.h"
+#include "arithmetic/decimal_arithmetic.h"
 
 #endif //S21_DECIMAL_S21_DECIMAL_H

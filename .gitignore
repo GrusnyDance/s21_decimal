@@ -6,7 +6,7 @@ cmake_install.cmake
 build.ninja
 .ninja_deps
 .ninja_log
-s21_decimal
+CMakeFiles/s21_decimal
 
 
 # Prerequisites
