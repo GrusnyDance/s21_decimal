@@ -42,6 +42,7 @@ int set_bit(int bits, int bit, int new_bit);
 int get_bits(s21_decimal a, int global_ind);
 int* p_get_bits(s21_decimal *a, int global_ind);
 char* decimal2str(s21_decimal a);
+int is_zero(s21_decimal a);
 
 // Shift decimal
 int left_shift(s21_decimal *a);

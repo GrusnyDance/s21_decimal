@@ -4,6 +4,6 @@
 
 #include "decimal_another.h"
 
-int bank_round(s21_decimal *a) {
+int bank_round(s21_decimal *a, int count_bit) {
     return 0;
 }

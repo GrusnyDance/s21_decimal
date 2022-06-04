@@ -6,35 +6,11 @@
 #include "stdio.h"
 
 int main() {
-    s21_decimal a = {699050 * 2 * 2 * 2 * 2 * 2 * 2 * 2 * 2 * 2 * 2 * 2, 0, 0, 0};
-    s21_decimal b = {10000, 0, 0, 0};
+    s21_decimal a = {(1 << 30), 0, 0, 0};
+    s21_decimal b = {~(INT32_MAX - (1 << 29)), 0, 0, 0};
     s21_decimal c = {0, 0, 0, 0};
     print_decimal(a);
-    for (int i = 0; i < 100; i++) {
-//        left_shift(&a);
-        right_shift(&a);
-        print_decimal(a);
-    }
-//    for (int i = 0; i < 75; i++) {
-//        s21_add(a, a, &a);
-//        print_decimal(a);
-//    }
-//    set_sign(&a, 10);
-//    print_decimal(a);
-//    set_sign(&a, 0);
-//    print_decimal(a);
-//    printf("%d\n", get_exponent(a));
-//    set_exponent(&a, 1);
-//    printf("%d\n", get_exponent(a));
-//    print_decimal(a);
-//    set_exponent(&a, 10);
-//    printf("%d\n", get_exponent(a));
-//    print_decimal(a);
-//    set_exponent(&a, -10);
-//    printf("%d\n", get_exponent(a));
-//    print_decimal(a);
-//
-//    set_exponent(&a, 30);
-//    printf("%d\n", get_exponent(a));
-//    print_decimal(a);
+    print_decimal(b);
+    s21_mul(a, b, &c);
+    print_decimal(c);
 }

@@ -12,6 +12,7 @@ add_executable(s21_decimal
         src/core/sign.c
         src/core/shift.c
         src/core/exponent.c
+        src/core/debug.c
         src/core/decimal_core.h
         src/another/s21_floor.c
         src/another/decimal_another.h
@@ -20,6 +21,7 @@ add_executable(s21_decimal
         src/comparison/s21_less.c
         src/arithmetic/add.c
         src/arithmetic/sub.c
+        src/arithmetic/mul.c
         src/MyLib/style.h
         test.c
         )

@@ -5,6 +5,15 @@
 #ifndef S21_DECIMAL_CONSTANTS_H
 #define S21_DECIMAL_CONSTANTS_H
 
+
+
+enum {
+    OK,
+    BIG_VALUE,
+    SMALL_VALUE,
+    DIV_ZERO
+};
+
 #define BITS_IN_INT 32
 #define BITS_COUNT 3
 #define ALL_BIT (BITS_IN_INT * BITS_COUNT)

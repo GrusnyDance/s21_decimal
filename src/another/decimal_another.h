@@ -7,6 +7,7 @@
 
 #include "../MyLib/style.h"
 #include "../core/decimal_core.h"
+#include "../arithmetic/decimal_arithmetic.h"
 
 
 int s21_floor(s21_decimal value, s21_decimal *result);
@@ -16,6 +17,6 @@ int s21_negate(s21_decimal value, s21_decimal *result);
 
 // custom
 int balancing(s21_decimal *a, s21_decimal *b);
-
+int bank_round(s21_decimal *a, int count_bit);
 
 #endif //S21_DECIMAL_DECIMAL_ANOTHER_H
