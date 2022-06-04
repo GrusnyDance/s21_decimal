@@ -7,6 +7,12 @@
 
 
 #include "../core/decimal_core.h"
+#include "../another/decimal_another.h"
+
+typedef enum {
+    false,
+    true
+} bool;
 
 
 int s21_is_less(s21_decimal a, s21_decimal b);

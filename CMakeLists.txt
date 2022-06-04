@@ -15,9 +15,11 @@ add_executable(s21_decimal
         src/core/debug.c
         src/core/decimal_core.h
         src/another/s21_floor.c
+        src/another/s21_truncate.c
         src/another/decimal_another.h
         src/another/balancing.c
         src/comparison/decimal_comparison.h
+        src/comparison/s21_eq.c
         src/comparison/s21_less.c
         src/arithmetic/add.c
         src/arithmetic/sub.c

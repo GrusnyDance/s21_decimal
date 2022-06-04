@@ -14,18 +14,19 @@ int s21_mul(s21_decimal value_1, s21_decimal value_2, s21_decimal *result) {
 
     int status = 0;
 
+    s21_decimal tmp = *result;
     while (!is_zero(value_2)) {
         if (get_gbit(value_2, 0)) {
-            s21_decimal tmp = *result;
             status = s21_add(value_1, tmp, &tmp);
-            if (!status)
-                *result = tmp;
-            else
+            if (status)
                 break;
         }
         right_shift(&value_1);
         left_shift(&value_2);
     }
+
+    if (!status)
+        *result = tmp;
 
     return status;
 }

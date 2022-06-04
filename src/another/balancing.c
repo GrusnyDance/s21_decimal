@@ -10,8 +10,8 @@ int shifting(s21_decimal *a) {
     int exp = get_exponent(*a);
     while (exp < 28 && !(status = s21_mul(*a, bobka, a))) {
         exp += 1;
-        set_exponent(a, exp);
     }
+    set_exponent(a, exp);
     return status;
 }
 
@@ -19,16 +19,18 @@ int shifting(s21_decimal *a) {
 int balancing(s21_decimal *a, s21_decimal *b) {
     int status = 0;
 
-    shifting(a);
-    shifting(b);
+    if (get_exponent(*a) != get_exponent(*b)) {
 
-    int exp_a = get_exponent(*a);
-    int exp_b = get_exponent(*b);
-    if (exp_a > exp_b) {
-//        ba
-    } else {
+        shifting(a);
+        shifting(b);
 
+        int exp_a = get_exponent(*a);
+        int exp_b = get_exponent(*b);
+//    if (exp_a > exp_b) {
+////        ba
+//    } else {
+//
+//    }
     }
-
     return status;
 }

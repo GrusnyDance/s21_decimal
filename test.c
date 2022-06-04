@@ -6,11 +6,12 @@
 #include "stdio.h"
 
 int main() {
-    s21_decimal a = {(1 << 30), 0, 0, 0};
-    s21_decimal b = {~(INT32_MAX - (1 << 29)), 0, 0, 0};
+    s21_decimal a = {19, 0, 0, 0};
+    set_exponent(&a, 1);
+    s21_decimal b = {95, 0, 0, 0};
+    set_exponent(&b, 2);
     s21_decimal c = {0, 0, 0, 0};
     print_decimal(a);
     print_decimal(b);
-    s21_mul(a, b, &c);
-    print_decimal(c);
+    printf("is eq = %d\n", s21_is_equal(a, b));
 }
