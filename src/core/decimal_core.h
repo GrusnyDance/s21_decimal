@@ -30,8 +30,6 @@ int set_sign(s21_decimal *a, sign new_sign);
 int get_exponent(s21_decimal a);
 int set_exponent(s21_decimal *a, int new_exponent);
 
-int shift_left(s21_decimal *a);
-
 void print_decimal(s21_decimal a);
 
 // Work with bit
@@ -45,4 +43,7 @@ int get_bits(s21_decimal a, int global_ind);
 int* p_get_bits(s21_decimal *a, int global_ind);
 char* decimal2str(s21_decimal a);
 
+// Shift decimal
+int left_shift(s21_decimal *a);
+int right_shift(s21_decimal *a);
 #endif //S21_DECIMAL_DECIMAL_CORE_H

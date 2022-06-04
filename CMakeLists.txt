@@ -10,6 +10,7 @@ add_executable(s21_decimal
         src/s21_decimal.h
         src/core/bit.c
         src/core/sign.c
+        src/core/shift.c
         src/core/exponent.c
         src/core/decimal_core.h
         src/another/s21_floor.c

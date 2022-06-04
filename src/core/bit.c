@@ -55,6 +55,8 @@ void print_decimal(s21_decimal a) {
 
     putchar(':');
     for (int i = 0; i < ALL_BIT; i++) {
+        if (!(i % 32))
+            putchar('-');
         putchar('0' + get_bit(get_bits(a, i), i));
     }
 

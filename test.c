@@ -6,15 +6,15 @@
 #include "stdio.h"
 
 int main() {
-    s21_decimal a = {9, 0, 0, 0};
+    s21_decimal a = {699050 * 2 * 2 * 2 * 2 * 2 * 2 * 2 * 2 * 2 * 2 * 2, 0, 0, 0};
     s21_decimal b = {10000, 0, 0, 0};
-    set_sign(&a, NEGATIVE);
     s21_decimal c = {0, 0, 0, 0};
     print_decimal(a);
-    s21_sub(a, b, &c);
-    print_decimal(a);
-    print_decimal(b);
-    print_decimal(c);
+    for (int i = 0; i < 100; i++) {
+//        left_shift(&a);
+        right_shift(&a);
+        print_decimal(a);
+    }
 //    for (int i = 0; i < 75; i++) {
 //        s21_add(a, a, &a);
 //        print_decimal(a);
@@ -37,5 +37,4 @@ int main() {
 //    set_exponent(&a, 30);
 //    printf("%d\n", get_exponent(a));
 //    print_decimal(a);
-
 }
