@@ -18,6 +18,6 @@ int s21_negate(s21_decimal value, s21_decimal *result);
 // custom
 int balancing(s21_decimal *a, s21_decimal *b);
 int bank_round(s21_decimal *a, int count_bit);
-int shifting(s21_decimal *a);
+int shifting(s21_decimal *a, int n);
 
 #endif //S21_DECIMAL_DECIMAL_ANOTHER_H

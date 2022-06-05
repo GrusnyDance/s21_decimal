@@ -15,7 +15,7 @@ int s21_from_decimal_to_float(s21_decimal src, float *dst) {
   ten_pow = (src.bits[3] << 1) >> 17;
   if (ten_pow > 0) {
     for (int i = ten_pow; i > 0; i--) {
-      reserve /= 10.0;
+      reserve /= 10;
     }
   }
   *dst = (float)reserve;
