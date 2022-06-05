@@ -22,9 +22,6 @@ int s21_mul(s21_decimal value_1, s21_decimal value_2, s21_decimal *result) {
     }
     right_shift(&value_1);
     left_shift(&value_2);
-
-    right_shift(&value_1);
-    left_shift(&value_2);
   }
 
   if (!status) *result = tmp;
