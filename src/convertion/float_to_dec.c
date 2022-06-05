@@ -35,6 +35,5 @@ int s21_from_float_to_decimal(float src, s21_decimal *dst) {
     dst->bits[3] |= ten_pow << 16;
     // change_endian(dst);
   }
-
   return return_code;
 }
