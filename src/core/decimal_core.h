@@ -15,8 +15,8 @@
 #define _2(bit) (1 << (BITS_IN_INT - bit - 1))
 
 typedef enum {
-    POSITIVE,
-    NEGATIVE
+    POSITIVE = 0,
+    NEGATIVE = 1
 } sign;
 
 typedef struct {
