@@ -24,23 +24,26 @@ int div_core(s21_decimal value_1, s21_decimal value_2, s21_decimal *result,
   s21_decimal temp = {0, 0, 0, 0};
   if (s21_is_equal(value_1, value_2)) {
     return 0;
-  }
-  while (custom_less(value_1, value_2) && res_exp < 28) {
-    res_exp++;
-    s21_decimal ten = {(1 << 30) + (1 << 28), 0, 0, 0};
-    s21_mul(value_1, ten, &value_1);
-  }
-  while (custom_less(value_2, value_1) || s21_is_equal(value_2, value_1)) {
-    right_shift(&value_2);
-    right_shift(result);
-  }
-  if (custom_less(value_1, value_2)) {
+  } else if (custom_less(value_1, value_2)) {
+    if (is_zero(value_1)) return 0;
+    while (custom_less(value_1, value_2) && res_exp < 28) {
+      res_exp++;
+      s21_decimal ten = {(1 << 30) + (1 << 28), 0, 0, 0};
+      s21_mul(value_1, ten, &value_1);
+    }
+  } else {
+    while (custom_less(value_2, value_1) || s21_is_equal(value_2, value_1)) {
+      right_shift(&value_2);
+      right_shift(result);
+    }
+    // if (custom_less(value_1, value_2)) {
     left_shift(&value_2);
     left_shift(result);
+    // }
   }
   if (res_exp < 28) {
     s21_sub(value_1, value_2, &temp);
-    print_decimal(*result);
+    print_decimal(temp);
     res_exp = div_core(temp, value_2, &temp, res_exp);
     s21_add(*result, temp, result);
   }
