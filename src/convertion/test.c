@@ -3,7 +3,7 @@
 #include "decimal.h"
 
 int main() {
-    float a = -120.23456;
+    float a = 0.00023456;
     float b;
     s21_decimal my_struct;
     s21_from_float_to_decimal(a, &my_struct);
