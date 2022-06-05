@@ -12,8 +12,8 @@ int get_exponent(s21_decimal a) {
             exp += (1 << (i - START_EXP_BIT));
     }
 
-    if (exp > 28)
-        exp = 28;
+    if (exp > MAX_EXPONENT)
+        exp = MAX_EXPONENT;
     return exp;
 }
 

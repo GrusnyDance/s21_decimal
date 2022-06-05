@@ -6,7 +6,6 @@
 #define S21_DECIMAL_CONSTANTS_H
 
 
-
 enum {
     OK,
     BIG_VALUE,
@@ -23,5 +22,6 @@ enum {
 #define END_EXP_BIT 23
 #define SIGN_BIT 31
 
+#define MAX_EXPONENT 28
 
 #endif //S21_DECIMAL_CONSTANTS_H
