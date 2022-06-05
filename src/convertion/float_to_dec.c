@@ -31,7 +31,7 @@ int s21_from_float_to_decimal(float src, s21_decimal *dst) {
     for (int j = exp - 1, k = 22; k >= 0; j--, k--) {
       if (final_num & (1 << k)) dst->bits[j / 32] |= (1 << (j % 32));
     }
-    if (sign) set_sign(dst);
+    if (sign) set_sign2(dst);
     dst->bits[3] |= ten_pow << 16;
     // change_endian(dst);
   }

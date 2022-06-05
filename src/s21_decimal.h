@@ -11,4 +11,4 @@
 #include "convertion/decimal.h"
 #include "core/decimal_core.h"
 
-#endif //S21_DECIMAL_S21_DECIMAL_H
+#endif  // S21_DECIMAL_S21_DECIMAL_H
