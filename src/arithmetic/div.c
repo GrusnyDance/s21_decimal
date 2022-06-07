@@ -6,24 +6,27 @@
 
 int div_core(s21_decimal value_1, s21_decimal value_2, s21_decimal *result,
              int res_exp) {
+  result->bits[0] = INT32_MIN;
   s21_decimal temp = {0, 0, 0, 0};
   if (s21_is_equal(value_1, value_2)) {
-    result->bits[0] = INT32_MIN;
     return 0;
   }
-  while (is_less(value_1, value_2) && res_exp < 29) {
+  print_decimal(*result);
+  while (s21_is_less(value_1, value_2) && res_exp < 28) {
     res_exp++;
     s21_decimal ten = {(1 << 30) + (1 << 28), 0, 0, 0};
     s21_mul(value_1, ten, &value_1);
   }
-  while (s21_is_less_or_equal(value_2, value_1)) {
+  while (s21_is_less(value_2, value_1) || s21_is_equal(value_2, value_1)) {
     right_shift(&value_2);
     right_shift(result);
   }
-  if (s21_is_greater(value_2, value_1)) left_shift(&value_2);
-
+  if (s21_is_less(value_1, value_2)) {
+    left_shift(&value_2);
+    left_shift(result);
+  }
   s21_sub(value_1, value_2, &temp);
-  if (res_exp < 29) res_exp = s21_core(temp, value_2, &temp, res_exp);
+  if (res_exp < 28) res_exp = div_core(temp, value_2, &temp, res_exp);
   s21_add(*result, temp, result);
   //условие остановки для непереполнения
   return res_exp;
@@ -42,6 +45,6 @@ int s21_div(s21_decimal value_1, s21_decimal value_2, s21_decimal *result) {
   set_exponent(&value_1, 0);
   set_exponent(&value_2, 0);
   res_exp = div_core(value_1, value_2, result, res_exp);
-  set_exponent(&result, res_exp);
+  set_exponent(result, res_exp);
   return 0;
 }

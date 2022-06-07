@@ -20,7 +20,7 @@ int add_core(s21_decimal value_1, s21_decimal value_2, s21_decimal *result) {
 }
 
 int s21_add(s21_decimal value_1, s21_decimal value_2, s21_decimal *result) {
-  balancing(&value_1, &value_2);
+  //   balancing(&value_1, &value_2);
 
   int status = 0;
 
