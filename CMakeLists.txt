@@ -24,6 +24,7 @@ add_executable(s21_decimal
         src/arithmetic/add.c
         src/arithmetic/sub.c
         src/arithmetic/mul.c
+        src/arithmetic/div.c
         src/MyLib/style.h
         test.c
         )
