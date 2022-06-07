@@ -4,7 +4,7 @@
 
 #include "decimal_arithmetic.h"
 
-int s21_mul(s21_decimal value_1, s21_decimal value_2, s21_decimal *result) {
+int stupid_mul(s21_decimal value_1, s21_decimal value_2, s21_decimal *result) {
   result->bits[0] = 0;
   result->bits[1] = 0;
   result->bits[2] = 0;
@@ -17,7 +17,7 @@ int s21_mul(s21_decimal value_1, s21_decimal value_2, s21_decimal *result) {
   s21_decimal tmp = *result;
   while (!is_zero(value_2)) {
     if (get_gbit(value_2, 0)) {
-      status = s21_add(value_1, tmp, &tmp);
+      status = very_stupid_add(value_1, tmp, &tmp);
       if (status) break;
     }
     right_shift(&value_1);
@@ -27,4 +27,9 @@ int s21_mul(s21_decimal value_1, s21_decimal value_2, s21_decimal *result) {
   if (!status) *result = tmp;
 
   return status;
+}
+
+int s21_mul(s21_decimal value_1, s21_decimal value_2, s21_decimal *result) {
+  balancing(&value_1, &value_2);
+  return stupid_mul(value_1, value_2, result);
 }

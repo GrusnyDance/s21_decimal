@@ -4,9 +4,7 @@
 
 #include "decimal_comparison.h"
 
-int s21_is_equal(s21_decimal a, s21_decimal b) {
-  //   balancing(&a, &b);
-
+int stupid_equal(s21_decimal a, s21_decimal b) {
   bool res = get_sign(a) == get_sign(b);
   res = res && get_exponent(a) == get_exponent(b);
   res = res && a.bits[0] == b.bits[0];
@@ -14,4 +12,9 @@ int s21_is_equal(s21_decimal a, s21_decimal b) {
   res = res && a.bits[2] == b.bits[2];
 
   return res;
+}
+
+int s21_is_equal(s21_decimal a, s21_decimal b) {
+  balancing(&a, &b);
+  return stupid_equal(a, b);
 }

@@ -30,7 +30,7 @@ void print_decimal(s21_decimal a) {
 void d_print_decimal(s21_decimal a) {
   char string[512] = "echo \"";
   strcat(string, decimal2str(a));
-  strcat(string, "\" | python3 conv.py | grep -e FINALY");
+  strcat(string, "\" | python3 conv.py | grep FINALY");
   printf("%s\n", string);
   system(string);
 }

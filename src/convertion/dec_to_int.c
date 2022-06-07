@@ -5,7 +5,7 @@
 int s21_from_decimal_to_int(s21_decimal src, int *dst) {
   int return_code = OK;
   int ten_pow;
-//   change_endian(&src);
+  //   change_endian(&src);
 
   *dst = src.bits[0];
   if (src.bits[3] < 0) *dst *= -1;

@@ -18,9 +18,14 @@ add_executable(s21_decimal
         src/another/s21_truncate.c
         src/another/decimal_another.h
         src/another/balancing.c
+        src/another/bank_round.c
         src/comparison/decimal_comparison.h
         src/comparison/s21_eq.c
         src/comparison/s21_less.c
+        src/comparison/s21_gr.c
+        src/comparison/s21_gr_or_eq.c
+        src/comparison/s21_not_eq.c
+        src/comparison/s21_less_or_eq.c
         src/convertion/dec_to_float.c
         src/convertion/dec_to_int.c
         src/convertion/int_to_dec.c
@@ -30,6 +35,7 @@ add_executable(s21_decimal
         src/arithmetic/sub.c
         src/arithmetic/mul.c
         src/arithmetic/div.c
+        src/arithmetic/fmod.c
         src/MyLib/style.h
         test.c
         )
