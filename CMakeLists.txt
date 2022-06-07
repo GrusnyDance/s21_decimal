@@ -21,6 +21,11 @@ add_executable(s21_decimal
         src/comparison/decimal_comparison.h
         src/comparison/s21_eq.c
         src/comparison/s21_less.c
+        src/convertion/dec_to_float.c
+        src/convertion/dec_to_int.c
+        src/convertion/int_to_dec.c
+        src/convertion/float_to_dec.c
+        src/convertion/shared.c
         src/arithmetic/add.c
         src/arithmetic/sub.c
         src/arithmetic/mul.c

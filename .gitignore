@@ -8,6 +8,7 @@ build.ninja
 .ninja_log
 CMakeFiles/s21_decimal
 
+s21_decimal
 
 # Prerequisites
 *.d
