@@ -57,9 +57,9 @@ int s21_add(s21_decimal value_1, s21_decimal value_2, s21_decimal *result) {
   balancing(&value_1, &value_2);
   // d_print_decimal(value_1);
   // d_print_decimal(value_2);
-  int exp_a = get_exponent(value_1);
-  int exp_b = get_exponent(value_2);
-  int exp = (exp_a < exp_b) ? exp_a : exp_b;
+  int exp = get_exponent(value_1);
+  // int exp_b = get_exponent(value_2);
+  // int exp = (exp_a < exp_b) ? exp_a : exp_b;
   set_exponent(result, exp);
   return stupid_add(value_1, value_2, result);
 }

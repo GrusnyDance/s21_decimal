@@ -30,6 +30,8 @@ int stupid_mul(s21_decimal value_1, s21_decimal value_2, s21_decimal *result) {
 }
 
 int s21_mul(s21_decimal value_1, s21_decimal value_2, s21_decimal *result) {
-  balancing(&value_1, &value_2);
-  return stupid_mul(value_1, value_2, result);
+  int exp = get_exponent(value_1) + get_exponent(value_2);
+  int res = stupid_mul(value_1, value_2, result);
+  set_exponent(&result, exp);
+  return res;
 }

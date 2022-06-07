@@ -11,15 +11,17 @@ s21_decimal fmod_core(s21_decimal value_1, s21_decimal value_2,
   else if (stupid_less(value_1, value_2))
     return value_1;
 
-  while (stupid_less(value_2, value_1) || stupid_equal(value_2, value_1)) {
+  while ((stupid_less(value_2, value_1) || stupid_equal(value_2, value_1))) {
     right_shift(&value_2);
+    // if (get_gbit(*divided, ALL_BIT - 1)) bank_round(divided, 1);
     right_shift(divided);
+    // d_print_decimal(value_2);
   }
   if (stupid_less(value_1, value_2)) {
     left_shift(&value_2);
     left_shift(divided);
   }
-
+  // d_print_decimal(*divided);
   very_stupid_sub(value_1, value_2, &temp);
   res = fmod_core(temp, divcopy, divided);
   return res;
@@ -30,7 +32,7 @@ int stupid_mod(s21_decimal value_1, s21_decimal value_2, s21_decimal* result) {
   result->bits[0] = 0;
   result->bits[1] = 0;
   result->bits[2] = 0;
-  result->bits[3] = 0;
+  // result->bits[3] = 0;
   s21_decimal divided;
   s21_from_int_to_decimal(1, &divided);
   set_sign(result, get_sign(value_1) ^ get_sign(value_2));
@@ -42,4 +44,14 @@ int stupid_mod(s21_decimal value_1, s21_decimal value_2, s21_decimal* result) {
   *result = fmod_core(value_1, value_2, &divided);
   // set_exponent(result, res_exp);
   return 0;
+}
+
+int s21_mod(s21_decimal value_1, s21_decimal value_2, s21_decimal* result) {
+  balancing(&value_1, &value_2);
+  d_print_decimal(value_1);
+  d_print_decimal(value_2);
+  int exp = get_exponent(value_1);
+  int res = stupid_mod(value_1, value_2, result);
+  set_exponent(result, exp);
+  return res;
 }

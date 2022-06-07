@@ -24,24 +24,19 @@ int shifting(s21_decimal *a, int n) {
 
 int balancing(s21_decimal *a, s21_decimal *b) {
   int status = 0;
+  int diff = get_exponent(*a) - get_exponent(*b);
 
-  int exp_a = get_exponent(*a);
-  int exp_b = get_exponent(*b);
-
-  if (exp_a != exp_b) {
-    shifting(a, -1);
-    shifting(b, -1);
-    exp_a = get_exponent(*a);
-    exp_b = get_exponent(*b);
-    // d_print_decimal(*b);
-
-    while (exp_a > exp_b) {
-      exp_a--;
-      bank_round(a);
-    }
-    while (exp_a < exp_b) {
-      exp_b--;
-      bank_round(b);
+  if (diff) {
+    if (diff > 0)
+      shifting(b, diff);
+    else
+      shifting(a, -diff);
+    diff = get_exponent(*a) - get_exponent(*b);
+    if (diff) {
+      if (diff > 0)
+        bank_round(a, diff);
+      else
+        bank_round(b, -diff);
     }
   }
   return status;
