@@ -20,6 +20,7 @@ add_executable(s21_decimal
         src/another/balancing.c
         src/another/bank_round.c
         src/another/s21_neg.c
+        src/another/s21_round.c
         src/comparison/decimal_comparison.h
         src/comparison/s21_eq.c
         src/comparison/s21_less.c
