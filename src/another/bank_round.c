@@ -9,6 +9,7 @@ int bank_rounding(int a) {
   if (a % 10 > 5 || (a % 10 == 5 && a / 10 % 2)) res = 1;
   return res;
 }
+
 int bank_round(s21_decimal *a, int n) {
   while (n--) {
     s21_decimal mod_res, ten, hun;

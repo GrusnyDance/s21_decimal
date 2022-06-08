@@ -37,15 +37,17 @@ int stupid_add(s21_decimal value_1, s21_decimal value_2, s21_decimal *result) {
     set_sign(&value_2, POSITIVE);
 
     status = very_stupid_add(value_1, value_2, result);
+    if (status) ++status;
 
     set_sign(result, NEGATIVE);
   }
   elif (sign_1 == NEGATIVE) {
-    status = very_stupid_sub(value_2, value_1, result);
+    set_sign(&value_1, POSITIVE);
+    status = s21_sub(value_2, value_1, result);
   }
   elif (sign_2 == NEGATIVE) {
     set_sign(&value_2, POSITIVE);
-    status = very_stupid_add(value_1, value_2, result);
+    status = s21_sub(value_1, value_2, result);
   }
   else {
     status = very_stupid_add(value_1, value_2, result);
@@ -58,8 +60,6 @@ int s21_add(s21_decimal value_1, s21_decimal value_2, s21_decimal *result) {
   // d_print_decimal(value_1);
   // d_print_decimal(value_2);
   int exp = get_exponent(value_1);
-  // int exp_b = get_exponent(value_2);
-  // int exp = (exp_a < exp_b) ? exp_a : exp_b;
   set_exponent(result, exp);
   return stupid_add(value_1, value_2, result);
 }
