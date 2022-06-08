@@ -15,7 +15,7 @@ int bank_round(s21_decimal *a, int n) {
     // d_print_decimal(*a);
     change_endian(&mod_res);
     int mask = 127 & mod_res.bits[0];
-    s21_div(*a, ten, a);
+    int_div(*a, ten, a);
     int exp = get_exponent(*a) - 1;
     set_exponent(a, exp);
     if (bank_rounding(mask)) {

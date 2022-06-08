@@ -22,6 +22,7 @@ int very_stupid_sub(s21_decimal value_1, s21_decimal value_2,
 int s21_mul(s21_decimal value_1, s21_decimal value_2, s21_decimal *result);
 int stupid_mul(s21_decimal value_1, s21_decimal value_2, s21_decimal *result);
 int s21_div(s21_decimal value_1, s21_decimal value_2, s21_decimal *result);
+int int_div(s21_decimal value_1, s21_decimal value_2, s21_decimal *result);
 int s21_mod(s21_decimal value_1, s21_decimal value_2, s21_decimal *result);
 int stupid_mod(s21_decimal value_1, s21_decimal value_2, s21_decimal *result);
 
