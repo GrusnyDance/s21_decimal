@@ -19,13 +19,15 @@ int stupid_less(s21_decimal value_1, s21_decimal value_2) {
 }
 
 int s21_is_less(s21_decimal a, s21_decimal b) {
-  balancing(&a, &b);
   int res = false;
+  if (is_zero(a) && is_zero(b)) return res;
 
-  if (get_sign(a) > get_sign(b)) {
-    res = true;
+  if (get_sign(a) != get_sign(b)) {
+    res = get_sign(a);
   } else {
+    balancing(&a, &b);
     res = stupid_less(a, b);
+    if (get_sign(a)) res ^= 1;
   }
 
   return res;

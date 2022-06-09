@@ -14,7 +14,9 @@ s21_decimal div_core(s21_decimal value_1, s21_decimal value_2,
   } else if (stupid_less(value_1, value_2)) {
     return temp;
   }
-  while (stupid_less(value_2, value_1) || stupid_equal(value_2, value_1)) {
+  while ((stupid_less(value_2, value_1) || stupid_equal(value_2, value_1)) &&
+         !get_gbit(value_2, ALL_BIT - 1)) {
+    // d_print_decimal(value_2);
     right_shift(&value_2);
     right_shift(result);
   }
