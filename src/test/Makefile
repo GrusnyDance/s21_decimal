@@ -36,10 +36,11 @@ OBJECTS:= $(SOURCES:.c=.o)
 RM:= rm -rf
 
 test: $(OBJECTS) addition_test.c
-	gcc $(OBJECTS) addition_test.c -o $@ -lgmp -lm
+	@gcc $(OBJECTS) addition_test.c -o $@ -lgmp -lm
+	./test
 
 %.o: %.c
-	gcc -c $< -o $@ -lm
+	@gcc -c $< -o $@ -lm
 
 clean:
 	$(RM) ../another/*.o \
@@ -47,3 +48,5 @@ clean:
 	../comparison/*.o \
 	../convertion/*.o \
 	*.o test
+
+rebuild: clean test
