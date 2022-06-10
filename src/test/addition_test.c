@@ -81,12 +81,17 @@ void check_addition(mpz_t num1, int sign1, mpz_t num2, int sign2, int *result1,
   mpz_t s21_rop;
   mpz_inits(rop, s21_rop);
   int ret_value;
-  s21_decimal check_helper;;
+  s21_decimal check_helper;
+  s21_decimal a, b;
+  for (int i = 0; i < 4; i++) {
+    a.bits[i] = result1[i];
+    b.bits[i] = result2[i];
+  }
   if (sign1) mpz_mul_si(num1, num1, -1);
   if (sign2) mpz_mul_si(num2, num2, -1);
   gmp_printf("dec num1 with sign is %Zd", num1);
   gmp_printf("dec num2 with sign is %Zd", num2);
-  ret_value = s21_addition(result1, result2, &check_helper);
+  ret_value = s21_add(a, b, &check_helper);
   if (ret_value) {
     check_ret_value(ret_value, num1, num2, rop);
   } else {
