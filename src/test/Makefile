@@ -45,6 +45,11 @@ test_sub: $(OBJECTS) subtraction_test.c
 	./test_sub
 	@rm -rf test_sub
 
+test_mul: $(OBJECTS) multiplication_test.c
+	@gcc $(OBJECTS) multiplication_test.c -o $@ -lgmp -lm
+	./test_mul
+	@rm -rf test_mul
+
 %.o: %.c
 	@gcc -c $< -o $@ -lm
 

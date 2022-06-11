@@ -54,8 +54,8 @@ void generate_it(mpz_t num1_helper, mpz_t num1, mpz_t num2_helper, mpz_t num2,
   srand(time(NULL));
   int two_pow1, two_pow2;
   int sign1, sign2;
-  two_pow1 = rand() % 97;
-  two_pow2 = rand() % 97;
+  two_pow1 = rand() % 96;
+  two_pow2 = rand() % 96;
   sign1 = rand() % 2;
   sign2 = rand() % 2;
   mpz_ui_pow_ui(num1_helper, 2, two_pow1);
@@ -162,16 +162,16 @@ void convert_decimal_to_mpz(int *bits, mpz_t s21_rop) {
   reserve[2] = bits[0];
   reserve[1] = bits[1];
   reserve[0] = bits[2];
-  // printf("\ns21 res converted to mpz compatible is\n");
-  // for (int k = 0; k < 3; k++) {
-  //   for (int l = 31; l >= 0; l--) {
-  //     if ((1 << l) & reserve[k])
-  //       printf("\033[33m1\033[0m");
-  //     else
-  //       printf("0");
-  //   }
-  //   printf(" ");
-  // }
+  printf("\ns21 res converted to mpz compatible is\n");
+  for (int k = 0; k < 3; k++) {
+    for (int l = 31; l >= 0; l--) {
+      if ((1 << l) & reserve[k])
+        printf("\033[33m1\033[0m");
+      else
+        printf("0");
+    }
+    printf(" ");
+  }
   printf("\n\nlast byte is ");
   for (int n = 31; n >= 0; n--) {
     if ((1 << n) & bits[3])
@@ -188,7 +188,7 @@ void convert_decimal_to_mpz(int *bits, mpz_t s21_rop) {
   //   mpz_ui_pow_ui(divide_by_10, 10, ten_pow);
   //   mpz_cdiv_q(s21_rop, s21_rop, divide_by_10);
   // }
-  gmp_printf("\ns21 res is %Zd\n", s21_rop);
+  gmp_printf("\ns21 res is  %Zd\n", s21_rop);
   printf("s21 bin res is\n");
   print_bits(s21_rop);
 }
