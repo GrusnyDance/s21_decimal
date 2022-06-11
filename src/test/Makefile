@@ -50,6 +50,11 @@ test_mul: $(OBJECTS) multiplication_test.c
 	./test_mul
 	@rm -rf test_mul
 
+test_div: $(OBJECTS) division_test.c
+	@gcc $(OBJECTS) division_test.c -o $@ -lgmp -lm
+	./test_div
+	@rm -rf test_div
+
 %.o: %.c
 	@gcc -c $< -o $@ -lm
 
@@ -58,6 +63,6 @@ clean:
 	../arithmetic/*.o \
 	../comparison/*.o \
 	../convertion/*.o \
-	*.o test_add test_sub
+	*.o test_add test_sub test_mul test_div
 
 rebuild: clean test
