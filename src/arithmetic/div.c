@@ -1,5 +1,5 @@
-//
 // Created by Nana Daughterless on 6/3/22.
+//
 //
 
 #include "decimal_arithmetic.h"
@@ -44,24 +44,41 @@ int int_div(s21_decimal value_1, s21_decimal value_2, s21_decimal *result) {
   set_exponent(&value_1, 0);
   set_exponent(&value_2, 0);
   *result = div_core(value_1, value_2, result, res_exp, &status);
-  if (res_exp > 28)
-    bank_round(result, res_exp - 28);
-  else if (res_exp < 29 && res_exp > 0)
-    set_exponent(result, res_exp);
-  else
-    status = shifting(result, -res_exp);
+  set_exponent(result, res_exp);
   return status;
 }
 
 int s21_div(s21_decimal value_1, s21_decimal value_2, s21_decimal *result) {
-  int status = int_div(value_1, value_2, result);
-  s21_decimal mod_res, div_res, temp = *result;
-  int exp = get_exponent(*result);
-  s21_mod(value_1, value_2, &mod_res);
-  shifting(&mod_res, -1);
-  int_div(mod_res, value_2, &div_res);
-  // set_exponent(&div_res, get_exponent(div_res) - 1);
-  // d_print_decimal(div_res);
-  s21_add(*result, div_res, result);
+  int i = 0;
+  int status = 0;
+  while (get_exponent(value_1) < get_exponent(value_2) && !status) {
+    status = shifting(&value_1, 1);
+    ++i;
+  }
+  if (!status) {
+    status = int_div(value_1, value_2, result);
+    // set_exponent(result, get_exponent(*result) - i);
+    s21_decimal mod_res, div_res;
+    s21_mod(value_1, value_2, &mod_res);
+    // d_print_decimal(mod_res);
+    if (!is_zero(mod_res)) {
+      shifting(&mod_res, -1);
+      while (stupid_less(mod_res, value_2)) {
+        if (!get_exponent(value_2)) set_exponent(&value_2, 1);
+        // int sub_status = shifting(&mod_res, 1);
+        bank_round(&value_2, 1);
+      }
+      d_print_decimal(mod_res);
+      // d_print_decimal(value_2);
+      int_div(mod_res, value_2, &div_res);
+      // set_exponent(result, get_exponent(*result) + i);
+      d_print_decimal(*result);
+      d_print_decimal(div_res);
+      set_sign(result, 0);
+      set_sign(&div_res, 0);
+      status = s21_add(*result, div_res, result);
+      set_sign(result, get_sign(value_1) ^ get_sign(value_2));
+    }
+  }
   return status;
 }

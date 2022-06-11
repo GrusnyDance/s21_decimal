@@ -10,8 +10,11 @@ int shifting(s21_decimal *a, int n) {
   s21_decimal tmp = *a;
   int exp = get_exponent(*a);
 
-  int status = stupid_mul(tmp, bobka, &tmp);
-  if (!status) exp++;
+  int status = exp == MAX_EXPONENT;
+  // if (!status) {
+  //   exp++;
+  //   *a = tmp;
+  // }
   while (n-- && exp < MAX_EXPONENT && !status) {
     status = stupid_mul(tmp, bobka, &tmp);
     // d_print_decimal(tmp);
