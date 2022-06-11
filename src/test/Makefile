@@ -35,9 +35,15 @@ SOURCES:= ../core/bit.c \
 OBJECTS:= $(SOURCES:.c=.o)
 RM:= rm -rf
 
-test: $(OBJECTS) addition_test.c
+test_add: $(OBJECTS) addition_test.c
 	@gcc $(OBJECTS) addition_test.c -o $@ -lgmp -lm
-	./test
+	./test_add
+	@rm -rf test_add
+
+test_sub: $(OBJECTS) subtraction_test.c
+	@gcc $(OBJECTS) subtraction_test.c -o $@ -lgmp -lm
+	./test_sub
+	@rm -rf test_sub
 
 %.o: %.c
 	@gcc -c $< -o $@ -lm
@@ -47,6 +53,6 @@ clean:
 	../arithmetic/*.o \
 	../comparison/*.o \
 	../convertion/*.o \
-	*.o test
+	*.o test_add test_sub
 
 rebuild: clean test
