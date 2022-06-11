@@ -15,8 +15,8 @@
 void clear_it(mpz_t num1, mpz_t num2, mpz_t num1_helper, mpz_t num2_helper);
 void generate_it(mpz_t num1_helper, mpz_t num1, mpz_t num2_helper, mpz_t num2,
                  gmp_randstate_t rstate);
-void check_addition(mpz_t num1, int sign1, mpz_t num2, int sign2, int *result1,
-                    int *result2);
+void check_subtraction(mpz_t num1, int sign1, mpz_t num2, int sign2,
+                      int *result1, int *result2);
 void check_ret_value(int ret_value, mpz_t num1, mpz_t num2, mpz_t rop);
 void create_infinity(mpz_t infinity);
 void create_neg_infinity(mpz_t neg_infinity);
@@ -54,8 +54,8 @@ void generate_it(mpz_t num1_helper, mpz_t num1, mpz_t num2_helper, mpz_t num2,
   srand(time(NULL));
   int two_pow1, two_pow2;
   int sign1, sign2;
-  two_pow1 = rand() % 97;
-  two_pow2 = rand() % 97;
+  two_pow1 = rand() % 96;
+  two_pow2 = rand() % 96;
   sign1 = rand() % 2;
   sign2 = rand() % 2;
   mpz_ui_pow_ui(num1_helper, 2, two_pow1);
@@ -76,11 +76,11 @@ void generate_it(mpz_t num1_helper, mpz_t num1, mpz_t num2_helper, mpz_t num2,
   unsigned int bits2[3] = {0};
   int result2[4] = {0};
   convert_mpz_to_decimal(num2, bits2, result2, sign2);
-  check_addition(num1, sign1, num2, sign2, result1, result2);
+  check_subtraction(num1, sign1, num2, sign2, result1, result2);
 }
 
-void check_addition(mpz_t num1, int sign1, mpz_t num2, int sign2, int *result1,
-                    int *result2) {
+void check_subtraction(mpz_t num1, int sign1, mpz_t num2, int sign2,
+                      int *result1, int *result2) {
   mpz_t rop;
   mpz_t s21_rop;
   mpz_init(rop);
@@ -94,11 +94,11 @@ void check_addition(mpz_t num1, int sign1, mpz_t num2, int sign2, int *result1,
   }
   if (sign1) mpz_mul_si(num1, num1, -1);
   if (sign2) mpz_mul_si(num2, num2, -1);
-  ret_value = s21_add(a, b, &check_helper);
+  ret_value = s21_sub(a, b, &check_helper);
   if (ret_value) {
     check_ret_value(ret_value, num1, num2, rop);
   } else {
-    mpz_add(rop, num1, num2);
+    mpz_sub(rop, num1, num2);
     gmp_printf("\nmpz res is  %Zd\n", rop);
     gmp_printf("mpz bin res is\n");
     print_bits(rop);
@@ -121,7 +121,7 @@ void check_ret_value(int ret_value, mpz_t num1, mpz_t num2, mpz_t rop) {
       printf("not true if division by zero\n");
     }
   } else if (ret_value == 2) {
-    mpz_add(rop, num1, num2);
+    mpz_sub(rop, num1, num2);
     create_neg_infinity(neg_infinity);
     if (mpz_cmp(neg_infinity, rop) > 0) {
       printf("true\n");
@@ -129,7 +129,7 @@ void check_ret_value(int ret_value, mpz_t num1, mpz_t num2, mpz_t rop) {
       printf("not true");
     }
   } else {
-    mpz_add(rop, num1, num2);
+    mpz_sub(rop, num1, num2);
     create_infinity(pos_infinity);
     if (mpz_cmp(rop, pos_infinity) > 0) {
       printf("true\n");
@@ -188,7 +188,7 @@ void convert_decimal_to_mpz(int *bits, mpz_t s21_rop) {
   //   mpz_ui_pow_ui(divide_by_10, 10, ten_pow);
   //   mpz_cdiv_q(s21_rop, s21_rop, divide_by_10);
   // }
-  gmp_printf("\ns21 res is %Zd\n", s21_rop);
+  gmp_printf("\ns21 res is  %Zd\n", s21_rop);
   printf("s21 bin res is\n");
   print_bits(s21_rop);
 }
