@@ -33,7 +33,7 @@ int stupid_mul(s21_decimal value_1, s21_decimal value_2, s21_decimal *result) {
 int s21_mul(s21_decimal value_1, s21_decimal value_2, s21_decimal *result) {
   int exp = get_exponent(value_1) + get_exponent(value_2);
   int res = stupid_mul(value_1, value_2, result);
-  if (exp < 29)
+  if (exp < 29 && exp >= 0)
     set_exponent(result, exp);
   else
     bank_round(result, exp - 28);
