@@ -12,7 +12,7 @@
 #include "../MyLib/style.h"
 #include "constants.h"
 
-#define _2(bit) (1 << (BITS_IN_INT - bit - 1))
+#define _2(bit) (1 << bit)
 
 typedef enum { POSITIVE = 0, NEGATIVE = 1 } sign;
 
@@ -45,4 +45,6 @@ int is_zero(s21_decimal a);
 // Shift decimal
 int left_shift(s21_decimal *a);
 int right_shift(s21_decimal *a);
+
+s21_decimal init_zero_decimal();
 #endif  // S21_DECIMAL_DECIMAL_CORE_H

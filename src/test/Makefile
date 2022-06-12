@@ -1,3 +1,5 @@
+CC = gcc -g -fsanitize=address
+
 SOURCES:= ../core/bit.c \
 	../core/sign.c \
 	../core/shift.c \
@@ -35,28 +37,31 @@ SOURCES:= ../core/bit.c \
 OBJECTS:= $(SOURCES:.c=.o)
 RM:= rm -rf
 
+all: test_add test_sub test_mul test_add test_div
+PHONY: all
+
 test_add: $(OBJECTS) addition_test.c
-	@gcc $(OBJECTS) addition_test.c -o $@ -lgmp -lm
+	@$(CC) $(OBJECTS) addition_test.c -o $@ -lgmp -lm
 	./test_add
 	@rm -rf test_add
 
 test_sub: $(OBJECTS) subtraction_test.c
-	@gcc $(OBJECTS) subtraction_test.c -o $@ -lgmp -lm
+	@$(CC) $(OBJECTS) subtraction_test.c -o $@ -lgmp -lm
 	./test_sub
 	@rm -rf test_sub
 
 test_mul: $(OBJECTS) multiplication_test.c
-	@gcc $(OBJECTS) multiplication_test.c -o $@ -lgmp -lm
+	@$(CC) $(OBJECTS) multiplication_test.c -o $@ -lgmp -lm
 	./test_mul
 	@rm -rf test_mul
 
 test_div: $(OBJECTS) division_test.c
-	@gcc $(OBJECTS) division_test.c -o $@ -lgmp -lm
+	@$(CC) $(OBJECTS) division_test.c -o $@ -lgmp -lm
 	./test_div
 	@rm -rf test_div
 
 %.o: %.c
-	@gcc -c $< -o $@ -lm
+	@$(CC) -c $< -o $@ -lm
 
 clean:
 	$(RM) ../another/*.o \

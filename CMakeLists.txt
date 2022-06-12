@@ -41,3 +41,5 @@ add_executable(s21_decimal
         src/MyLib/style.h
         test.c
         )
+
+target_link_libraries(s21_decimal m)

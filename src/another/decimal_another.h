@@ -8,6 +8,7 @@
 #include "../MyLib/style.h"
 #include "../arithmetic/decimal_arithmetic.h"
 #include "../core/decimal_core.h"
+#include <stdint.h>
 
 int s21_floor(s21_decimal value, s21_decimal *result);
 int s21_round(s21_decimal value, s21_decimal *result);
