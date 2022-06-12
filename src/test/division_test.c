@@ -76,13 +76,11 @@ void generate_it(mpz_t num1_helper, mpz_t num1, mpz_t num2_helper, mpz_t num2,
   unsigned int bits2[3] = {0};
   int result2[4] = {0};
   convert_mpz_to_decimal(num2, bits2, result2, sign2);
-  printf("i am line 79\n");
   check_division(num1, sign1, num2, sign2, result1, result2);
 }
 
 void check_division(mpz_t num1, int sign1, mpz_t num2, int sign2, int *result1,
                     int *result2) {
-  printf("i am line 85\n");
   mpz_t rop;
   mpz_t s21_rop;
   mpz_init(rop);
@@ -96,13 +94,11 @@ void check_division(mpz_t num1, int sign1, mpz_t num2, int sign2, int *result1,
   }
   if (sign1) mpz_mul_si(num1, num1, -1);
   if (sign2) mpz_mul_si(num2, num2, -1);
-  printf("i am line 99\n");
   ret_value = s21_div(a, b, &check_helper);
-  printf("i am line 101\n");
   if (ret_value) {
     check_ret_value(ret_value, num1, num2, rop);
   } else {
-    mpz_cdiv_q(rop, num1, num2);
+    mpz_tdiv_q(rop, num1, num2);
     gmp_printf("\nmpz res is  %Zd\n", rop);
     gmp_printf("mpz bin res is\n");
     print_bits(rop);
@@ -126,16 +122,18 @@ void check_ret_value(int ret_value, mpz_t num1, mpz_t num2, mpz_t rop) {
       printf("not true if division by zero\n");
     }
   } else if (ret_value == 2) {
-    mpz_cdiv_q(rop, num1, num2);
-    gmp_printf("mpz result is %Zd\n", rop);
-    create_neg_infinity(neg_infinity);
-    if (mpz_cmp(neg_infinity, rop) > 0) {
-      printf("\033[32mCHECK PASSED\033[0m\n");
+    if (mpz_cmp_ui(num2, 0)) {
+      mpz_tdiv_q(rop, num1, num2);
+      gmp_printf("mpz result is %Zd\n", rop);
+      create_neg_infinity(neg_infinity);
+      if (mpz_cmp(neg_infinity, rop) > 0) {
+        printf("\033[32mCHECK PASSED\033[0m\n");
+      } 
     } else {
       printf("\033[31mCHECK NOT PASSED\033[0m\n");
     }
   } else if (ret_value == 1){
-    mpz_cdiv_q(rop, num1, num2);
+    mpz_tdiv_q(rop, num1, num2);
     gmp_printf("mpz result is %Zd\n", rop);
     create_infinity(pos_infinity);
     if (mpz_cmp(rop, pos_infinity) > 0) {
@@ -189,10 +187,10 @@ void convert_decimal_to_mpz(int *bits, mpz_t s21_rop) {
   printf("\nten_pow is %d\n", ten_pow);
   mpz_import(s21_rop, 3, 1, 4, -1, 0, reserve);
   if (sign) mpz_mul_si(s21_rop, s21_rop, -1);
-  // if (ten_pow > 0) {
-  //   mpz_ui_pow_ui(divide_by_10, 10, ten_pow);
-  //   mpz_cdiv_q(s21_rop, s21_rop, divide_by_10);
-  // }
+  if (ten_pow > 0) {
+    mpz_ui_pow_ui(divide_by_10, 10, ten_pow);
+    mpz_tdiv_q(s21_rop, s21_rop, divide_by_10);
+  }
   gmp_printf("\ns21 res is %Zd\n", s21_rop);
   printf("s21 bin res is\n");
   print_bits(s21_rop);
