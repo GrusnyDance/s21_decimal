@@ -10,6 +10,7 @@
 #include <string.h>
 
 #include "../MyLib/style.h"
+#include "../MyLib/color.h"
 #include "constants.h"
 
 #define _2(bit) (1 << bit)

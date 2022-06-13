@@ -8,18 +8,27 @@ void print_decimal(s21_decimal a) {
   /// Print Decimal
 
   putchar(':');
-  for (int i = 0; i < ALL_BIT; i++) {
-    if (!(i % 32)) putchar('-');
-    putchar('0' + get_bit(get_bits(a, i), i));
+  for (int i = BITS_IN_INT - 1; i >= 0; i--) {
+    if ((i >= START_EXP_BIT && i <= END_EXP_BIT) || i == SIGN_BIT) {
+      int tmp = get_bit(a.bits[DECIMAL_INFO], i);
+      if (tmp) {
+        printf("%s%c%s", COLOR_RED, '1', COLOR_END);
+      } else {
+        putchar('0');
+      }
+    } else {
+      printf("%s%c%s", COLOR_ORANGE, 'X', COLOR_END);
+    }
   }
 
   putchar(':');
-  for (int i = 0; i < BITS_IN_INT; i++) {
-    if ((i >= START_EXP_BIT && i <= END_EXP_BIT) || i == SIGN_BIT) {
-      putchar('0' + get_bit(a.bits[DECIMAL_INFO], i));
-    } else {
-      putchar('X');
-    }
+  for (int i = ALL_BIT; i > 0; i--) {
+    if (!(i % 32)) putchar('-');
+    int tmp = get_gbit(a, i);
+    if (tmp)
+      printf("%s%c%s", COLOR_RED, '1', COLOR_END);
+    else
+      putchar('0');
   }
 
   putchar(':');
@@ -29,7 +38,11 @@ void print_decimal(s21_decimal a) {
 
 void d_print_decimal(s21_decimal a) {
   char string[512] = "echo \"";
-  strcat(string, decimal2str(a));
+  char *new_str = decimal2str(a);
+
+  strcat(string, new_str);
+  free(new_str);
+
   strcat(string, "\" | python3 conv.py | grep FINALY");
   printf("%s\n", string);
   system(string);

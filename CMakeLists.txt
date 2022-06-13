@@ -14,6 +14,7 @@ add_executable(s21_decimal
         src/core/exponent.c
         src/core/debug.c
         src/core/decimal_core.h
+        src/core/decimal.c
         src/another/s21_floor.c
         src/another/s21_truncate.c
         src/another/decimal_another.h
