@@ -12,17 +12,18 @@ s21_decimal fmod_core(s21_decimal value_1, s21_decimal value_2) {
 
   while ((stupid_less(value_2, value_1) || stupid_equal(value_2, value_1)) &&
          !get_gbit(value_2, ALL_BIT - 1)) {
-    right_shift(&value_2);
+    left_shift(&value_2);
     // if (get_gbit(*divided, ALL_BIT - 1)) bank_round(divided, 1);
     // right_shift(divided);
-    // d_print_decimal(value_2);
   }
   if (stupid_less(value_1, value_2)) {
-    left_shift(&value_2);
+    d_print_decimal(value_2);
+    right_shift(&value_2);
+    d_print_decimal(value_2);
     // left_shift(divided);
   }
   very_stupid_sub(value_1, value_2, &temp);
-  // d_print_decimal(temp);
+  d_print_decimal(temp);
   res = fmod_core(temp, divcopy);
   return res;
 }

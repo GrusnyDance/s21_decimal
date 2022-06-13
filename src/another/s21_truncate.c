@@ -2,7 +2,7 @@
 
 int s21_truncate(s21_decimal value, s21_decimal *result) {
   *result = value;
-  s21_decimal mod_res, one = {INT32_MIN, 0, 0, 0};
+  s21_decimal mod_res, one = {1, 0, 0, 0};
   d_print_decimal(*result);
   s21_mod(*result, one, &mod_res);
   balancing(&mod_res, result);

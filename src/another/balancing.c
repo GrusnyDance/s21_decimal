@@ -6,7 +6,7 @@
 
 int shifting(s21_decimal *a, int n) {
   /// Number shift by 10
-  s21_decimal bobka = {(1 << 30) + (1 << 28), 0, 0, 0};
+  s21_decimal bobka = {10, 0, 0, 0};
   s21_decimal tmp = *a;
   int exp = get_exponent(*a);
 
