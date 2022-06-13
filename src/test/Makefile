@@ -5,6 +5,7 @@ SOURCES:= ../core/bit.c \
 	../core/shift.c \
 	../core/exponent.c \
 	../core/debug.c \
+	../core/decimal.c \
 	../core/decimal_core.h \
 	../another/s21_floor.c \
 	../another/s21_truncate.c \
