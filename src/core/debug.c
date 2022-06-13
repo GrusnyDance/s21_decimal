@@ -22,8 +22,8 @@ void print_decimal(s21_decimal a) {
   }
 
   putchar(':');
-  for (int i = ALL_BIT; i > 0; i--) {
-    if (!(i % 32)) putchar('-');
+  for (int i = ALL_BIT - 1; i >= 0; i--) {
+    if (!((i + 1) % 32)) putchar('-');
     int tmp = get_gbit(a, i);
     if (tmp)
       printf("%s%c%s", COLOR_RED, '1', COLOR_END);
