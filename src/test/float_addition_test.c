@@ -17,13 +17,13 @@ void clear_it(mpz_t num1, mpz_t num2, mpz_t num1_helper, mpz_t num2_helper);
 void generate_it(mpz_t num1_helper, mpz_t num1, mpz_t num2_helper, mpz_t num2,
                  gmp_randstate_t rstate);
 void check_addition(mpf_t num1, mpf_t num2, int *result1, int *result2);
-void check_ret_value(int ret_value, mpz_t num1, mpz_t num2, mpz_t rop);
+void check_ret_value(int ret_value, mpf_t num1, mpf_t num2, mpf_t rop);
 void create_infinity(mpz_t infinity);
 void create_neg_infinity(mpz_t neg_infinity);
-void convert_decimal_to_mpf(int *bits, mpz_t s21_rop);
-void compare(mpz_t rop, mpz_t s21_rop);
-void print_bits(mpz_t var);
-void convert_mpf_to_decimal(mpz_t var, int *bits, int *result, int sign,
+void convert_decimal_to_mpf(int *bits, mpz_t s21_rop, mpf_t s21_final);
+void compare(mpf_t rop, mpf_t s21_rop);
+// void print_bits(mpf_t var);
+void convert_mpz_to_decimal(mpz_t var, int *bits, int *result, int sign,
                             int floating_point);
 
 int main() {
@@ -82,70 +82,77 @@ void generate_it(mpz_t num1_helper, mpz_t num1, mpz_t num2_helper, mpz_t num2,
   mpf_set_z(float_num2, num2);
   mpf_div_ui(float_num1, float_num1, pow(10, floating_point1));
   mpf_div_ui(float_num2, float_num2, pow(10, floating_point2));
-  gmp_printf("mpz num1 is %Zf\n", float_num1);
-  gmp_printf("mpz num2 is %Zf\n", float_num2);
+  gmp_printf("mpz num1 is %Ff\n", float_num1);
+  gmp_printf("mpz num2 is %Ff\n", float_num2);
   check_addition(float_num1, float_num2, result1, result2);
   mpf_clear(float_num1);
   mpf_clear(float_num2);
 }
 
 void check_addition(mpf_t num1, mpf_t num2, int *result1, int *result2) {
-  mpz_t rop;
+  mpf_t rop;
   mpz_t s21_rop;
-  mpz_init(rop);
+  mpf_t s21_final;
+  mpf_init(s21_final);
+  mpf_init(rop);
   mpz_init(s21_rop);
   int ret_value;
-  int floating_point;
   s21_decimal check_helper;
   s21_decimal a, b;
   for (int i = 0; i < 4; i++) {
     a.bits[i] = result1[i];
     b.bits[i] = result2[i];
   }
-  ret_value = s21_div(a, b, &check_helper);
-  floating_point = ;
+  ret_value = s21_add(a, b, &check_helper);
   if (ret_value) {
     check_ret_value(ret_value, num1, num2, rop);
   } else {
-    mpz_tdiv_q(rop, num1, num2);
-    gmp_printf("\nmpz res is  %Zd\n", rop);
-    gmp_printf("mpz bin res is\n");
-    print_bits(rop);
-    convert_decimal_to_mpf(check_helper.bits, s21_rop);
-    compare(rop, s21_rop);
+    mpf_add(rop, num1, num2);
+    gmp_printf("\nmpf res is  %Ff\n", rop);
+    gmp_printf("mpf bin res is\n");
+    // print_bits(rop);
+    convert_decimal_to_mpf(check_helper.bits, s21_rop, s21_final);
+    compare(rop, s21_final);
   }
-  mpz_clear(rop);
+  mpf_clear(rop);
   mpz_clear(s21_rop);
+  mpf_clear(s21_final);
 }
 
-void check_ret_value(int ret_value, mpz_t num1, mpz_t num2, mpz_t rop) {
+void check_ret_value(int ret_value, mpf_t num1, mpf_t num2, mpf_t rop) {
   printf("\n\033[31mEXTREME CASE CHECK\033[0m\n");
   mpz_t pos_infinity;
   mpz_t neg_infinity;
+  mpf_t pos_infinity_float;
+  mpf_t neg_infinity_float;
   mpz_init(pos_infinity);
   mpz_init(neg_infinity);
+  mpf_init(pos_infinity_float);
+  mpf_init(neg_infinity_float);
   if (ret_value == 3) {
-    if (!mpz_cmp_ui(num2, 0)) {
+    if (!mpf_cmp_ui(num2, 0)) {
       printf("true if addition by zero\n");
     } else {
       printf("not true if addition by zero\n");
     }
   } else if (ret_value == 2) {
-    if (mpz_cmp_ui(num2, 0)) {
-      mpz_tdiv_q(rop, num1, num2);
-      gmp_printf("mpz result is %Zd\n", rop);
+    if (mpf_cmp_ui(num2, 0)) {
+      mpf_add(rop, num1, num2);
+      gmp_printf("mpf result is %Zd\n", rop);
       create_neg_infinity(neg_infinity);
-      if (mpz_cmp(neg_infinity, rop) > 0) {
+      mpf_set_z(neg_infinity_float, neg_infinity);
+      if (mpf_cmp(neg_infinity_float, rop) > 0) {
         printf("\033[32mCHECK PASSED\033[0m\n");
       }
     } else {
       printf("\033[31mCHECK NOT PASSED\033[0m\n");
     }
   } else if (ret_value == 1) {
-    mpz_tdiv_q(rop, num1, num2);
-    gmp_printf("mpz result is %Zd\n", rop);
+    mpf_add(rop, num1, num2);
+    gmp_printf("mpf result is %Zd\n", rop);
     create_infinity(pos_infinity);
-    if (mpz_cmp(rop, pos_infinity) > 0) {
+    mpf_set_z(pos_infinity_float, pos_infinity);
+    if (mpf_cmp(rop, pos_infinity_float) > 0) {
       printf("\033[32mCHECK PASSED\033[0m\n");
     } else {
       printf("\033[31mCHECK NOT PASSED\033[0m\n");
@@ -153,6 +160,8 @@ void check_ret_value(int ret_value, mpz_t num1, mpz_t num2, mpz_t rop) {
   }
   mpz_clear(pos_infinity);
   mpz_clear(neg_infinity);
+  mpf_clear(pos_infinity_float);
+  mpf_clear(neg_infinity_float);
 }
 
 void create_infinity(mpz_t infinity) {
@@ -166,11 +175,13 @@ void create_neg_infinity(mpz_t neg_infinity) {
   mpz_mul_si(neg_infinity, neg_infinity, -1);
 }
 
-void convert_decimal_to_mpf(int *bits, mpz_t s21_rop) {
+void convert_decimal_to_mpf(int *bits, mpz_t s21_rop, mpf_t s21_final) {
   int reserve[3] = {0};
   int ten_pow = 0;
   mpz_t divide_by_10;
+  mpf_t divide_10_float;
   mpz_init(divide_by_10);
+  mpf_init(divide_10_float);
   reserve[2] = bits[0];
   reserve[1] = bits[1];
   reserve[0] = bits[2];
@@ -196,49 +207,54 @@ void convert_decimal_to_mpf(int *bits, mpz_t s21_rop) {
   printf("\nten_pow is %d\n", ten_pow);
   mpz_import(s21_rop, 3, 1, 4, -1, 0, reserve);
   if (sign) mpz_mul_si(s21_rop, s21_rop, -1);
+  mpf_set_z(s21_final, s21_rop);
   if (ten_pow > 0) {
     mpz_ui_pow_ui(divide_by_10, 10, ten_pow);
-    mpz_tdiv_q(s21_rop, s21_rop, divide_by_10);
+    mpf_set_z(divide_10_float, divide_by_10);
+    mpf_div(s21_final, s21_final, divide_10_float);
   }
-  gmp_printf("\ns21 res is %Zd\n", s21_rop);
+  gmp_printf("\ns21 res is %Zd\n", s21_final);
   printf("s21 bin res is\n");
-  print_bits(s21_rop);
+  // print_bits(s21_final);
+  mpf_clear(s21_final);
+  mpf_clear(divide_10_float);
+  mpz_clear(divide_by_10);
 }
 
-void compare(mpz_t rop, mpz_t s21_rop) {
-  mpz_t diff, condition;
-  mpz_init(diff);
-  mpz_init(condition);
-  mpz_sub(diff, rop, s21_rop);
+void compare(mpf_t rop, mpf_t s21_rop) {
+  mpf_t diff, condition;
+  mpf_init(diff);
+  mpf_init(condition);
+  mpf_sub(diff, rop, s21_rop);
   gmp_printf("diff is %Zd\n", diff);
-  mpz_abs(diff, diff);
-  if (mpz_cmp_d(diff, 0.0000001) < 0) {
+  mpf_abs(diff, diff);
+  if (mpf_cmp_d(diff, 0.0000001) < 0) {
     printf("\033[32mSUCCESS\033[0m\n");
   } else {
     printf("\033[31mFAIL\033[0m\n");
   }
-  mpz_clear(diff);
-  mpz_clear(condition);
+  mpf_clear(diff);
+  mpf_clear(condition);
 }
 
-void print_bits(mpz_t var) {
-  mpz_t tmp, res;
-  mpz_init2(res, 128);
-  mpz_init2(tmp, 128);
-  mpz_ui_pow_ui(tmp, 2, 127);
-  for (int i = 127; i >= 0; i--) {
-    mpz_ui_pow_ui(tmp, 2, i);
-    mpz_and(res, tmp, var);
-    if (mpz_cmp_ui(res, 0)) {
-      printf("\033[33m1\033[0m");
-    } else {
-      printf("0");
-    }
-  }
-  printf("\n");
-  mpz_clear(tmp);
-  mpz_clear(res);
-}
+// void print_bits(mpf_t var) {
+//   mpz_t tmp, res;
+//   mpz_init2(res, 192);
+//   mpz_init2(tmp, 192);
+//   mpz_ui_pow_ui(tmp, 2, 191);
+//   for (int i = 191; i >= 0; i--) {
+//     mpz_ui_pow_ui(tmp, 2, i);
+//     mpz_and(res, tmp, var);
+//     if (mpz_cmp_ui(res, 0)) {
+//       printf("\033[33m1\033[0m");
+//     } else {
+//       printf("0");
+//     }
+//   }
+//   printf("\n");
+//   mpz_clear(tmp);
+//   mpz_clear(res);
+// }
 
 void convert_mpz_to_decimal(mpz_t var, int *bits, int *result, int sign,
                             int floating_point) {
@@ -250,7 +266,9 @@ void convert_mpz_to_decimal(mpz_t var, int *bits, int *result, int sign,
     }
   }
   if (sign) result[3] |= 1 << 31;
-
+  // вписать в бинарном виде степень десятки, которая есть в десятичном
+  floating_point = floating_point << 16;
+  result[3] |= floating_point;
   printf("\nbin num is\n");
   for (int l = 0; l < 4; l++) {
     for (int m = 31; m >= 0; m--) {

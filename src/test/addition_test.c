@@ -36,6 +36,7 @@ int main() {
   mpz_init(num1);
   mpz_init(num2_helper);
   mpz_init(num2);
+
   generate_it(num1_helper, num1, num2_helper, num2, rstate);
   gmp_randclear(rstate);
   clear_it(num1, num2, num1_helper, num2_helper);
@@ -54,14 +55,19 @@ void generate_it(mpz_t num1_helper, mpz_t num1, mpz_t num2_helper, mpz_t num2,
   srand(time(NULL));
   int two_pow1, two_pow2;
   int sign1, sign2;
+
   two_pow1 = rand() % 97;
   two_pow2 = rand() % 97;
+
   sign1 = rand() % 2;
   sign2 = rand() % 2;
+
   mpz_ui_pow_ui(num1_helper, 2, two_pow1);
   mpz_ui_pow_ui(num2_helper, 2, two_pow2);
+
   mpz_urandomm(num1, rstate, num1_helper);
   mpz_urandomm(num2, rstate, num2_helper);
+
   if (sign1)
     gmp_printf("mpz num1 is -%Zd\n", num1);
   else
@@ -70,12 +76,15 @@ void generate_it(mpz_t num1_helper, mpz_t num1, mpz_t num2_helper, mpz_t num2,
     gmp_printf("mpz num2 is -%Zd\n", num2);
   else
     gmp_printf("mpz num2 is %Zd\n", num2);
+
   unsigned int bits1[3] = {0};
   int result1[4] = {0};
   convert_mpz_to_decimal(num1, bits1, result1, sign1);
+
   unsigned int bits2[3] = {0};
   int result2[4] = {0};
   convert_mpz_to_decimal(num2, bits2, result2, sign2);
+
   check_addition(num1, sign1, num2, sign2, result1, result2);
 }
 
@@ -83,24 +92,32 @@ void check_addition(mpz_t num1, int sign1, mpz_t num2, int sign2, int *result1,
                     int *result2) {
   mpz_t rop;
   mpz_t s21_rop;
+
   mpz_init(rop);
   mpz_init(s21_rop);
+
   int ret_value;
+
   s21_decimal check_helper;
   s21_decimal a, b;
+
   for (int i = 0; i < 4; i++) {
     a.bits[i] = result1[i];
     b.bits[i] = result2[i];
   }
+
   if (sign1) mpz_mul_si(num1, num1, -1);
   if (sign2) mpz_mul_si(num2, num2, -1);
+
   ret_value = s21_add(a, b, &check_helper);
   if (ret_value) {
     check_ret_value(ret_value, num1, num2, rop);
   } else {
     mpz_add(rop, num1, num2);
+
     gmp_printf("\nmpz res is  %Zd\n", rop);
     gmp_printf("mpz bin res is\n");
+    
     print_bits(rop);
     convert_decimal_to_mpz(check_helper.bits, s21_rop);
     compare(rop, s21_rop);
