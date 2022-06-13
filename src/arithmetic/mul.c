@@ -5,22 +5,21 @@
 #include "decimal_arithmetic.h"
 
 int stupid_mul(s21_decimal value_1, s21_decimal value_2, s21_decimal *result) {
-    *result = init_zero_decimal();
+  *result = init_zero_decimal();
 
-    int status = 0;
-    s21_decimal tmp = *result;
-    set_sign(&tmp, get_sign(value_1) ^ get_sign(value_2));
-    while (!is_zero(value_2)) {
-        if (get_gbit(value_2, 0)) {
-          status = very_stupid_add(value_1, tmp, &tmp);
-          if (status) break;
-        }
-        right_shift(&value_1);
-        left_shift(&value_2);
+  int status = 0;
+  s21_decimal tmp = *result;
+  set_sign(&tmp, get_sign(value_1) ^ get_sign(value_2));
+  while (!is_zero(value_2)) {
+    if (get_gbit(value_2, 0)) {
+      status = very_stupid_add(value_1, tmp, &tmp);
+      if (status) break;
     }
+    left_shift(&value_1);
+    right_shift(&value_2);
+  }
 
-    if (!status)
-      *result = tmp;
+  if (!status) *result = tmp;
   return status;
 }
 

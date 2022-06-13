@@ -9,11 +9,9 @@ int stupid_less(s21_decimal value_1, s21_decimal value_2) {
   for (int i = ALL_BIT - 1; i >= 0; i--) {
     if (get_gbit(value_1, i) == get_gbit(value_2, i))
       continue;
-    else if (get_gbit(value_1, i) < get_gbit(value_2, i)) {
+    else if (get_gbit(value_1, i) < get_gbit(value_2, i))
       res = 1;
-      break;
-    } else
-      break;
+    break;
   }
   return res;
 }
