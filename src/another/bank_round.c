@@ -19,7 +19,7 @@ int bank_round(s21_decimal *a, int n) {
     int exp = get_exponent(*a) - 1;
     set_exponent(a, exp);
     if (bank_rounding(mask)) {
-      s21_decimal one = {INT32_MIN, 0, 0, 0};
+      s21_decimal one = {1, 0, 0, 0};
       very_stupid_add(*a, one, a);
     }
   }
