@@ -7,6 +7,7 @@ build.ninja
 .ninja_deps
 .ninja_log
 CMakeFiles/s21_decimal
+Testing
 
 s21_decimal
 

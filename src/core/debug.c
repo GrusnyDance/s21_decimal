@@ -9,15 +9,15 @@ void print_decimal(s21_decimal a) {
 
   putchar(':');
   for (int i = BITS_IN_INT - 1; i >= 0; i--) {
-    if ((i >= START_EXP_BIT && i <= END_EXP_BIT) || i == SIGN_BIT) {
       int tmp = get_bit(a.bits[DECIMAL_INFO], i);
+    if ((i >= START_EXP_BIT && i <= END_EXP_BIT) || i == SIGN_BIT) {
       if (tmp) {
         printf("%s%c%s", COLOR_RED, '1', COLOR_END);
       } else {
         putchar('0');
       }
     } else {
-      printf("%s%c%s", COLOR_ORANGE, 'X', COLOR_END);
+      printf("%s%c%s", COLOR_ORANGE, '0' + tmp, COLOR_END);
     }
   }
 
