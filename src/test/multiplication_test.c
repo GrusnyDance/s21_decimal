@@ -122,6 +122,7 @@ void check_ret_value(int ret_value, mpz_t num1, mpz_t num2, mpz_t rop) {
       printf("not true if division by zero\n");
     }
   } else if (ret_value == 2) {
+    printf("negative infinity\n");
     mpz_mul(rop, num1, num2);
     gmp_printf("mpz result is %Zd\n", rop);
     create_neg_infinity(neg_infinity);
@@ -131,6 +132,7 @@ void check_ret_value(int ret_value, mpz_t num1, mpz_t num2, mpz_t rop) {
       printf("\033[31mCHECK NOT PASSED\033[0m\n");
     }
   } else if (ret_value == 1){
+    printf("positive infinity\n");
     mpz_mul(rop, num1, num2);
     gmp_printf("mpz result is %Zd\n", rop);
     create_infinity(pos_infinity);
