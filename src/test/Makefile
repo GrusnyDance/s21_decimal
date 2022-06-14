@@ -41,30 +41,35 @@ RM:= rm -rf
 # all: test_add test_sub test_mul test_add test_div
 PHONY: all
 
-test_add: $(OBJECTS) addition_test.c
+test_int_add: $(OBJECTS) addition_test.c
 	@$(CC) $(OBJECTS) addition_test.c -o $@ -lgmp -lm
-	./test_add
-	@rm -rf test_add
+	./test_int_add
+	@rm -rf test_int_add
 
-test_sub: $(OBJECTS) subtraction_test.c
+test_int_sub: $(OBJECTS) subtraction_test.c
 	@$(CC) $(OBJECTS) subtraction_test.c -o $@ -lgmp -lm
-	./test_sub
-	@rm -rf test_sub
+	./test_int_sub
+	@rm -rf test_int_sub
 
-test_mul: $(OBJECTS) multiplication_test.c
+test_int_mul: $(OBJECTS) multiplication_test.c
 	@$(CC) $(OBJECTS) multiplication_test.c -o $@ -lgmp -lm
-	./test_mul
-	@rm -rf test_mul
+	./test_int_mul
+	@rm -rf test_int_mul
 
-test_div: $(OBJECTS) division_test.c
+test_int_div: $(OBJECTS) division_test.c
 	@$(CC) $(OBJECTS) division_test.c -o $@ -lgmp -lm
-	./test_div
-	@rm -rf test_div
+	./test_int_div
+	@rm -rf test_int_div
 
 test_float_add: $(OBJECTS) float_addition_test.c
 	@$(CC) $(OBJECTS) float_addition_test.c -o $@ -lgmp -lm
 	./test_float_add
 	@rm -rf test_float_add
+
+test_float_sub: $(OBJECTS) float_subtraction_test.c
+	@$(CC) $(OBJECTS) float_subtraction_test.c -o $@ -lgmp -lm
+	./test_float_sub
+	@rm -rf test_float_sub
 
 %.o: %.c
 	@$(CC) -c $< -o $@ -lm
@@ -76,6 +81,7 @@ clean:
 	../convertion/*.o \
 	../core/*.o \
 	*out \
-	*.o test_add test_sub test_mul test_div test_float_add
+	*.o test_int_add test_int_sub \
+	test_int_mul test_int_div test_float_add test_float_sub
 
 rebuild: clean test
