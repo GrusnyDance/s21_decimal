@@ -19,7 +19,10 @@ int stupid_mul(s21_decimal value_1, s21_decimal value_2, s21_decimal *result) {
     right_shift(&value_2);
   }
 
-  if (!status) *result = tmp;
+  if (!status)
+    *result = tmp;
+  else if (get_sign(value_1) ^ get_sign(value_2))
+    status++;
   return status;
 }
 
