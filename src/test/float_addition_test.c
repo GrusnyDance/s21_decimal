@@ -56,12 +56,12 @@ void generate_it(mpz_t num1_helper, mpz_t num1, mpz_t num2_helper, mpz_t num2,
   int two_pow1, two_pow2;
   int sign1, sign2;
   int floating_point1, floating_point2;
-  two_pow1 = rand() % 97;
-  two_pow2 = rand() % 97;
+  two_pow1 = rand() % 70;
+  two_pow2 = rand() % 70;
   sign1 = rand() % 2;
   sign2 = rand() % 2;
-  floating_point1 = rand() % 20;
-  floating_point2 = rand() % 20;
+  floating_point1 = rand() % 10;
+  floating_point2 = rand() % 10;
   mpf_t float_num1, float_num2;
   mpf_init(float_num1);
   mpf_init(float_num2);
@@ -70,6 +70,8 @@ void generate_it(mpz_t num1_helper, mpz_t num1, mpz_t num2_helper, mpz_t num2,
   mpz_ui_pow_ui(num2_helper, 2, two_pow2);
   mpz_urandomm(num1, rstate, num1_helper);
   mpz_urandomm(num2, rstate, num2_helper);
+  // gmp_printf("\nint num1 is %Zd\n", num1);  // final int
+  // gmp_printf("int num2 is %Zd\n", num2);  // final int
   unsigned int bits1[3] = {0};
   int result1[4] = {0};
   convert_mpz_to_decimal(num1, bits1, result1, sign1, floating_point1);
@@ -78,12 +80,13 @@ void generate_it(mpz_t num1_helper, mpz_t num1, mpz_t num2_helper, mpz_t num2,
   convert_mpz_to_decimal(num2, bits2, result2, sign2, floating_point2);
   if (sign1) mpz_mul_si(num1, num1, -1);
   if (sign2) mpz_mul_si(num2, num2, -1);
-  mpf_set_z(float_num1, num1);
+  mpf_set_z(float_num1, num1);  // convert to float, precision lost
   mpf_set_z(float_num2, num2);
   mpf_div_ui(float_num1, float_num1, pow(10, floating_point1));
   mpf_div_ui(float_num2, float_num2, pow(10, floating_point2));
-  gmp_printf("mpz num1 is %Ff\n", float_num1);
-  gmp_printf("mpz num2 is %Ff\n", float_num2);
+  gmp_printf("\nfin num1 is %Ff\n", float_num1);  // final float
+  gmp_printf("fin num2 is %Ff\n", float_num2);  // final float
+  
   check_addition(float_num1, float_num2, result1, result2);
   mpf_clear(float_num1);
   mpf_clear(float_num2);
@@ -109,8 +112,6 @@ void check_addition(mpf_t num1, mpf_t num2, int *result1, int *result2) {
   } else {
     mpf_add(rop, num1, num2);
     gmp_printf("\nmpf res is  %Ff\n", rop);
-    gmp_printf("mpf bin res is\n");
-    // print_bits(rop);
     convert_decimal_to_mpf(check_helper.bits, s21_rop, s21_final);
     compare(rop, s21_final);
   }
@@ -213,10 +214,8 @@ void convert_decimal_to_mpf(int *bits, mpz_t s21_rop, mpf_t s21_final) {
     mpf_set_z(divide_10_float, divide_by_10);
     mpf_div(s21_final, s21_final, divide_10_float);
   }
-  gmp_printf("\ns21 res is %Zd\n", s21_final);
-  printf("s21 bin res is\n");
+  gmp_printf("\ns21 res is %Ff\n", s21_final);
   // print_bits(s21_final);
-  mpf_clear(s21_final);
   mpf_clear(divide_10_float);
   mpz_clear(divide_by_10);
 }
@@ -226,7 +225,7 @@ void compare(mpf_t rop, mpf_t s21_rop) {
   mpf_init(diff);
   mpf_init(condition);
   mpf_sub(diff, rop, s21_rop);
-  gmp_printf("diff is %Zd\n", diff);
+  gmp_printf("diff is %Ff\n", diff);
   mpf_abs(diff, diff);
   if (mpf_cmp_d(diff, 0.0000001) < 0) {
     printf("\033[32mSUCCESS\033[0m\n");
@@ -270,7 +269,7 @@ void convert_mpz_to_decimal(mpz_t var, int *bits, int *result, int sign,
   floating_point = floating_point << 16;
   result[3] |= floating_point;
   printf("\nbin num is\n");
-  for (int l = 0; l < 4; l++) {
+  for (int l = 0; l <= 3; l++) {
     for (int m = 31; m >= 0; m--) {
       if ((1 << m) & result[l]) {
         printf("\033[33m1\033[0m");

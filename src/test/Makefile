@@ -64,7 +64,7 @@ test_div: $(OBJECTS) division_test.c
 test_float_add: $(OBJECTS) float_addition_test.c
 	@$(CC) $(OBJECTS) float_addition_test.c -o $@ -lgmp -lm
 	./test_float_add
-	@rm -rf test_add
+	@rm -rf test_float_add
 
 %.o: %.c
 	@$(CC) -c $< -o $@ -lm
