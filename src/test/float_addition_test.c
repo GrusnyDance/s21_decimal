@@ -24,7 +24,7 @@ void convert_decimal_to_mpf(int *bits, mpz_t s21_rop, mpf_t s21_final);
 void compare(mpf_t rop, mpf_t s21_rop);
 // void print_bits(mpf_t var);
 void convert_mpz_to_decimal(mpz_t var, int *bits, int *result, int sign,
-                            int floating_point);
+                            unsigned int floating_point);
 
 int main() {
   gmp_randstate_t rstate;
@@ -55,7 +55,7 @@ void generate_it(mpz_t num1_helper, mpz_t num1, mpz_t num2_helper, mpz_t num2,
   srand(time(NULL));
   int two_pow1, two_pow2;
   int sign1, sign2;
-  int floating_point1, floating_point2;
+  unsigned int floating_point1, floating_point2;
   two_pow1 = rand() % 96;
   two_pow2 = rand() % 96;
   sign1 = rand() % 2;
@@ -256,7 +256,7 @@ void compare(mpf_t rop, mpf_t s21_rop) {
 // }
 
 void convert_mpz_to_decimal(mpz_t var, int *bits, int *result, int sign,
-                            int floating_point) {
+                            unsigned int floating_point) {
   mpz_export(bits, NULL, 1, 4, -1, 0, var);
   int loc_count = -1;
   for (int i = 2; i >= 0; i--) {
@@ -268,16 +268,14 @@ void convert_mpz_to_decimal(mpz_t var, int *bits, int *result, int sign,
   // вписать в бинарном виде степень десятки, которая есть в десятичном
   floating_point = floating_point << 16;
   result[3] |= floating_point;
-  // printf("\nbin num is\n");
-  // for (int l = 0; l <= 3; l++) {
-  //   for (int m = 31; m >= 0; m--) {
-  //     if ((1 << m) & result[l]) {
-  //       printf("\033[33m1\033[0m");
-  //     } else {
-  //       printf("0");
-  //     }
+  // printf("last int is ");
+  // for (int m = 31; m >= 0; m--) {
+  //   if ((1 << m) & result[3]) {
+  //     printf("\033[33m1\033[0m");
+  //   } else {
+  //     printf("0");
   //   }
-  //   printf(" ");
   // }
+  // printf(" ");
   // printf("\n");
 }
