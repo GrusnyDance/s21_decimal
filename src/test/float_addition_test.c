@@ -84,8 +84,8 @@ void generate_it(mpz_t num1_helper, mpz_t num1, mpz_t num2_helper, mpz_t num2,
   mpf_set_z(float_num2, num2);
   mpf_div_ui(float_num1, float_num1, pow(10, floating_point1));
   mpf_div_ui(float_num2, float_num2, pow(10, floating_point2));
-  gmp_printf("\nfin num1 is %Ff\n", float_num1);  // final float
-  gmp_printf("fin num2 is %Ff\n", float_num2);  // final float
+  gmp_printf("\nnum1 is %Ff\n", float_num1);  // final float
+  gmp_printf("num2 is %Ff\n", float_num2);  // final float
   
   check_addition(float_num1, float_num2, result1, result2);
   mpf_clear(float_num1);
