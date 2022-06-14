@@ -7,7 +7,7 @@ int s21_from_decimal_to_float(s21_decimal src, float *dst) {
   double reserve = 0;
   int ten_pow = 0;
   int sign;
-  change_endian(&src);
+  // change_endian(&src);
 
   for (int i = 0; i < 96; i++)
     if (src.bits[i / 32] & (1 << (i % 32))) reserve += 1 << i;

@@ -10,7 +10,7 @@ int s21_from_int_to_decimal(int src, s21_decimal *dst) {
       dst->bits[0] = 0 - src;
     } else
       dst->bits[0] = src;
-    change_endian(dst);  // TBC
+    // change_endian(dst);  // TBC
   } else {
     return_code = CONVERTION_ERROR;
   }
