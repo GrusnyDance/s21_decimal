@@ -186,16 +186,16 @@ void convert_decimal_to_mpf(int *bits, mpz_t s21_rop, mpf_t s21_final) {
   reserve[2] = bits[0];
   reserve[1] = bits[1];
   reserve[0] = bits[2];
-  // printf("\ns21 res converted to mpz compatible is\n");
-  // for (int k = 0; k < 3; k++) {
-  //   for (int l = 31; l >= 0; l--) {
-  //     if ((1 << l) & reserve[k])
-  //       printf("\033[33m1\033[0m");
-  //     else
-  //       printf("0");
-  //   }
-  //   printf(" ");
-  // }
+  printf("\ns21 res converted to mpz compatible is\n");
+  for (int k = 0; k < 3; k++) {
+    for (int l = 31; l >= 0; l--) {
+      if ((1 << l) & reserve[k])
+        printf("\033[33m1\033[0m");
+      else
+        printf("0");
+    }
+    printf(" ");
+  }
   printf("\nlast byte is ");
   for (int n = 31; n >= 0; n--) {
     if ((1 << n) & bits[3])

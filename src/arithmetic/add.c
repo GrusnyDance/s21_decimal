@@ -55,17 +55,23 @@ int stupid_add(s21_decimal value_1, s21_decimal value_2, s21_decimal *result) {
 }
 
 int s21_add(s21_decimal value_1, s21_decimal value_2, s21_decimal *result) {
-    balancing(&value_1, &value_2);
+  result->bits[0] = 0;
+  result->bits[1] = 0;
+  result->bits[2] = 0;
+  result->bits[3] = 0;
+  balancing(&value_1, &value_2);
+  // d_print_decimal(value_1);
+  // d_print_decimal(value_2);
 
-    int exp = get_exponent(value_1);
-    set_exponent(result, exp);
-    int result_add = stupid_add(value_1, value_2, result);
+  int exp = get_exponent(value_1);
+  set_exponent(result, exp);
+  int result_add = stupid_add(value_1, value_2, result);
 
-    // IF I can shift and need shift
-    if (result_add) {
-        // (Get result % 10 + (2^97 % 10) % 10)) % 10 i get last number
-        // i div result on 10 and +1 if need bank round
-        // s21_mod(value_1, value_2, )
-    }
-    return result_add;
+  // IF I can shift and need shift
+  if (result_add) {
+    // (Get result % 10 + (2^97 % 10) % 10)) % 10 i get last number
+    // i div result on 10 and +1 if need bank round
+    // s21_mod(value_1, value_2, )
+  }
+  return result_add;
 }
