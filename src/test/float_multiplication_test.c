@@ -16,7 +16,7 @@
 void clear_it(mpz_t num1, mpz_t num2, mpz_t num1_helper, mpz_t num2_helper);
 void generate_it(mpz_t num1_helper, mpz_t num1, mpz_t num2_helper, mpz_t num2,
                  gmp_randstate_t rstate);
-void check_addition(mpf_t num1, mpf_t num2, int *result1, int *result2);
+void check_multiplication(mpf_t num1, mpf_t num2, int *result1, int *result2);
 void check_ret_value(int ret_value, mpf_t num1, mpf_t num2, mpf_t rop);
 void create_infinity(mpz_t infinity);
 void create_neg_infinity(mpz_t neg_infinity);
@@ -87,12 +87,12 @@ void generate_it(mpz_t num1_helper, mpz_t num1, mpz_t num2_helper, mpz_t num2,
   gmp_printf("\nnum1 is %Ff\n", float_num1);  // final float
   gmp_printf("num2 is %Ff\n", float_num2);    // final float
 
-  check_addition(float_num1, float_num2, result1, result2);
+  check_multiplication(float_num1, float_num2, result1, result2);
   mpf_clear(float_num1);
   mpf_clear(float_num2);
 }
 
-void check_addition(mpf_t num1, mpf_t num2, int *result1, int *result2) {
+void check_multiplication(mpf_t num1, mpf_t num2, int *result1, int *result2) {
   mpf_t rop;
   mpz_t s21_rop;
   mpf_t s21_final;
@@ -106,11 +106,11 @@ void check_addition(mpf_t num1, mpf_t num2, int *result1, int *result2) {
     a.bits[i] = result1[i];
     b.bits[i] = result2[i];
   }
-  ret_value = s21_add(a, b, &check_helper);
+  ret_value = s21_mul(a, b, &check_helper);
   if (ret_value) {
     check_ret_value(ret_value, num1, num2, rop);
   } else {
-    mpf_add(rop, num1, num2);
+    mpf_mul(rop, num1, num2);
     gmp_printf("\nmpf res is %Ff\n", rop);
     convert_decimal_to_mpf(check_helper.bits, s21_rop, s21_final);
     compare(rop, s21_final);
@@ -132,27 +132,31 @@ void check_ret_value(int ret_value, mpf_t num1, mpf_t num2, mpf_t rop) {
   mpf_init(neg_infinity_float);
   if (ret_value == 3) {
     if (!mpf_cmp_ui(num2, 0)) {
-      printf("true if addition by zero\n");
+      printf("true if division by zero\n");
     } else {
-      printf("not true if addition by zero\n");
+      printf("not true if division by zero\n");
     }
   } else if (ret_value == 2) {
-    if (mpf_cmp_ui(num2, 0)) {
-      mpf_add(rop, num1, num2);
-      gmp_printf("mpf result is %Zd\n", rop);
-      create_neg_infinity(neg_infinity);
-      mpf_set_z(neg_infinity_float, neg_infinity);
-      if (mpf_cmp(neg_infinity_float, rop) > 0) {
-        printf("\033[32mCHECK PASSED\033[0m\n");
-      }
+    printf("negative infinity\n");
+    // gmp_printf("num1 is %Ff\n", num1);
+    // gmp_printf("num2 is %Ff\n", num2);
+    mpf_mul(rop, num1, num2);
+    gmp_printf("mpf result is %Ff\n", rop);
+    create_neg_infinity(neg_infinity);
+    mpf_set_z(neg_infinity_float, neg_infinity);
+    gmp_printf("neg infinity is %Ff\n", neg_infinity_float);
+    if (mpf_cmp(neg_infinity_float, rop) > 0) {
+      printf("\033[32mCHECK PASSED\033[0m\n");
     } else {
       printf("\033[31mCHECK NOT PASSED\033[0m\n");
     }
   } else if (ret_value == 1) {
-    mpf_add(rop, num1, num2);
-    gmp_printf("mpf result is %Zd\n", rop);
+    printf("positive infinity\n");
+    mpf_mul(rop, num1, num2);
+    gmp_printf("mpf result is %Ff\n", rop);
     create_infinity(pos_infinity);
     mpf_set_z(pos_infinity_float, pos_infinity);
+    gmp_printf("pos infinity is %Ff\n", pos_infinity_float);
     if (mpf_cmp(rop, pos_infinity_float) > 0) {
       printf("\033[32mCHECK PASSED\033[0m\n");
     } else {
@@ -227,7 +231,7 @@ void compare(mpf_t rop, mpf_t s21_rop) {
   mpf_sub(diff, rop, s21_rop);
   gmp_printf("diff is %Ff\n", diff);
   mpf_abs(diff, diff);
-  if (mpf_cmp_d(diff, 0.0000001) < 0) {
+  if (mpf_cmp_d(diff, 2) < 0) {
     printf("\033[32mSUCCESS\033[0m\n");
   } else {
     printf("\033[31mFAIL\033[0m\n");

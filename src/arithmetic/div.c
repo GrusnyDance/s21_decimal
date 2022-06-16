@@ -28,7 +28,7 @@ s21_decimal div_core(s21_decimal value_1, s21_decimal value_2,
   // d_print_decimal(*result);
   very_stupid_sub(value_1, value_2, &temp);
   temp2 = div_core(temp, divcopy, &temp2, res_exp, status);
-  *status = very_stupid_add(*result, temp2, result);
+  *status = very_stupid_add(*result, temp2, result, 0, 0);
   return *result;
 }
 
@@ -87,6 +87,7 @@ int s21_div(s21_decimal value_1, s21_decimal value_2, s21_decimal *result) {
 
       set_sign(result, get_sign(value_1) ^ get_sign(value_2));
     }
-  }
+  } else if (get_sign(value_1) ^ get_sign(value_2))
+    ++status;
   return status;
 }
