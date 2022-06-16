@@ -135,6 +135,7 @@ void check_ret_value(int ret_value, mpz_t num1, mpz_t num2, mpz_t rop) {
       success_count++;
       // printf("true if division by zero\n");
     } else {
+      fail_count++;
       fprintf(ptr, "DIVISION BY ZERO\n");
       gmp_fprintf(ptr, "num1 is %Zd\n", num1);
       gmp_fprintf(ptr, "num2 is %Zd\n", num2);

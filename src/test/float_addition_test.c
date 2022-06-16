@@ -136,7 +136,7 @@ void check_ret_value(int ret_value, mpf_t num1, mpf_t num2, mpf_t rop) {
   } else if (ret_value == 2) {
     if (mpf_cmp_ui(num2, 0)) {
       mpf_add(rop, num1, num2);
-      gmp_printf("mpf result is %Zd\n", rop);
+      gmp_printf("mpf result is %Ff\n", rop);
       create_neg_infinity(neg_infinity);
       mpf_set_z(neg_infinity_float, neg_infinity);
       if (mpf_cmp(neg_infinity_float, rop) > 0) {
@@ -147,7 +147,7 @@ void check_ret_value(int ret_value, mpf_t num1, mpf_t num2, mpf_t rop) {
     }
   } else if (ret_value == 1) {
     mpf_add(rop, num1, num2);
-    gmp_printf("mpf result is %Zd\n", rop);
+    gmp_printf("mpf result is %Ff\n", rop);
     create_infinity(pos_infinity);
     mpf_set_z(pos_infinity_float, pos_infinity);
     if (mpf_cmp(rop, pos_infinity_float) > 0) {
@@ -224,7 +224,7 @@ void compare(mpf_t rop, mpf_t s21_rop) {
   mpf_sub(diff, rop, s21_rop);
   gmp_printf("diff is %Ff\n", diff);
   mpf_abs(diff, diff);
-  if (mpf_cmp_d(diff, 0.0000001) < 0) {
+  if (mpf_cmp_ui(diff, 2) < 0) {
     printf("\033[32mSUCCESS\033[0m\n");
   } else {
     printf("\033[31mFAIL\033[0m\n");
