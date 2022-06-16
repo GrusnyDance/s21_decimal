@@ -17,7 +17,7 @@ void print_decimal(s21_decimal a) {
         putchar('0');
       }
     } else {
-      printf("%s%c%s", COLOR_ORANGE, '0' + tmp, COLOR_END);
+      printf("%s%c%s", COLOR_ORANGE, 'O' + tmp, COLOR_END);
     }
   }
 
