@@ -1,11 +1,8 @@
 // gcc -o test test.c $(pkg-config --libs --cflags gmp)
 // -I/usr/local/Cellar/gmp/6.2.1_1/include -L/usr/local/Cellar/gmp/6.2.1_1/lib
 // -lgmp
-#if defined(__linux__)
-#include "./gmp-6.2.1/gmp.h"
-#else
+
 #include <gmp.h>
-#endif
 #include <math.h>
 #include <stdio.h>
 #include <stdlib.h>
