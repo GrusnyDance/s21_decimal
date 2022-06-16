@@ -62,12 +62,17 @@ int stupid_add(s21_decimal value_1, s21_decimal value_2, s21_decimal *result) {
 }
 
 int s21_add(s21_decimal value_1, s21_decimal value_2, s21_decimal *result) {
+    print_decimal(value_1);
+    print_decimal(value_2);
+    printf("BALANING\n");
   result->bits[0] = 0;
   result->bits[1] = 0;
   result->bits[2] = 0;
   result->bits[3] = 0;
-  balancing(&value_1, &value_2);
-  // d_print_decimal(value_1);
+  printf("BEBRA- %d\n", balancing(&value_1, &value_2));
+    print_decimal(value_1);
+    print_decimal(value_2);
+    // d_print_decimal(value_1);
   // d_print_decimal(value_2);
 
   int exp = get_exponent(value_1);
@@ -80,5 +85,6 @@ int s21_add(s21_decimal value_1, s21_decimal value_2, s21_decimal *result) {
     // i div result on 10 and +1 if need bank round
     // s21_mod(value_1, value_2, )
   }
+    print_decimal(*result);
   return result_add;
 }

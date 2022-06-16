@@ -6,8 +6,10 @@
 
 int shifting(s21_decimal *a, int n) {
   /// Number shift by 10
-  s21_decimal bobka = {10, 0, 0, 0};
-  s21_decimal tmp = *a;
+  s21_decimal bobka;
+    s21_from_int_to_decimal(10, &bobka);
+    set_exponent(&bobka, 0);
+  s21_decimal tmp = init_zero_decimal();
   int exp = get_exponent(*a);
 
   int status = exp == MAX_EXPONENT;
@@ -16,10 +18,11 @@ int shifting(s21_decimal *a, int n) {
   //   *a = tmp;
   // }
   while (n-- && exp < MAX_EXPONENT && !status) {
-    status = stupid_mul(tmp, bobka, &tmp);
+    status = stupid_mul(*a, bobka, &tmp);
     // d_print_decimal(tmp);
     if (!status) {
       *a = tmp;
+      tmp = init_zero_decimal();
       exp++;
     }
   }
