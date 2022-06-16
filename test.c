@@ -15,4 +15,5 @@ int main() {
   d_print_decimal(b);
   s21_div(a, b, &c);
   d_print_decimal(c);
+  return 0;
 }

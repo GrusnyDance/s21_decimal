@@ -87,6 +87,7 @@ int s21_div(s21_decimal value_1, s21_decimal value_2, s21_decimal *result) {
 
       set_sign(result, get_sign(value_1) ^ get_sign(value_2));
     }
-  }
+  } else if (get_sign(value_1) ^ get_sign(value_2))
+    ++status;
   return status;
 }
