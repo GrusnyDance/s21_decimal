@@ -27,6 +27,7 @@ int main() {
   gmp_randseed_ui(rstate, time(NULL));
   mpz_t num1_helper, num1;
   mpz_t num2_helper, num2;
+  srand(time(NULL));
 
   mpz_init(num1_helper);
   mpz_init(num1);
@@ -50,7 +51,6 @@ void clear_it(mpz_t num1, mpz_t num2, mpz_t num1_helper, mpz_t num2_helper) {
 
 void generate_it(mpz_t num1_helper, mpz_t num1, mpz_t num2_helper, mpz_t num2,
                  gmp_randstate_t rstate) {
-  srand(time(NULL));
   int two_pow1, two_pow2;
   int sign1, sign2;
   two_pow1 = rand() % 96;
