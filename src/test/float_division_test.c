@@ -56,8 +56,8 @@ void generate_it(mpz_t num1_helper, mpz_t num1, mpz_t num2_helper, mpz_t num2,
   int two_pow1, two_pow2;
   int sign1, sign2;
   unsigned int floating_point1, floating_point2;
-  two_pow1 = rand() % 96;
-  two_pow2 = rand() % 96;
+  two_pow1 = rand() % 50;
+  two_pow2 = rand() % 50;
   sign1 = rand() % 2;
   sign2 = rand() % 2;
   floating_point1 = rand() % 15;

@@ -20,7 +20,7 @@ int bank_round(s21_decimal *a, int n) {
     set_exponent(a, exp);
     if (bank_rounding(mask)) {
       s21_decimal one = {1, 0, 0, 0};
-      very_stupid_add(*a, one, a);
+      very_stupid_add(*a, one, a, 0, 0);
     }
   }
   return 0;

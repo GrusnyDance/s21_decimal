@@ -12,7 +12,8 @@ int stupid_mul(s21_decimal value_1, s21_decimal value_2, s21_decimal *result) {
   set_sign(&tmp, get_sign(value_1) ^ get_sign(value_2));
   while (!is_zero(value_2)) {
     if (get_gbit(value_2, 0)) {
-      status = very_stupid_add(value_1, tmp, &tmp);
+      status = very_stupid_add(value_1, tmp, &tmp, get_exponent(value_1),
+                               get_exponent(value_1) + get_exponent(value_2));
       if (status) break;
     }
     left_shift(&value_1);
