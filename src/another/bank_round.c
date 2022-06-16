@@ -13,7 +13,7 @@ int bank_round(s21_decimal *a, int n) {
     s21_from_int_to_decimal(10, &ten);
     stupid_mod(*a, hun, &mod_res);
     // d_print_decimal(*a);
-    change_endian(&mod_res);
+    // change_endian(&mod_res);
     int mask = 127 & mod_res.bits[0];
     int_div(*a, ten, a);
     int exp = get_exponent(*a) - 1;

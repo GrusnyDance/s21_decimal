@@ -5,15 +5,14 @@
 #include "decimal_arithmetic.h"
 
 int stupid_mul(s21_decimal value_1, s21_decimal value_2, s21_decimal *result) {
-  *result = init_zero_decimal();
+  // *result = init_zero_decimal();
 
   int status = 0;
   s21_decimal tmp = *result;
   set_sign(&tmp, get_sign(value_1) ^ get_sign(value_2));
   while (!is_zero(value_2)) {
     if (get_gbit(value_2, 0)) {
-      status = very_stupid_add(value_1, tmp, &tmp, get_exponent(value_1),
-                               get_exponent(value_1) + get_exponent(value_2));
+      status = very_stupid_add(value_1, tmp, &tmp, 0, 0);
       if (status) break;
     }
     left_shift(&value_1);
@@ -23,7 +22,7 @@ int stupid_mul(s21_decimal value_1, s21_decimal value_2, s21_decimal *result) {
   if (!status)
     *result = tmp;
   else if (get_sign(value_1) ^ get_sign(value_2))
-    status++;
+    ++status;
   return status;
 }
 
@@ -32,11 +31,23 @@ int s21_mul(s21_decimal value_1, s21_decimal value_2, s21_decimal *result) {
   result->bits[1] = 0;
   result->bits[2] = 0;
   result->bits[3] = 0;
-  int exp = get_exponent(value_1) + get_exponent(value_2);
   int res = stupid_mul(value_1, value_2, result);
-  if (exp < 29 && exp >= 0)
+  while (res && (get_exponent(value_1) || get_exponent(value_2))) {
+    int exp_check = stupid_less(value_1, value_2) ? get_exponent(value_2)
+                                                  : get_exponent(value_1);
+    s21_decimal *value = stupid_less(value_1, value_2) ? &value_2 : &value_1;
+    s21_decimal *alt_value =
+        !stupid_less(value_1, value_2) ? &value_2 : &value_1;
+    if (exp_check)
+      bank_round(value, 1);
+    else
+      bank_round(alt_value, 1);
+    res = stupid_mul(value_1, value_2, result);
+  }
+  int exp = get_exponent(value_1) + get_exponent(value_2);
+  if (exp < 29)
     set_exponent(result, exp);
   else
-    bank_round(result, exp - 28);
+    *result = init_zero_decimal();
   return res;
 }
