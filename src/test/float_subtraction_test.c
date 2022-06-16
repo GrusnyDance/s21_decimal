@@ -223,7 +223,7 @@ void compare(mpf_t rop, mpf_t s21_rop) {
   mpf_sub(diff, rop, s21_rop);
   gmp_printf("diff is %Ff\n", diff);
   mpf_abs(diff, diff);
-  if (mpf_cmp_d(diff, 2) < 0) {
+  if (mpf_cmp_d(diff, 0.0000001) < 0) {
     printf("\033[32mSUCCESS\033[0m\n");
   } else {
     printf("\033[31mFAIL\033[0m\n");

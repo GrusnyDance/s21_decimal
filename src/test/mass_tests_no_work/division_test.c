@@ -7,7 +7,7 @@
 #include <stdlib.h>
 #include <time.h>
 
-#include "../arithmetic/decimal_arithmetic.h"
+#include "../../arithmetic/decimal_arithmetic.h"
 
 void clear_it(mpz_t num1, mpz_t num2, mpz_t num1_helper, mpz_t num2_helper);
 void generate_it(mpz_t num1_helper, mpz_t num1, mpz_t num2_helper, mpz_t num2,
@@ -19,7 +19,6 @@ void create_infinity(mpz_t infinity);
 void create_neg_infinity(mpz_t neg_infinity);
 void convert_decimal_to_mpz(int *bits, mpz_t s21_rop);
 void compare(mpz_t rop, mpz_t s21_rop);
-void print_bits(mpz_t var);
 void convert_mpz_to_decimal(mpz_t var, int *bits, int *result, int sign);
 
 int main() {
@@ -207,25 +206,6 @@ void compare(mpz_t rop, mpz_t s21_rop) {
   }
   mpz_clear(diff);
   mpz_clear(condition);
-}
-
-void print_bits(mpz_t var) {
-  mpz_t tmp, res;
-  mpz_init2(res, 128);
-  mpz_init2(tmp, 128);
-  mpz_ui_pow_ui(tmp, 2, 127);
-  for (int i = 127; i >= 0; i--) {
-    mpz_ui_pow_ui(tmp, 2, i);
-    mpz_and(res, tmp, var);
-    if (mpz_cmp_ui(res, 0)) {
-      printf("\033[33m1\033[0m");
-    } else {
-      printf("0");
-    }
-  }
-  printf("\n");
-  mpz_clear(tmp);
-  mpz_clear(res);
 }
 
 void convert_mpz_to_decimal(mpz_t var, int *bits, int *result, int sign) {

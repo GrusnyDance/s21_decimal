@@ -7,12 +7,12 @@
 #include <stdlib.h>
 #include <time.h>
 
-#include "../arithmetic/decimal_arithmetic.h"
+#include "../../arithmetic/decimal_arithmetic.h"
 
 void clear_it(mpz_t num1, mpz_t num2, mpz_t num1_helper, mpz_t num2_helper);
 void generate_it(mpz_t num1_helper, mpz_t num1, mpz_t num2_helper, mpz_t num2,
                  gmp_randstate_t rstate);
-void check_division(mpz_t num1, int sign1, mpz_t num2, int sign2, int *result1,
+void check_fmod(mpz_t num1, int sign1, mpz_t num2, int sign2, int *result1,
                     int *result2);
 void check_ret_value(int ret_value, mpz_t num1, mpz_t num2, mpz_t rop);
 void create_infinity(mpz_t infinity);
@@ -73,10 +73,10 @@ void generate_it(mpz_t num1_helper, mpz_t num1, mpz_t num2_helper, mpz_t num2,
   unsigned int bits2[3] = {0};
   int result2[4] = {0};
   convert_mpz_to_decimal(num2, bits2, result2, sign2);
-  check_division(num1, sign1, num2, sign2, result1, result2);
+  check_fmod(num1, sign1, num2, sign2, result1, result2);
 }
 
-void check_division(mpz_t num1, int sign1, mpz_t num2, int sign2, int *result1,
+void check_fmod(mpz_t num1, int sign1, mpz_t num2, int sign2, int *result1,
                     int *result2) {
   mpz_t rop;
   mpz_t s21_rop;
@@ -114,9 +114,9 @@ void check_ret_value(int ret_value, mpz_t num1, mpz_t num2, mpz_t rop) {
   mpz_init(neg_infinity);
   if (ret_value == 3) {
     if (!mpz_cmp_ui(num2, 0)) {
-      printf("true if division by zero\n");
+      printf("true if fmod by zero\n");
     } else {
-      printf("not true if division by zero\n");
+      printf("not true if fmod by zero\n");
     }
   } else if (ret_value == 2) {
     if (mpz_cmp_ui(num2, 0)) {

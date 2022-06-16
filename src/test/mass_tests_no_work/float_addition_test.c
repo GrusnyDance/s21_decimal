@@ -8,7 +8,7 @@
 #include <stdlib.h>
 #include <time.h>
 
-#include "../arithmetic/decimal_arithmetic.h"
+#include "../../arithmetic/decimal_arithmetic.h"
 
 void clear_it(mpz_t num1, mpz_t num2, mpz_t num1_helper, mpz_t num2_helper);
 void generate_it(mpz_t num1_helper, mpz_t num1, mpz_t num2_helper, mpz_t num2,

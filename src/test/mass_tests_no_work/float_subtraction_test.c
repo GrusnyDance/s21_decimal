@@ -8,20 +8,19 @@
 #include <stdlib.h>
 #include <time.h>
 
-#include "../arithmetic/decimal_arithmetic.h"
+#include "../../arithmetic/decimal_arithmetic.h"
 
 void clear_it(mpz_t num1, mpz_t num2, mpz_t num1_helper, mpz_t num2_helper);
 void generate_it(mpz_t num1_helper, mpz_t num1, mpz_t num2_helper, mpz_t num2,
                  gmp_randstate_t rstate);
-void check_addition(mpf_t num1, mpf_t num2, int *result1, int *result2);
+void check_subtraction(mpf_t num1, mpf_t num2, int *result1, int *result2);
 void check_ret_value(int ret_value, mpf_t num1, mpf_t num2, mpf_t rop);
 void create_infinity(mpz_t infinity);
 void create_neg_infinity(mpz_t neg_infinity);
 void convert_decimal_to_mpf(int *bits, mpz_t s21_rop, mpf_t s21_final);
 void compare(mpf_t rop, mpf_t s21_rop);
-// void print_bits(mpf_t var);
 void convert_mpz_to_decimal(mpz_t var, int *bits, int *result, int sign,
-                            unsigned int floating_point);
+                            int floating_point);
 
 int main() {
   gmp_randstate_t rstate;
@@ -52,7 +51,7 @@ void generate_it(mpz_t num1_helper, mpz_t num1, mpz_t num2_helper, mpz_t num2,
   srand(time(NULL));
   int two_pow1, two_pow2;
   int sign1, sign2;
-  unsigned int floating_point1, floating_point2;
+  int floating_point1, floating_point2;
   two_pow1 = rand() % 96;
   two_pow2 = rand() % 96;
   sign1 = rand() % 2;
@@ -67,8 +66,8 @@ void generate_it(mpz_t num1_helper, mpz_t num1, mpz_t num2_helper, mpz_t num2,
   mpz_ui_pow_ui(num2_helper, 2, two_pow2);
   mpz_urandomm(num1, rstate, num1_helper);
   mpz_urandomm(num2, rstate, num2_helper);
-  // gmp_printf("\nint num1 is %Zd\n", num1);  // final int
-  // gmp_printf("int num2 is %Zd\n", num2);    // final int
+  gmp_printf("\nint num1 is %Zd\n", num1);  // final int
+  gmp_printf("int num2 is %Zd\n", num2);    // final int
   unsigned int bits1[3] = {0};
   int result1[4] = {0};
   convert_mpz_to_decimal(num1, bits1, result1, sign1, floating_point1);
@@ -84,12 +83,12 @@ void generate_it(mpz_t num1_helper, mpz_t num1, mpz_t num2_helper, mpz_t num2,
   gmp_printf("\nnum1 is %Ff\n", float_num1);  // final float
   gmp_printf("num2 is %Ff\n", float_num2);    // final float
 
-  check_addition(float_num1, float_num2, result1, result2);
+  check_subtraction(float_num1, float_num2, result1, result2);
   mpf_clear(float_num1);
   mpf_clear(float_num2);
 }
 
-void check_addition(mpf_t num1, mpf_t num2, int *result1, int *result2) {
+void check_subtraction(mpf_t num1, mpf_t num2, int *result1, int *result2) {
   mpf_t rop;
   mpz_t s21_rop;
   mpf_t s21_final;
@@ -103,11 +102,11 @@ void check_addition(mpf_t num1, mpf_t num2, int *result1, int *result2) {
     a.bits[i] = result1[i];
     b.bits[i] = result2[i];
   }
-  ret_value = s21_add(a, b, &check_helper);
+  ret_value = s21_sub(a, b, &check_helper);
   if (ret_value) {
     check_ret_value(ret_value, num1, num2, rop);
   } else {
-    mpf_add(rop, num1, num2);
+    mpf_sub(rop, num1, num2);
     gmp_printf("\nmpf res is %Ff\n", rop);
     convert_decimal_to_mpf(check_helper.bits, s21_rop, s21_final);
     compare(rop, s21_final);
@@ -129,14 +128,14 @@ void check_ret_value(int ret_value, mpf_t num1, mpf_t num2, mpf_t rop) {
   mpf_init(neg_infinity_float);
   if (ret_value == 3) {
     if (!mpf_cmp_ui(num2, 0)) {
-      printf("true if addition by zero\n");
+      printf("true if division by zero\n");
     } else {
-      printf("not true if addition by zero\n");
+      printf("not true if division by zero\n");
     }
   } else if (ret_value == 2) {
     if (mpf_cmp_ui(num2, 0)) {
       mpf_add(rop, num1, num2);
-      gmp_printf("mpf result is %Zd\n", rop);
+      gmp_printf("mpf result is %Ff\n", rop);
       create_neg_infinity(neg_infinity);
       mpf_set_z(neg_infinity_float, neg_infinity);
       if (mpf_cmp(neg_infinity_float, rop) > 0) {
@@ -147,7 +146,7 @@ void check_ret_value(int ret_value, mpf_t num1, mpf_t num2, mpf_t rop) {
     }
   } else if (ret_value == 1) {
     mpf_add(rop, num1, num2);
-    gmp_printf("mpf result is %Zd\n", rop);
+    gmp_printf("mpf result is %Ff\n", rop);
     create_infinity(pos_infinity);
     mpf_set_z(pos_infinity_float, pos_infinity);
     if (mpf_cmp(rop, pos_infinity_float) > 0) {
@@ -183,16 +182,16 @@ void convert_decimal_to_mpf(int *bits, mpz_t s21_rop, mpf_t s21_final) {
   reserve[2] = bits[0];
   reserve[1] = bits[1];
   reserve[0] = bits[2];
-  printf("\ns21 res converted to mpz compatible is\n");
-  for (int k = 0; k < 3; k++) {
-    for (int l = 31; l >= 0; l--) {
-      if ((1 << l) & reserve[k])
-        printf("\033[33m1\033[0m");
-      else
-        printf("0");
-    }
-    printf(" ");
-  }
+  // printf("\ns21 res converted to mpz compatible is\n");
+  // for (int k = 0; k < 3; k++) {
+  //   for (int l = 31; l >= 0; l--) {
+  //     if ((1 << l) & reserve[k])
+  //       printf("\033[33m1\033[0m");
+  //     else
+  //       printf("0");
+  //   }
+  //   printf(" ");
+  // }
   printf("\nlast byte is ");
   for (int n = 31; n >= 0; n--) {
     if ((1 << n) & bits[3])
@@ -233,27 +232,8 @@ void compare(mpf_t rop, mpf_t s21_rop) {
   mpf_clear(condition);
 }
 
-// void print_bits(mpf_t var) {
-//   mpz_t tmp, res;
-//   mpz_init2(res, 192);
-//   mpz_init2(tmp, 192);
-//   mpz_ui_pow_ui(tmp, 2, 191);
-//   for (int i = 191; i >= 0; i--) {
-//     mpz_ui_pow_ui(tmp, 2, i);
-//     mpz_and(res, tmp, var);
-//     if (mpz_cmp_ui(res, 0)) {
-//       printf("\033[33m1\033[0m");
-//     } else {
-//       printf("0");
-//     }
-//   }
-//   printf("\n");
-//   mpz_clear(tmp);
-//   mpz_clear(res);
-// }
-
 void convert_mpz_to_decimal(mpz_t var, int *bits, int *result, int sign,
-                            unsigned int floating_point) {
+                            int floating_point) {
   mpz_export(bits, NULL, 1, 4, -1, 0, var);
   int loc_count = -1;
   for (int i = 2; i >= 0; i--) {
@@ -265,14 +245,16 @@ void convert_mpz_to_decimal(mpz_t var, int *bits, int *result, int sign,
   // вписать в бинарном виде степень десятки, которая есть в десятичном
   floating_point = floating_point << 16;
   result[3] |= floating_point;
-  // printf("last int is ");
-  // for (int m = 31; m >= 0; m--) {
-  //   if ((1 << m) & result[3]) {
-  //     printf("\033[33m1\033[0m");
-  //   } else {
-  //     printf("0");
+  // printf("\nbin num is\n");
+  // for (int l = 0; l <= 3; l++) {
+  //   for (int m = 31; m >= 0; m--) {
+  //     if ((1 << m) & result[l]) {
+  //       printf("\033[33m1\033[0m");
+  //     } else {
+  //       printf("0");
+  //     }
   //   }
+  //   printf(" ");
   // }
-  // printf(" ");
   // printf("\n");
 }
