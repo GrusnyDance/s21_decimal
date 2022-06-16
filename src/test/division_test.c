@@ -95,12 +95,16 @@ void check_division(mpz_t num1, int sign1, mpz_t num2, int sign2, int *result1,
   if (ret_value) {
     check_ret_value(ret_value, num1, num2, rop);
   } else {
-    mpz_tdiv_q(rop, num1, num2);
-    gmp_printf("\nmpz res is  %Zd\n", rop);
-    gmp_printf("mpz bin res is\n");
-    print_bits(rop);
-    convert_decimal_to_mpz(check_helper.bits, s21_rop);
-    compare(rop, s21_rop);
+    if (!mpz_cmp_ui(num2, 0)) {
+      printf("\033[31mYOU ARE TRYING TO DIVIDE BY ZERO\033[0m\n");
+    } else {
+      mpz_tdiv_q(rop, num1, num2);
+      gmp_printf("\nmpz res is  %Zd\n", rop);
+      gmp_printf("mpz bin res is\n");
+      print_bits(rop);
+      convert_decimal_to_mpz(check_helper.bits, s21_rop);
+      compare(rop, s21_rop);
+    }
   }
   mpz_clear(rop);
   mpz_clear(s21_rop);
