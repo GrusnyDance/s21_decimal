@@ -1,33 +1,33 @@
 CC = gcc #-g -fsanitize=address
 
-SOURCES:= ../core/bit.c \
-	../core/sign.c \
-	../core/shift.c \
-	../core/exponent.c \
-	../core/debug.c \
-	../core/decimal.c \
-	../another/s21_floor.c \
-	../another/s21_truncate.c \
-	../another/balancing.c \
-	../another/bank_round.c \
-	../another/s21_neg.c \
-	../another/s21_round.c \
-	../comparison/s21_eq.c \
-	../comparison/s21_less.c \
-	../comparison/s21_gr.c \
-	../comparison/s21_gr_or_eq.c \
-	../comparison/s21_not_eq.c \
-	../comparison/s21_less_or_eq.c \
-	../convertion/int_to_dec.c \
-	../convertion/float_to_dec.c \
-	../convertion/dec_to_float.c \
-	../convertion/dec_to_int.c \
-	../convertion/shared.c \
-	../arithmetic/add.c \
-	../arithmetic/sub.c \
-	../arithmetic/mul.c \
-	../arithmetic/div.c \
-	../arithmetic/fmod.c \
+SOURCES:= ../../core/bit.c \
+	../../core/sign.c \
+	../../core/shift.c \
+	../../core/exponent.c \
+	../../core/debug.c \
+	../../core/decimal.c \
+	../../another/s21_floor.c \
+	../../another/s21_truncate.c \
+	../../another/balancing.c \
+	../../another/bank_round.c \
+	../../another/s21_neg.c \
+	../../another/s21_round.c \
+	../../comparison/s21_eq.c \
+	../../comparison/s21_less.c \
+	../../comparison/s21_gr.c \
+	../../comparison/s21_gr_or_eq.c \
+	../../comparison/s21_not_eq.c \
+	../../comparison/s21_less_or_eq.c \
+	../../convertion/int_to_dec.c \
+	../../convertion/float_to_dec.c \
+	../../convertion/dec_to_float.c \
+	../../convertion/dec_to_int.c \
+	../../convertion/shared.c \
+	../../arithmetic/add.c \
+	../../arithmetic/sub.c \
+	../../arithmetic/mul.c \
+	../../arithmetic/div.c \
+	../../arithmetic/fmod.c \
 
 OBJECTS:= $(SOURCES:.c=.o)
 RM:= rm -rf
@@ -75,20 +75,15 @@ test_float_div: $(SOURCES) $(OBJECTS) float_division_test.c
 	./test_float_div
 	@rm -rf test_float_div
 
-test_float_fmod: $(SOURCES) $(OBJECTS) float_fmod.c
-	@$(CC) $(OBJECTS) float_fmod.c -o $@ -lgmp -lm
-	./test_float_fmod
-	@rm -rf test_float_fmod
-
 %.o: %.c
 	@$(CC) -c $< -o $@ -lm
 
 clean:
-	@$(RM) ../another/*.o \
-	../arithmetic/*.o \
-	../comparison/*.o \
-	../convertion/*.o \
-	../core/*.o \
+	@$(RM) ../../another/*.o \
+	../../arithmetic/*.o \
+	../../comparison/*.o \
+	../../convertion/*.o \
+	../../core/*.o \
 	*out \
 	*.o test_int_add test_int_sub \
 	test_int_mul test_int_div \

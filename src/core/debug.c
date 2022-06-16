@@ -50,24 +50,28 @@ void d_print_decimal(s21_decimal a) {
 
 char* decimal2str(s21_decimal a) {
   /// Convert decimal to string for debug
-  char* str = calloc(256, sizeof(char));
-  int shift = 0;
-  str[shift++] = ':';
-  for (int i = 0; i < ALL_BIT; i++) {
-    if (!(i % 32)) str[i + shift++] = '-';
-    str[i + shift] = (char)('0' + get_bit(get_bits(a, i), i));
-  }
+    char* str = calloc(512, sizeof(char));
+    int shift = 0;
 
-  str[ALL_BIT + shift++] = ':';
-  for (int i = 0; i < BITS_IN_INT; i++) {
-    if ((i >= START_EXP_BIT && i <= END_EXP_BIT) || i == SIGN_BIT) {
-      str[ALL_BIT + i + shift] = (char)('0' + get_bit(a.bits[DECIMAL_INFO], i));
-    } else {
-      str[ALL_BIT + i + shift] = 'X';
+    str[shift++] = ':';
+
+    for (int i = BITS_IN_INT - 1; i >= 0; i--, shift++) {
+        if ((i >= START_EXP_BIT && i <= END_EXP_BIT) || i == SIGN_BIT) {
+            str[shift] = (char)('0' + get_bit(a.bits[DECIMAL_INFO], i));
+        } else {
+            str[shift] = (char)('O' + get_bit(a.bits[DECIMAL_INFO], i));
+        }
     }
-  }
 
-  str[ALL_BIT + BITS_IN_INT + shift] = ':';
+    str[shift++] = ':';
+    for (int i = ALL_BIT - 1; i >= 0; i--, shift++) {
+        if (!((i + 1) % 32))
+            str[shift++] = '-';
+        str[shift] = (char)('0' + get_bit(get_bits(a, i), i));
+    }
+
+
+  str[shift] = ':';
 
   return str;
 }
