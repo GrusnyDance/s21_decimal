@@ -8,7 +8,7 @@ int bank_rounding(int a) {
 
 int bank_round(s21_decimal *a, int n) {
   while (n--) {
-    s21_decimal mod_res, ten, hun;
+    s21_decimal mod_res = init_zero_decimal(), ten, hun;
     s21_from_int_to_decimal(100, &hun);
     s21_from_int_to_decimal(10, &ten);
     stupid_mod(*a, hun, &mod_res);
