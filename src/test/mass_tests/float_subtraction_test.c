@@ -2,9 +2,9 @@
 // -I/usr/local/Cellar/gmp/6.2.1_1/include -L/usr/local/Cellar/gmp/6.2.1_1/lib
 // -lgmp
 
-#include <stdio.h>
 #include <gmp.h>
 #include <math.h>
+#include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
 
@@ -24,7 +24,7 @@ void convert_mpz_to_decimal(mpz_t var, int *bits, int *result, int sign,
 
 FILE *ptr;
 int success_count = 0;
-int fail_count = 0;              
+int fail_count = 0;
 
 int main() {
   system("rm -f log.txt");
@@ -40,7 +40,7 @@ int main() {
   mpz_init(num2_helper);
   mpz_init(num2);
   ptr = fopen("log.txt", "a");
-  for (int i = 0; i < 100; i++) {
+  for (int i = 0; i < 10000; i++) {
     generate_it(num1_helper, num1, num2_helper, num2, rstate);
   }
   gmp_randclear(rstate);
@@ -152,22 +152,22 @@ void check_ret_value(int ret_value, mpf_t num1, mpf_t num2, mpf_t rop) {
       fprintf(ptr, "FAIL\n\n");
     }
   } else if (ret_value == 2) {
-      mpf_add(rop, num1, num2);
-      // gmp_printf("mpf result is %Ff\n", rop);
-      create_neg_infinity(neg_infinity);
-      mpf_set_z(neg_infinity_float, neg_infinity);
-      if (mpf_cmp(neg_infinity_float, rop) > 0) {
-        success_count++;
-        // printf("\033[32mCHECK PASSED\033[0m\n");
-      } else {
-        fail_count++;
-        fprintf(ptr, "NEGATIVE INFINITY\n");
-        gmp_fprintf(ptr, "num1 is %Ff\n", num1);
-        gmp_fprintf(ptr, "num2 is %Ff\n\n", num2);
-        gmp_fprintf(ptr, "mpz res is %Ff\n", rop);
-        gmp_fprintf(ptr, "neg infinity is %Ff\n", neg_infinity_float);
-        fprintf(ptr, "FAIL\n\n\n");
-      }
+    mpf_add(rop, num1, num2);
+    // gmp_printf("mpf result is %Ff\n", rop);
+    create_neg_infinity(neg_infinity);
+    mpf_set_z(neg_infinity_float, neg_infinity);
+    if (mpf_cmp(neg_infinity_float, rop) > 0) {
+      success_count++;
+      // printf("\033[32mCHECK PASSED\033[0m\n");
+    } else {
+      fail_count++;
+      fprintf(ptr, "NEGATIVE INFINITY\n");
+      gmp_fprintf(ptr, "num1 is %Ff\n", num1);
+      gmp_fprintf(ptr, "num2 is %Ff\n\n", num2);
+      gmp_fprintf(ptr, "mpz res is %Ff\n", rop);
+      gmp_fprintf(ptr, "neg infinity is %Ff\n", neg_infinity_float);
+      fprintf(ptr, "FAIL\n\n\n");
+    }
   } else if (ret_value == 1) {
     mpf_add(rop, num1, num2);
     // gmp_printf("mpf result is %Ff\n", rop);

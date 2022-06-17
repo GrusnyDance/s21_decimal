@@ -41,7 +41,7 @@ int main() {
   mpz_init(num2);
 
   ptr = fopen("log.txt", "a");
-  for (int i = 0; i < 1000; i++) {
+  for (int i = 0; i < 100000; i++) {
     generate_it(num1_helper, num1, num2_helper, num2, rstate);
   }
   fclose(ptr);
@@ -50,7 +50,8 @@ int main() {
   printf("\033[32mSUCCESS\033[0m %d / \033[31mFAIL\033[0m %d\n", success_count,
          fail_count);
   printf("\033[32mSUCCESS\033[0m %d%% / \033[31mFAIL\033[0m %d%%\n",
-         (int)((float)success_count / (float)1000 * (float)100), (int)((float)fail_count / (float)1000 * (float)100));
+         (int)((float)success_count / (float)1000 * (float)100),
+         (int)((float)fail_count / (float)1000 * (float)100));
   return 0;
 }
 

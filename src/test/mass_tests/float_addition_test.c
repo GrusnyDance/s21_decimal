@@ -2,9 +2,9 @@
 // -I/usr/local/Cellar/gmp/6.2.1_1/include -L/usr/local/Cellar/gmp/6.2.1_1/lib
 // -lgmp
 
-#include <stdio.h>
 #include <gmp.h>
 #include <math.h>
+#include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
 
@@ -42,7 +42,7 @@ int main() {
   mpz_init(num2);
 
   ptr = fopen("log.txt", "a");
-  for (int i = 0; i < 100; i++) {
+  for (int i = 0; i < 100000; i++) {
     generate_it(num1_helper, num1, num2_helper, num2, rstate);
   }
   gmp_randclear(rstate);

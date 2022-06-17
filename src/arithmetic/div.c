@@ -52,39 +52,33 @@ int int_div(s21_decimal value_1, s21_decimal value_2, s21_decimal *result) {
 }
 
 int s21_div(s21_decimal value_1, s21_decimal value_2, s21_decimal *result) {
-  int i = 0;
   int status = 0;
-
-  while (get_exponent(value_1) < get_exponent(value_2) && !status) {
+  while (get_exponent(value_1) < get_exponent(value_2) && !status)
     status = shifting(&value_1, 1);
-    ++i;
-  }
-
   if (!status) {
     status = int_div(value_1, value_2, result);
     s21_truncate(*result, result);
-    // d_print_decimal(*result);
-
-    s21_decimal mod_res, div_res;
+    s21_decimal mod_res = init_zero_decimal();
     s21_mod(value_1, value_2, &mod_res);
-
+    d_print_decimal(*result);
+    // d_print_decimal(mod_res);
     if (!is_zero(mod_res)) {
-      // d_print_decimal(mod_res);
-      shifting(&mod_res, -1);
-      // d_print_decimal(mod_res);
-      while (stupid_less(mod_res, value_2)) {
-        if (!get_exponent(value_2)) set_exponent(&value_2, 1);
-        bank_round(&value_2, 1);
+      s21_decimal div_res = init_zero_decimal(), ten = {10, 0, 0, 0},
+                  tmp = init_zero_decimal();
+      int exp = get_exponent(mod_res);
+      for (int sub_stat = 0; !sub_stat; tmp = init_zero_decimal()) {
+        sub_stat = stupid_mul(mod_res, ten, &tmp);
+        if (!sub_stat) {
+          mod_res = tmp;
+          if (++exp < 29) set_exponent(&mod_res, exp);
+        }
       }
+      if (!get_exponent(mod_res)) set_exponent(&mod_res, 28);
+      // d_print_decimal(mod_res);
       int_div(mod_res, value_2, &div_res);
-      // d_print_decimal(div_res);
-
-      set_sign(result, 0);
-      set_sign(&div_res, 0);
-
-      status = s21_add(*result, div_res, result);
-
-      set_sign(result, get_sign(value_1) ^ get_sign(value_2));
+      if (exp > 28) set_exponent(&div_res, exp - get_exponent(value_2));
+      d_print_decimal(div_res);
+      s21_add(div_res, *result, result);
     }
   } else if (get_sign(value_1) ^ get_sign(value_2))
     ++status;

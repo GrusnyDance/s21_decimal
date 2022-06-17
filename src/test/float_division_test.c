@@ -67,8 +67,8 @@ void generate_it(mpz_t num1_helper, mpz_t num1, mpz_t num2_helper, mpz_t num2,
   mpz_ui_pow_ui(num2_helper, 2, two_pow2);
   mpz_urandomm(num1, rstate, num1_helper);
   mpz_urandomm(num2, rstate, num2_helper);
-  // gmp_printf("\nint num1 is %Zd\n", num1);  // final int
-  // gmp_printf("int num2 is %Zd\n", num2);    // final int
+  gmp_printf("\nint num1 is %Zd\n", num1);  // final int
+  gmp_printf("int num2 is %Zd\n", num2);    // final int
   unsigned int bits1[3] = {0};
   int result1[4] = {0};
   convert_mpz_to_decimal(num1, bits1, result1, sign1, floating_point1);
