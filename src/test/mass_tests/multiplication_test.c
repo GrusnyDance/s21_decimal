@@ -2,8 +2,8 @@
 // -I/usr/local/Cellar/gmp/6.2.1_1/include -L/usr/local/Cellar/gmp/6.2.1_1/lib
 // -lgmp
 
-#include <gmp.h>
 #include <stdio.h>
+#include <gmp.h>
 #include <stdlib.h>
 #include <time.h>
 
