@@ -3,5 +3,5 @@ from custom_decimal import MyDecimal
 decimal = MyDecimal(input().strip('\" '))
 
 print("\tEXPONENT:\t\t\t", decimal.exponent)
-print("\tFINALY:\t\t\t\t%0.28f"%decimal.decimal)
+print(f"\tFINALY:\t\t\t\t{decimal.decimal:.28f}")
 # print()
