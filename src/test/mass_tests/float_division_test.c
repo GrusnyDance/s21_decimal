@@ -152,7 +152,7 @@ void check_ret_value(int ret_value, mpf_t num1, mpf_t num2, mpf_t rop) {
       fail_count++;
       fprintf(ptr, "DIVISION BY ZERO\n");
       gmp_fprintf(ptr, "num1 is %Ff\n", num1);
-      gmp_fprintf(ptr, "num2 is %Ff\n", num2);
+      gmp_fprintf(ptr, "num2 is %.10Ff, not null\n", num2);
       fprintf(ptr, "FAIL\n\n");
     }
   } else if (ret_value == 2) {
