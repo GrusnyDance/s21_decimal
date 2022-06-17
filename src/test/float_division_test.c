@@ -129,9 +129,9 @@ void check_ret_value(int ret_value, mpf_t num1, mpf_t num2, mpf_t rop) {
   mpf_init(neg_infinity_float);
   if (ret_value == 3) {
     if (!mpf_cmp_ui(num2, 0)) {
-      printf("true if division by zero\n");
+      printf("\033[32mDIVISION BY ZERO TEST OK\033[0m\n");
     } else {
-      printf("not true if division by zero\n");
+      printf("\033DIVISION BY ZERO TEST FAIL\033[0m\n");
     }
   } else if (ret_value == 2) {
     printf("negative infinity\n");

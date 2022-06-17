@@ -30,10 +30,7 @@ int very_stupid_sub(s21_decimal value_1, s21_decimal value_2,
 }
 
 int s21_sub(s21_decimal value_1, s21_decimal value_2, s21_decimal *result) {
-  result->bits[0] = 0;
-  result->bits[1] = 0;
-  result->bits[2] = 0;
-  result->bits[3] = 0;
+  *result = init_zero_decimal();
   balancing(&value_1, &value_2);
   int exp = get_exponent(value_1);
   set_exponent(result, exp);

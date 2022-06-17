@@ -9,7 +9,7 @@ void print_decimal(s21_decimal a) {
 
   putchar(':');
   for (int i = BITS_IN_INT - 1; i >= 0; i--) {
-      int tmp = get_bit(a.bits[DECIMAL_INFO], i);
+    int tmp = get_bit(a.bits[DECIMAL_INFO], i);
     if ((i >= START_EXP_BIT && i <= END_EXP_BIT) || i == SIGN_BIT) {
       if (tmp) {
         printf("%s%c%s", COLOR_RED, '1', COLOR_END);
@@ -38,7 +38,7 @@ void print_decimal(s21_decimal a) {
 
 void d_print_decimal(s21_decimal a) {
   char string[512] = "echo \"";
-  char *new_str = decimal2str(a);
+  char* new_str = decimal2str(a);
 
   strcat(string, new_str);
   free(new_str);
@@ -50,26 +50,24 @@ void d_print_decimal(s21_decimal a) {
 
 char* decimal2str(s21_decimal a) {
   /// Convert decimal to string for debug
-    char* str = calloc(512, sizeof(char));
-    int shift = 0;
+  char* str = calloc(512, sizeof(char));
+  int shift = 0;
 
-    str[shift++] = ':';
+  str[shift++] = ':';
 
-    for (int i = BITS_IN_INT - 1; i >= 0; i--, shift++) {
-        if ((i >= START_EXP_BIT && i <= END_EXP_BIT) || i == SIGN_BIT) {
-            str[shift] = (char)('0' + get_bit(a.bits[DECIMAL_INFO], i));
-        } else {
-            str[shift] = (char)('O' + get_bit(a.bits[DECIMAL_INFO], i));
-        }
+  for (int i = BITS_IN_INT - 1; i >= 0; i--, shift++) {
+    if ((i >= START_EXP_BIT && i <= END_EXP_BIT) || i == SIGN_BIT) {
+      str[shift] = (char)('0' + get_bit(a.bits[DECIMAL_INFO], i));
+    } else {
+      str[shift] = (char)('O' + get_bit(a.bits[DECIMAL_INFO], i));
     }
+  }
 
-    str[shift++] = ':';
-    for (int i = ALL_BIT - 1; i >= 0; i--, shift++) {
-        if (!((i + 1) % 32))
-            str[shift++] = '-';
-        str[shift] = (char)('0' + get_bit(get_bits(a, i), i));
-    }
-
+  str[shift++] = ':';
+  for (int i = ALL_BIT - 1; i >= 0; i--, shift++) {
+    if (!((i + 1) % 32)) str[shift++] = '-';
+    str[shift] = (char)('0' + get_bit(get_bits(a, i), i));
+  }
 
   str[shift] = ':';
 
