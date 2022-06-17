@@ -2,8 +2,8 @@
 // -I/usr/local/Cellar/gmp/6.2.1_1/include -L/usr/local/Cellar/gmp/6.2.1_1/lib
 // -lgmp
 
-#include <gmp.h>
 #include <stdio.h>
+#include <gmp.h>
 #include <stdlib.h>
 #include <time.h>
 
@@ -163,7 +163,7 @@ void check_ret_value(int ret_value, mpz_t num1, mpz_t num2, mpz_t rop) {
       fail_count++;
       gmp_fprintf(ptr, "num1 is %Zd\n", num1);
       gmp_fprintf(ptr, "num2 is %Zd\n\n", num2);
-      gmp_fprintf(ptr, "mpz res is %Zd\n", rop);
+      // gmp_fprintf(ptr, "mpz res is %Zd\n", rop);
       gmp_fprintf(ptr, "DIVISION BY ZERO ATTEMPTED\n");
       fprintf(ptr, "FAIL\n\n\n");
       // printf("\033[31mCHECK NOT PASSED\033[0m\n");
