@@ -2,9 +2,9 @@
 // -I/usr/local/Cellar/gmp/6.2.1_1/include -L/usr/local/Cellar/gmp/6.2.1_1/lib
 // -lgmp
 
+#include <stdio.h>
 #include <gmp.h>
 #include <math.h>
-#include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
 
@@ -18,24 +18,38 @@ void check_ret_value(int ret_value, mpf_t num1, mpf_t num2, mpf_t rop);
 void create_infinity(mpz_t infinity);
 void create_neg_infinity(mpz_t neg_infinity);
 void convert_decimal_to_mpf(int *bits, mpz_t s21_rop, mpf_t s21_final);
-void compare(mpf_t rop, mpf_t s21_rop);
+void compare(mpf_t rop, mpf_t s21_rop, mpf_t num1, mpf_t num2);
 void convert_mpz_to_decimal(mpz_t var, int *bits, int *result, int sign,
                             int floating_point);
 
+FILE *ptr;
+int success_count = 0;
+int fail_count = 0;              
+
 int main() {
+  system("rm -f log.txt");
   gmp_randstate_t rstate;
   gmp_randinit_default(rstate);
   gmp_randseed_ui(rstate, time(NULL));
   mpz_t num1_helper, num1;
   mpz_t num2_helper, num2;
+  srand(time(NULL));
 
   mpz_init(num1_helper);
   mpz_init(num1);
   mpz_init(num2_helper);
   mpz_init(num2);
-  generate_it(num1_helper, num1, num2_helper, num2, rstate);
+  ptr = fopen("log.txt", "a");
+  for (int i = 0; i < 100; i++) {
+    generate_it(num1_helper, num1, num2_helper, num2, rstate);
+  }
   gmp_randclear(rstate);
   clear_it(num1, num2, num1_helper, num2_helper);
+  printf("\033[32mSUCCESS\033[0m %d / \033[31mFAIL\033[0m %d\n", success_count,
+         fail_count);
+  printf("\033[32mSUCCESS\033[0m %d%% / \033[31mFAIL\033[0m %d%%\n",
+         (int)((float)success_count / (float)100 * (float)100),
+         (int)((float)fail_count / (float)100 * (float)100));
   return 0;
 }
 
@@ -48,7 +62,6 @@ void clear_it(mpz_t num1, mpz_t num2, mpz_t num1_helper, mpz_t num2_helper) {
 
 void generate_it(mpz_t num1_helper, mpz_t num1, mpz_t num2_helper, mpz_t num2,
                  gmp_randstate_t rstate) {
-  srand(time(NULL));
   int two_pow1, two_pow2;
   int sign1, sign2;
   int floating_point1, floating_point2;
@@ -66,8 +79,8 @@ void generate_it(mpz_t num1_helper, mpz_t num1, mpz_t num2_helper, mpz_t num2,
   mpz_ui_pow_ui(num2_helper, 2, two_pow2);
   mpz_urandomm(num1, rstate, num1_helper);
   mpz_urandomm(num2, rstate, num2_helper);
-  gmp_printf("\nint num1 is %Zd\n", num1);  // final int
-  gmp_printf("int num2 is %Zd\n", num2);    // final int
+  // gmp_printf("\nint num1 is %Zd\n", num1);  // final int
+  // gmp_printf("int num2 is %Zd\n", num2);    // final int
   unsigned int bits1[3] = {0};
   int result1[4] = {0};
   convert_mpz_to_decimal(num1, bits1, result1, sign1, floating_point1);
@@ -80,8 +93,8 @@ void generate_it(mpz_t num1_helper, mpz_t num1, mpz_t num2_helper, mpz_t num2,
   mpf_set_z(float_num2, num2);
   mpf_div_ui(float_num1, float_num1, pow(10, floating_point1));
   mpf_div_ui(float_num2, float_num2, pow(10, floating_point2));
-  gmp_printf("\nnum1 is %Ff\n", float_num1);  // final float
-  gmp_printf("num2 is %Ff\n", float_num2);    // final float
+  // gmp_printf("\nnum1 is %Ff\n", float_num1);  // final float
+  // gmp_printf("num2 is %Ff\n", float_num2);    // final float
 
   check_subtraction(float_num1, float_num2, result1, result2);
   mpf_clear(float_num1);
@@ -107,9 +120,9 @@ void check_subtraction(mpf_t num1, mpf_t num2, int *result1, int *result2) {
     check_ret_value(ret_value, num1, num2, rop);
   } else {
     mpf_sub(rop, num1, num2);
-    gmp_printf("\nmpf res is %Ff\n", rop);
+    // gmp_printf("\nmpf res is %Ff\n", rop);
     convert_decimal_to_mpf(check_helper.bits, s21_rop, s21_final);
-    compare(rop, s21_final);
+    compare(rop, s21_final, num1, num2);
   }
   mpf_clear(rop);
   mpz_clear(s21_rop);
@@ -117,7 +130,7 @@ void check_subtraction(mpf_t num1, mpf_t num2, int *result1, int *result2) {
 }
 
 void check_ret_value(int ret_value, mpf_t num1, mpf_t num2, mpf_t rop) {
-  printf("\n\033[31mEXTREME CASE CHECK\033[0m\n");
+  // printf("\n\033[31mEXTREME CASE CHECK\033[0m\n");
   mpz_t pos_infinity;
   mpz_t neg_infinity;
   mpf_t pos_infinity_float;
@@ -128,31 +141,50 @@ void check_ret_value(int ret_value, mpf_t num1, mpf_t num2, mpf_t rop) {
   mpf_init(neg_infinity_float);
   if (ret_value == 3) {
     if (!mpf_cmp_ui(num2, 0)) {
-      printf("true if division by zero\n");
+      success_count++;
+      // printf("true if division by zero\n");
     } else {
-      printf("not true if division by zero\n");
+      // printf("not true if division by zero\n");
+      fail_count++;
+      fprintf(ptr, "DIVISION BY ZERO\n");
+      gmp_fprintf(ptr, "num1 is %Ff\n", num1);
+      gmp_fprintf(ptr, "num2 is %Ff\n", num2);
+      fprintf(ptr, "FAIL\n\n");
     }
   } else if (ret_value == 2) {
-    if (mpf_cmp_ui(num2, 0)) {
       mpf_add(rop, num1, num2);
-      gmp_printf("mpf result is %Ff\n", rop);
+      // gmp_printf("mpf result is %Ff\n", rop);
       create_neg_infinity(neg_infinity);
       mpf_set_z(neg_infinity_float, neg_infinity);
       if (mpf_cmp(neg_infinity_float, rop) > 0) {
-        printf("\033[32mCHECK PASSED\033[0m\n");
+        success_count++;
+        // printf("\033[32mCHECK PASSED\033[0m\n");
+      } else {
+        fail_count++;
+        fprintf(ptr, "NEGATIVE INFINITY\n");
+        gmp_fprintf(ptr, "num1 is %Ff\n", num1);
+        gmp_fprintf(ptr, "num2 is %Ff\n\n", num2);
+        gmp_fprintf(ptr, "mpz res is %Ff\n", rop);
+        gmp_fprintf(ptr, "neg infinity is %Ff\n", neg_infinity_float);
+        fprintf(ptr, "FAIL\n\n\n");
       }
-    } else {
-      printf("\033[31mCHECK NOT PASSED\033[0m\n");
-    }
   } else if (ret_value == 1) {
     mpf_add(rop, num1, num2);
-    gmp_printf("mpf result is %Ff\n", rop);
+    // gmp_printf("mpf result is %Ff\n", rop);
     create_infinity(pos_infinity);
     mpf_set_z(pos_infinity_float, pos_infinity);
     if (mpf_cmp(rop, pos_infinity_float) > 0) {
-      printf("\033[32mCHECK PASSED\033[0m\n");
+      success_count++;
+      // printf("\033[32mCHECK PASSED\033[0m\n");
     } else {
-      printf("\033[31mCHECK NOT PASSED\033[0m\n");
+      // printf("\033[31mCHECK NOT PASSED\033[0m\n");
+      fail_count++;
+      fprintf(ptr, "POSITIVE INFINITY\n");
+      gmp_fprintf(ptr, "num1 is %Ff\n", num1);
+      gmp_fprintf(ptr, "num2 is %Ff\n\n", num2);
+      gmp_fprintf(ptr, "mpz res is %Ff\n", rop);
+      gmp_fprintf(ptr, "pos infinity is %Ff\n", pos_infinity_float);
+      fprintf(ptr, "FAIL\n\n\n");
     }
   }
   mpz_clear(pos_infinity);
@@ -192,16 +224,16 @@ void convert_decimal_to_mpf(int *bits, mpz_t s21_rop, mpf_t s21_final) {
   //   }
   //   printf(" ");
   // }
-  printf("\nlast byte is ");
-  for (int n = 31; n >= 0; n--) {
-    if ((1 << n) & bits[3])
-      printf("\033[33m1\033[0m");
-    else
-      printf("0");
-  }
+  // printf("\nlast byte is ");
+  // for (int n = 31; n >= 0; n--) {
+  //   if ((1 << n) & bits[3])
+  //     printf("\033[33m1\033[0m");
+  //   else
+  //     printf("0");
+  // }
   int sign = (1 << 31) & bits[3];
   ten_pow = (bits[3] << 1) >> 17;
-  printf("\nten_pow is %d\n", ten_pow);
+  // printf("\nten_pow is %d\n", ten_pow);
   mpz_import(s21_rop, 3, 1, 4, -1, 0, reserve);
   if (sign) mpz_mul_si(s21_rop, s21_rop, -1);
   mpf_set_z(s21_final, s21_rop);
@@ -210,23 +242,30 @@ void convert_decimal_to_mpf(int *bits, mpz_t s21_rop, mpf_t s21_final) {
     mpf_set_z(divide_10_float, divide_by_10);
     mpf_div(s21_final, s21_final, divide_10_float);
   }
-  gmp_printf("\ns21 res is %Ff\n", s21_final);
+  // gmp_printf("\ns21 res is %Ff\n", s21_final);
   // print_bits(s21_final);
   mpf_clear(divide_10_float);
   mpz_clear(divide_by_10);
 }
 
-void compare(mpf_t rop, mpf_t s21_rop) {
+void compare(mpf_t rop, mpf_t s21_rop, mpf_t num1, mpf_t num2) {
   mpf_t diff, condition;
   mpf_init(diff);
   mpf_init(condition);
   mpf_sub(diff, rop, s21_rop);
-  gmp_printf("diff is %Ff\n", diff);
+  // gmp_printf("diff is %Ff\n", diff);
   mpf_abs(diff, diff);
-  if (mpf_cmp_d(diff, 0.0000001) < 0) {
-    printf("\033[32mSUCCESS\033[0m\n");
+  if (mpf_cmp_ui(diff, 2) < 0) {
+    success_count++;
+    // printf("\033[32mSUCCESS\033[0m\n");
   } else {
-    printf("\033[31mFAIL\033[0m\n");
+    // printf("\033[31mFAIL\033[0m\n");
+    fail_count++;
+    gmp_fprintf(ptr, "num1 is %Ff\n", num1);
+    gmp_fprintf(ptr, "num2 is %Ff\n\n", num2);
+    gmp_fprintf(ptr, "mpz res is %Ff\n", rop);
+    gmp_fprintf(ptr, "s21 res is %Ff\n", s21_rop);
+    fprintf(ptr, "FAIL\n\n\n");
   }
   mpf_clear(diff);
   mpf_clear(condition);
