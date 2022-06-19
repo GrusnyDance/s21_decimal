@@ -59,12 +59,12 @@ class MyDecimal:
         line = f"{'1' if self.decimal < 0 else '0'}"
         for i in range(7):
             line += '0'
-        tmp_exp = str(bin(self.exponent))[2:]
+        tmp_exp = str(bin(self.exponent)).split('b')[-1]
         line += '0' * (8 - len(tmp_exp)) + tmp_exp
         for i in range(16):
             line += '0'
 
-        tmp_int = str(bin(int(self.decimal * 10 ** self.exponent)))[2:]
+        tmp_int = str(bin(int(self.decimal * 10 ** self.exponent))).split('b')[-1]
         line += '0' * (96 - len(tmp_int)) + tmp_int
         return line
 
@@ -75,3 +75,10 @@ class MyDecimal:
             self.balancing(other)
 
             return MyDecimal(exponent=min_exp, decimal=self.decimal + other.decimal)
+
+    def print(self, human: bool = False, base: bool = False):
+        if human:
+            print(f'{self.decimal:.28f}')
+
+        if not human or base:
+            print(self.to_bin_form())

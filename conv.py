@@ -1,4 +1,4 @@
-from custom_decimal import MyDecimal
+from py_test import MyDecimal
 
 decimal = MyDecimal(input().strip('\" '))
 

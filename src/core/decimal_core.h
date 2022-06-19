@@ -48,4 +48,5 @@ int left_shift(s21_decimal *a);
 int right_shift(s21_decimal *a);
 
 s21_decimal init_zero_decimal();
+s21_decimal init_random_decimal();
 #endif  // S21_DECIMAL_DECIMAL_CORE_H
