@@ -6,9 +6,8 @@
 int s21_from_decimal_to_int(s21_decimal src, int *dst) {
   int return_code = OK;
   int ten_pow;
-  s21_truncate(src, &src);
-  // change_endian(&src);
 
+  s21_truncate(src, &src);
   if (src.bits[3] < 0)
     *dst = 0 - src.bits[0];
   else
