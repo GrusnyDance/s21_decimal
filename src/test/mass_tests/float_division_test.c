@@ -71,8 +71,8 @@ void generate_it(mpz_t num1_helper, mpz_t num1, mpz_t num2_helper, mpz_t num2,
   two_pow2 = rand() % 96;
   sign1 = rand() % 2;
   sign2 = rand() % 2;
-  floating_point1 = rand() % 15;
-  floating_point2 = rand() % 15;
+  floating_point1 = rand() % 20;
+  floating_point2 = rand() % 20;
   mpf_t float_num1, float_num2;
   mpf_init(float_num1);
   mpf_init(float_num2);
