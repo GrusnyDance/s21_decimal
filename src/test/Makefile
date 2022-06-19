@@ -35,6 +35,11 @@ RM:= rm -rf
 # all: test_add test_sub test_mul test_add test_div
 PHONY: all
 
+main: $(SOURCES) $(OBJECTS) main_tests.c
+	@$(CC) $(OBJECTS) main_tests.c -o $@ -lgmp -lm -lcheck -lpthread -lrt -lsubunit
+	./main
+	@rm -rf main
+
 test_int_add: $(SOURCES) $(OBJECTS) addition_test.c
 	@$(CC) $(OBJECTS) addition_test.c -o $@ -lgmp -lm
 	./test_int_add
