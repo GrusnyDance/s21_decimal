@@ -2,7 +2,7 @@
 
 s21_decimal fmod_core(s21_decimal value_1, s21_decimal value_2) {
   s21_decimal divcopy = value_2;
-  s21_decimal res;
+  s21_decimal res = {0, 0, 0, 0};
   s21_decimal temp = {0, 0, 0, 0};
   // print_decimal(*divided);
   if (stupid_equal(value_1, value_2))
@@ -33,16 +33,17 @@ int stupid_mod(s21_decimal value_1, s21_decimal value_2, s21_decimal* result) {
   result->bits[0] = 0;
   result->bits[1] = 0;
   result->bits[2] = 0;
-  // result->bits[3] = 0;
+  result->bits[3] = 0;
   // s21_decimal divided;
   // s21_from_int_to_decimal(1, &divided);
-  set_sign(result, get_sign(value_1));
+  int sign = get_sign(value_1);
   set_sign(&value_1, 0);
   set_sign(&value_2, 0);
   // int res_exp = get_exponent(value_1);
   // set_exponent(&value_1, 0);
   // set_exponent(&value_2, 0);
   *result = fmod_core(value_1, value_2);
+  set_sign(result, sign);
   // set_exponent(result, res_exp);
   return 0;
 }
