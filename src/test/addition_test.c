@@ -114,7 +114,7 @@ void check_addition(mpz_t num1, int sign1, mpz_t num2, int sign2, int *result1,
 
     gmp_printf("\nmpz res is  %Zd\n", rop);
     gmp_printf("mpz bin res is\n");
-
+    
     print_bits(rop);
     convert_decimal_to_mpz(check_helper.bits, s21_rop);
     compare(rop, s21_rop);
@@ -244,29 +244,12 @@ void print_bits(mpz_t var) {
 
 void convert_mpz_to_decimal(mpz_t var, int *bits, int *result, int sign) {
   mpz_export(bits, NULL, 1, 4, -1, 0, var);
-  int count = 3;
-  while (bits[2] == 0 && count > 0) {
-    bits[2] = bits[1];
-    bits[1] = bits[0];
-    bits[0] = 0;
-    --count;
+  int loc_count = -1;
+  for (int i = 2; i >= 0; i--) {
+    if (bits[i] && loc_count < 2) {
+      result[++loc_count] = bits[i];
+    }
   }
-  result[0] = bits[2];
-  result[1] = bits[1];
-  result[2] = bits[0]; 
-  // printf("bits num is\n");
-  // for (int l = 0; l < 3; l++) {
-  //   for (int m = 31; m >= 0; m--) {
-  //     if ((1 << m) & bits[l]) {
-  //       printf("\033[33m1\033[0m");
-  //     } else {
-  //       printf("0");
-  //     }
-  //   }
-  //   printf(" ");
-  // }
-  // printf("\n");
-
   if (sign) result[3] |= 1 << 31;
   printf("\nbin num is\n");
   for (int l = 0; l < 4; l++) {
