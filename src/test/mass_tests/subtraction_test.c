@@ -284,12 +284,16 @@ void compare(mpz_t rop, mpz_t s21_rop, mpz_t num1, mpz_t num2) {
 
 void convert_mpz_to_decimal(mpz_t var, int *bits, int *result, int sign) {
   mpz_export(bits, NULL, 1, 4, -1, 0, var);
-  int loc_count = -1;
-  for (int i = 2; i >= 0; i--) {
-    if (bits[i] && loc_count < 2) {
-      result[++loc_count] = bits[i];
-    }
+  int count = 3;
+  while (bits[2] == 0 && count > 0) {
+    bits[2] = bits[1];
+    bits[1] = bits[0];
+    bits[0] = 0;
+    --count;
   }
+  result[0] = bits[2];
+  result[1] = bits[1];
+  result[2] = bits[0]; 
   if (sign) result[3] |= 1 << 31;
   // printf("\nbin num is\n");
   // for (int l = 0; l < 4; l++) {

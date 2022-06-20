@@ -42,7 +42,7 @@ int main() {
   mpz_init(num2);
 
   ptr = fopen("log.txt", "a");
-  for (int i = 0; i < 100000; i++) {
+  for (int i = 0; i < 100; i++) {
     generate_it(num1_helper, num1, num2_helper, num2, rstate);
   }
   gmp_randclear(rstate);
@@ -298,12 +298,16 @@ void compare(mpf_t rop, mpf_t s21_rop, mpf_t num1, mpf_t num2) {
 void convert_mpz_to_decimal(mpz_t var, int *bits, int *result, int sign,
                             unsigned int floating_point) {
   mpz_export(bits, NULL, 1, 4, -1, 0, var);
-  int loc_count = -1;
-  for (int i = 2; i >= 0; i--) {
-    if (bits[i] && loc_count < 2) {
-      result[++loc_count] = bits[i];
-    }
+  int count = 3;
+  while (bits[2] == 0 && count > 0) {
+    bits[2] = bits[1];
+    bits[1] = bits[0];
+    bits[0] = 0;
+    --count;
   }
+  result[0] = bits[2];
+  result[1] = bits[1];
+  result[2] = bits[0];
   if (sign) result[3] |= 1 << 31;
   // вписать в бинарном виде степень десятки, которая есть в десятичном
   floating_point = floating_point << 16;
