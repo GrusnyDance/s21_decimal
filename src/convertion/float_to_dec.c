@@ -3,17 +3,21 @@
 int s21_from_float_to_decimal(float src, s21_decimal *dst) {
   int return_code = OK;
   int sign = (src < 0) ? 1 : 0;
-  src = fabs(src);
+
+  if (!dst) return CONVERTION_ERROR;
+  if (isinf(src) || isnan(src)) {
+    set_null(dst);
+    return CONVERTION_ERROR;
+  }
+
   set_null(dst);
+  src = fabs(src);
   int exp = ((*(int *)&src) >> 23) - 127;
   int new_exp;
   float final_float;
   int final_num;
 
-  if (isinf(src) || isnan(src)) return_code = CONVERTION_ERROR;
-  if (!dst) {
-    return_code = CONVERTION_ERROR;
-  } else if (exp > -95 && exp <= 95) {
+  if (exp > -95 && exp <= 95) {
     double reserve = (double)src;
     int ten_pow = 0;
     for (int i = 0; ten_pow < 28 && reserve < (int)pow(2, 21); i++, ten_pow++) {
@@ -33,7 +37,8 @@ int s21_from_float_to_decimal(float src, s21_decimal *dst) {
     }
     if (sign) set_sign2(dst);
     dst->bits[3] |= ten_pow << 16;
-    // change_endian(dst);
+  } else {
+    return_code = CONVERTION_ERROR;
   }
   return return_code;
 }
