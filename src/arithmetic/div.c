@@ -54,22 +54,34 @@ int int_div(s21_decimal value_1, s21_decimal value_2, s21_decimal *result) {
   return status;
 }
 
+int additional_int_prec(s21_decimal value_1, s21_decimal value_2,
+                        s21_decimal *result, int status) {
+  set_exponent(&value_2, get_exponent(value_2) - status);
+  s21_decimal mod_res = init_zero_decimal(), div_res = init_zero_decimal();
+  s21_mod(value_1, value_2, &mod_res);
+  set_exponent(&value_2, get_exponent(value_2) + status);
+  shifting(&mod_res, -1);
+  while (stupid_less(mod_res, value_2)) bank_round(&value_2, 1);
+  int_div(mod_res, value_2, &div_res);
+  // d_print_decimal(*result);
+  // d_print_decimal(div_res);
+  status = s21_add(div_res, *result, result);
+  // s21_truncate(*result, result);
+  return status;
+}
+
 int s21_div(s21_decimal value_1, s21_decimal value_2, s21_decimal *result) {
   int status = int_div(value_1, value_2, result);
   if (!(status & 3)) {
     status >>= 2;
-    s21_truncate(*result, result);
     s21_decimal mod_res = init_zero_decimal();
-    int value_exp = get_exponent(value_2);
-    if (status) {
-      set_exponent(&value_2,
-                   value_exp - status);  // TODO add another func for this case
-      status = 0;
-    }
+    // int value_exp = get_exponent(value_2);
+    if (status) status = additional_int_prec(value_1, value_2, result, status);
+    s21_truncate(*result, result);
     s21_mod(value_1, value_2, &mod_res);
-    d_print_decimal(mod_res);
+    // d_print_decimal(mod_res);
     if (!is_zero(mod_res)) {
-      set_exponent(&value_2, value_exp);
+      // set_exponent(&value_2, value_exp);
       s21_decimal div_res = init_zero_decimal(), ten = {10, 0, 0, 0},
                   tmp = init_zero_decimal();
       int exp = get_exponent(mod_res);
@@ -81,7 +93,7 @@ int s21_div(s21_decimal value_1, s21_decimal value_2, s21_decimal *result) {
         }
       }
       if (!get_exponent(mod_res)) set_exponent(&mod_res, 28);
-      d_print_decimal(mod_res);
+      // d_print_decimal(mod_res);
       // d_print_decimal(value_2);
       while (stupid_less(mod_res, value_2)) bank_round(&value_2, 1);
       int_div(mod_res, value_2, &div_res);
@@ -93,7 +105,7 @@ int s21_div(s21_decimal value_1, s21_decimal value_2, s21_decimal *result) {
 
       status = s21_add(div_res, *result, result);
     }
-  } else if (status == 1 && get_sign(value_1) ^ get_sign(value_2))
+  } else if ((status >> 2) == 1 && get_sign(value_1) ^ get_sign(value_2))
     status = 2;
   return status;
 }

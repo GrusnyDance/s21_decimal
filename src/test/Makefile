@@ -36,7 +36,8 @@ RM:= rm -rf
 PHONY: all
 
 main: $(SOURCES) $(OBJECTS) main_tests.c
-	@$(CC) $(OBJECTS) main_tests.c -o $@ -lgmp -lm -lcheck -lpthread -lrt -lsubunit
+	@$(CC) $(OBJECTS) main_tests.c -o $@ -lgmp -lcheck
+	# -lm  -lpthread -lrt -lsubunit
 	./main
 	@rm -rf main
 
