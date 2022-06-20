@@ -234,6 +234,31 @@ mpf_abs(num1, num1);
 ck_assert_int_eq(mpf_cmp_ui(num1, 2) < 0, 1);
 
 clear_func(num1, num2, s21_res, num1_helper, num2_helper);
+
+}
+END_TEST
+
+START_TEST(convertion_1)
+{
+float a = 0.00023456;
+float b;
+s21_decimal my_struct;
+s21_from_float_to_decimal(a, &my_struct);
+s21_from_decimal_to_float(my_struct, &b);
+ck_assert_float_eq(a, b);
+
+}
+END_TEST
+
+START_TEST(convertion_2)
+{
+int a = 12345;
+int b;
+s21_decimal my_struct;
+s21_from_int_to_decimal(a, &my_struct);
+s21_from_decimal_to_int(my_struct, &b);
+ck_assert_int_eq(a, b);
+
 }
 END_TEST
 
@@ -252,6 +277,8 @@ int main(void)
     tcase_add_test(tc1_1, div_1);
     tcase_add_test(tc1_1, div_2);
     tcase_add_test(tc1_1, fmod_1);
+    tcase_add_test(tc1_1, convertion_1);
+    tcase_add_test(tc1_1, convertion_2);
 
     srunner_run_all(sr, CK_ENV);
     nf = srunner_ntests_failed(sr);
