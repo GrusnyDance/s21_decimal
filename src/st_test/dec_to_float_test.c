@@ -14,14 +14,14 @@ void run_dec_to_float_test(int count) {
     while (count-- > 0) {
         get_testcase(&number, &result);
 
-        s21_decimal decimal_num = str2decimal("00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000001001");
+        s21_decimal decimal_num = str2decimal(number);
 
-        float res = strtof("9.0000000000000000000000000000", NULL);
+        float res = strtof(result, NULL);
 
         float s21_res;
         s21_from_decimal_to_float(decimal_num, &s21_res);
 
-        float diff = fabs(res - s21_res);
+        float diff = fabsf(res - s21_res);
         if (diff > EPS) {
             printf("%s%s%s\n", COLOR_RED, "ERROR", COLOR_END);
             printf("s21_is_eq = %f\n", diff);
