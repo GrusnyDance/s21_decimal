@@ -5,7 +5,7 @@
 #include "decimal_another.h"
 
 int shifting(s21_decimal *a, int n) {
-  /// Multiply the number by 1 and increase the exponent by 1 thereby shifting
+  /// Multiply the number by 10 and increase the exponent by 1 thereby shifting
   /// the number to the left
   s21_decimal ten;
   s21_from_int_to_decimal(10, &ten);
@@ -19,6 +19,7 @@ int shifting(s21_decimal *a, int n) {
     status = stupid_mul(*a, ten, &tmp_result);
     if (!status) {
       *a = tmp_result;
+      tmp_result = init_zero_decimal();
       status = (++exp == MAX_EXPONENT);
     }
   }
