@@ -15,7 +15,7 @@ void generate_testcase(int count, char *command_path) {
   numbers = calloc(count + 1, sizeof(char *));
   results = calloc(count + 1, sizeof(char *));
 
-  if (!strcmp(command_path, EQ_PATH)) {
+  if (!strcmp(command_path, EQ_PATH) || !strcmp(command_path, LESS_PATH)) {
     results2 = calloc(count + 1, sizeof (char *));
   }
 
@@ -27,7 +27,7 @@ void generate_testcase(int count, char *command_path) {
     fscanf(file, "%s\n", numbers[i]);
     fscanf(file, "%s\n", results[i]);
 
-    if (!strcmp(command_path, EQ_PATH)) {
+    if (results2) {
       results2[i] = calloc(BUFFER_SIZE, sizeof(char));
       fscanf(file, "%s\n", results2[i]);
     }
@@ -48,6 +48,10 @@ void free_testcase(int count) {
 
   if (results2)
     free(results2);
+
+  numbers = NULL;
+  results = NULL;
+  results2 = NULL;
 
   cur_testcase = 0;
 }
@@ -125,12 +129,17 @@ int main() {
 //      run_int_to_dec_test(10);
 //      clear_input();
 
+//      clear_input();
+//      printf(COLOR_GREEN "EQ TEST:\n" COLOR_END);
+//      run_eq_test(10);
+//      clear_input();
+
       clear_input();
-      printf(COLOR_GREEN "INT_TO_DEC:\n" COLOR_END);
-      run_eq_test(10);
+      printf(COLOR_GREEN "LESS TEST:\n" COLOR_END);
+      run_less_test(10);
       clear_input();
 
-    printf("\n");
+      printf("\n");
   }
 
   return 0;
