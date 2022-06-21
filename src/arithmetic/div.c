@@ -105,7 +105,8 @@ int s21_div(s21_decimal value_1, s21_decimal value_2, s21_decimal *result) {
 
       status = s21_add(div_res, *result, result);
     }
-  } else if ((status >> 2) == 1 && get_sign(value_1) ^ get_sign(value_2))
-    status = 2;
+  } else
+    status &= 3;
+  if (status == 1 && get_sign(value_1) ^ get_sign(value_2)) ++status;
   return status;
 }
