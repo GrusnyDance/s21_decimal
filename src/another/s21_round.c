@@ -11,7 +11,6 @@ int s21_round(s21_decimal value, s21_decimal *result) {
   set_sign(&mod_res, 0);
 
   s21_truncate(value, result);
-  if (!s21_is_less(mod_res, zeroDotFive))
-    very_stupid_add(*result, one, result, 0, 0);
+  if (!s21_is_less(mod_res, zeroDotFive)) very_stupid_add(*result, one, result);
   return OK;
 }

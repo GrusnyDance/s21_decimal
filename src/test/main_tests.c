@@ -334,6 +334,23 @@ START_TEST(neg) {
 }
 END_TEST
 
+START_TEST(add_test_more_coverage) {
+  s21_decimal a = {-1, -1, -1, 0}, b = {-1, -1, -1, 0}, c = {0, 0, 0, 0},
+              d = {858993459, 858993459, 858993460, 0};
+  set_exponent(&a, 28);
+  set_exponent(&b, 28);
+  set_exponent(&d, 27);
+  set_sign(&b, 1);
+  set_sign(&a, 1);
+  set_sign(&d, 1);
+  s21_add(a, b, &c);
+  ck_assert_int_eq(9999999999, d.bits[0]);
+  ck_assert_int_eq(c.bits[1], d.bits[1]);
+  ck_assert_int_eq(c.bits[2], d.bits[2]);
+  ck_assert_int_eq(c.bits[3], d.bits[3]);
+}
+END_TEST
+
 int main(void) {
   Suite *s1 = suite_create("Core");
   TCase *tc1_1 = tcase_create("Core");
@@ -350,6 +367,7 @@ int main(void) {
   tcase_add_test(tc1_1, fmod_1);
   tcase_add_test(tc1_1, convertion_1);
   tcase_add_test(tc1_1, convertion_2);
+  tcase_add_test(tc1_1, add_test_more_coverage);
 
   tcase_add_test(tc1_1, is_not_eq);
   tcase_add_test(tc1_1, is_gr);

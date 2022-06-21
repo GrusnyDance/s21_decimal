@@ -67,6 +67,10 @@ test: main_tests.c $(HEADER) lib_gcov.a
 	$(OBJ_GCOV_DIR)/./test
 	@mv *gcda $(OBJ_GCOV_DIR)/
 
+gcov_report: test
+	lcov/bin/./lcov -c -d $(OBJ_GCOV_DIR)/. -o $(OBJ_GCOV_DIR)/coverage.info
+	lcov/bin/./genhtml $(OBJ_GCOV_DIR)/coverage.info --output-directory out
+
 $(OBJ_DIR)/%.o: %.c $(HEADER)
 	@$(CC) $(CFLAGS) -c $< -o $(subst /,_,$@) $(LIN_FLAGS)
 	@mv *.o $(OBJ_DIR)/
@@ -79,6 +83,7 @@ clean:
 	$(RM) $(OBJ_DIR) $(OBJ_GCOV_DIR)
 	$(RM) $(TARGET_EXEC) lib_gcov.a
 	$(RM) *.o *gc* s21_test
+	$(RM) out
 
 lint:
 	cp ../materials/linters/CPPLINT.cfg ./

@@ -276,7 +276,8 @@ START_TEST(is_le_eq) {
 END_TEST
 
 START_TEST(floor_t) {
-  s21_decimal a = {{1, 1, 1, 0}}, b = {{1844674407, 0, 0, 0}}, c = {{0, 0, 0, 0}};
+  s21_decimal a = {{1, 1, 1, 0}}, b = {{1844674407, 0, 0, 0}},
+              c = {{0, 0, 0, 0}};
   set_exponent(&a, 10);
   s21_floor(a, &c);
   ck_assert_int_eq(c.bits[0], b.bits[0]);
@@ -287,7 +288,8 @@ START_TEST(floor_t) {
 END_TEST
 
 START_TEST(floor_neg) {
-  s21_decimal a = {{1, 1, 1, 0}}, b = {{1844674408, 0, 0, 0}}, c = {{0, 0, 0, 0}};
+  s21_decimal a = {{1, 1, 1, 0}}, b = {{1844674408, 0, 0, 0}},
+              c = {{0, 0, 0, 0}};
   set_exponent(&a, 10);
   set_sign(&a, 1);
   set_sign(&b, 1);
@@ -300,7 +302,8 @@ START_TEST(floor_neg) {
 END_TEST
 
 START_TEST(round_t) {
-  s21_decimal a = {{1, 1, 1, 0}}, b = {{1844674408, 0, 0, 0}}, c = {{0, 0, 0, 0}};
+  s21_decimal a = {{1, 1, 1, 0}}, b = {{1844674408, 0, 0, 0}},
+              c = {{0, 0, 0, 0}};
   set_exponent(&a, 10);
   s21_round(a, &c);
   ck_assert_int_eq(c.bits[0], b.bits[0]);
@@ -311,7 +314,8 @@ START_TEST(round_t) {
 END_TEST
 
 START_TEST(trunc_t) {
-  s21_decimal a = {{1, 1, 1, 0}}, b = {{1844674407, 0, 0, 0}}, c = {{0, 0, 0, 0}};
+  s21_decimal a = {{1, 1, 1, 0}}, b = {{1844674407, 0, 0, 0}},
+              c = {{0, 0, 0, 0}};
   set_exponent(&a, 10);
   s21_truncate(a, &c);
   ck_assert_int_eq(c.bits[0], b.bits[0]);
@@ -331,6 +335,23 @@ START_TEST(neg) {
   ck_assert_int_eq(c.bits[1], b.bits[1]);
   ck_assert_int_eq(c.bits[2], b.bits[2]);
   ck_assert_int_eq(c.bits[3], b.bits[3]);
+}
+END_TEST
+
+START_TEST(add_test_more_coverage) {
+  s21_decimal a = {{-1, -1, -1, 0}}, b = {{-1, -1, -1, 0}}, c = {{0, 0, 0, 0}},
+              d = {{858993460, 858993459, 858993459, 0}};
+  set_exponent(&a, 28);
+  set_exponent(&b, 28);
+  set_exponent(&d, 27);
+  set_sign(&b, 1);
+  set_sign(&a, 1);
+  set_sign(&d, 1);
+  s21_add(a, b, &c);
+  ck_assert_int_eq(c.bits[0], d.bits[0]);
+  ck_assert_int_eq(c.bits[1], d.bits[1]);
+  ck_assert_int_eq(c.bits[2], d.bits[2]);
+  ck_assert_int_eq(c.bits[3], d.bits[3]);
 }
 END_TEST
 
@@ -360,6 +381,7 @@ int main(void) {
   tcase_add_test(tc1_1, round_t);
   tcase_add_test(tc1_1, trunc_t);
   tcase_add_test(tc1_1, neg);
+  tcase_add_test(tc1_1, add_test_more_coverage);
 
   srunner_set_fork_status(sr, CK_NOFORK);
   srunner_run_all(sr, CK_ENV);

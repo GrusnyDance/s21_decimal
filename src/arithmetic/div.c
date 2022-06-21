@@ -25,7 +25,7 @@ s21_decimal div_core(s21_decimal value_1, s21_decimal value_2,
 
     very_stupid_sub(value_1, value_2, &temp);
     one = div_core(temp, divcopy, &one, status);
-    *status = very_stupid_add(*result, one, result, 0, 0);
+    *status = very_stupid_add(*result, one, result);
   }
 
   return *result;
@@ -39,7 +39,7 @@ int int_div(s21_decimal value_1, s21_decimal value_2, s21_decimal *result) {
   } else {
     s21_from_int_to_decimal(1, result);
 
-    set_sign(result, get_sign(value_1) ^ get_sign(value_2));
+    int sign = get_sign(value_1) ^ get_sign(value_2);
     set_sign(&value_1, 0);
     set_sign(&value_2, 0);
 
@@ -55,6 +55,7 @@ int int_div(s21_decimal value_1, s21_decimal value_2, s21_decimal *result) {
       res_exp = 0;
     }
     set_exponent(result, res_exp);
+    set_sign(result, sign);
   }
 
   return status;
