@@ -21,11 +21,10 @@ int very_stupid_add(s21_decimal value_1, s21_decimal value_2,
   if (exp_1 && exp_2 && additional_bit) {
     bank_round(&value_1, 1);
     bank_round(&value_2, 1);
-    res = very_stupid_add(value_1, value_2, result,
-                          get_exponent(value_1),get_exponent(value_2));
-  } elif (additional_bit) {
-    res = BIG_VALUE;
+    res = very_stupid_add(value_1, value_2, result, get_exponent(value_1),
+                          get_exponent(value_2));
   }
+  elif (additional_bit) { res = BIG_VALUE; }
 
   return res;
 }
@@ -43,10 +42,10 @@ int stupid_add(s21_decimal value_1, s21_decimal value_2, s21_decimal *result) {
                              get_exponent(value_2));
 
     set_sign(result, NEGATIVE);
-  } elif (sign_1) {
+  } else if (sign_1) {
     set_sign(&value_1, POSITIVE);
     status = s21_sub(value_2, value_1, result);
-  } elif (sign_2) {
+  } else if (sign_2) {
     set_sign(&value_2, POSITIVE);
     status = s21_sub(value_1, value_2, result);
   } else {
