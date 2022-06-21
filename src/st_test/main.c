@@ -15,6 +15,10 @@ void generate_testcase(int count, char *command_path) {
   numbers = calloc(count + 1, sizeof(char *));
   results = calloc(count + 1, sizeof(char *));
 
+  if (!strcmp(command_path, EQ_PATH)) {
+    results2 = calloc(count + 1, sizeof (char *));
+  }
+
   FILE *file = fopen(REDIRECT_FILE, "r");
   for (int i = 0; i < count; i++) {
     numbers[i] = calloc(BUFFER_SIZE, sizeof(char));
@@ -22,6 +26,11 @@ void generate_testcase(int count, char *command_path) {
 
     fscanf(file, "%s\n", numbers[i]);
     fscanf(file, "%s\n", results[i]);
+
+    if (!strcmp(command_path, EQ_PATH)) {
+      results2[i] = calloc(BUFFER_SIZE, sizeof(char));
+      fscanf(file, "%s\n", results2[i]);
+    }
   }
   fclose(file);
 }
@@ -30,9 +39,15 @@ void free_testcase(int count) {
   for (int i = 0; i < count; i++) {
     free(numbers[i]);
     free(results[i]);
+    if (results2 && results2[i]) {
+      free(results2[i]);
+    }
   }
   free(numbers);
   free(results);
+
+  if (results2)
+    free(results2);
 
   cur_testcase = 0;
 }
@@ -42,6 +57,10 @@ void get_testcase(char **number, char **result) {
   *result = results[cur_testcase];
 
   cur_testcase++;
+}
+
+void get_testcase2(char **result2) {
+  *result2 = results2[cur_testcase - 1];
 }
 
 s21_decimal str2decimal(const char *number) {
@@ -91,10 +110,10 @@ int main() {
 //    run_dec_to_float_test(10);
 //    clear_input();
 //
-      clear_input();
-      printf(COLOR_GREEN "DEC_TO_INT:\n" COLOR_END);
-      run_dec_to_int_test(10);
-      clear_input();
+//      clear_input();
+//      printf(COLOR_GREEN "DEC_TO_INT:\n" COLOR_END);
+//      run_dec_to_int_test(10);
+//      clear_input();
 
 //      clear_input();
 //      printf(COLOR_GREEN "FLOAT_TO_DEC:\n" COLOR_END);
@@ -105,6 +124,11 @@ int main() {
 //      printf(COLOR_GREEN "INT_TO_DEC:\n" COLOR_END);
 //      run_int_to_dec_test(10);
 //      clear_input();
+
+      clear_input();
+      printf(COLOR_GREEN "INT_TO_DEC:\n" COLOR_END);
+      run_eq_test(10);
+      clear_input();
 
     printf("\n");
   }
