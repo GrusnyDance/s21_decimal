@@ -7,8 +7,9 @@
 
 
 enum {
-    OK,
-    BIG_VALUE,
+    OK = 0,
+    CONVERTION_ERROR = 1,
+    BIG_VALUE = 1,
     SMALL_VALUE,
     DIV_ZERO
 };

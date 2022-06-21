@@ -10,6 +10,10 @@ s21_decimal init_zero_decimal() {
 }
 
 s21_decimal init_random_decimal() {
-    s21_decimal new_decimal = {{rand(), rand(), rand(), rand()}};
+
+    s21_decimal new_decimal = {{rand() * ((rand() % 2)? -1 : 1),
+                                rand() * ((rand() % 2)? -1 : 1),
+                                rand() * ((rand() % 2)? -1 : 1),
+                                rand() * ((rand() % 2)? -1 : 1)}};
     return new_decimal;
 }
