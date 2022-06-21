@@ -2,8 +2,8 @@
 // Created by Nana Daughterless on 6/3/22.
 //
 
-#ifndef S21_DECIMAL_S21_DECIMAL_H
-#define S21_DECIMAL_S21_DECIMAL_H
+#ifndef SRC_S21_DECIMAL_H_
+#define SRC_S21_DECIMAL_H_
 
 #include "another/decimal_another.h"
 #include "arithmetic/decimal_arithmetic.h"
@@ -11,4 +11,4 @@
 #include "convertion/decimal.h"
 #include "core/decimal_core.h"
 
-#endif  // S21_DECIMAL_S21_DECIMAL_H
+#endif  // SRC_S21_DECIMAL_H_

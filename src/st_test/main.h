@@ -2,9 +2,8 @@
 // Created by Nana Daughterless on 6/18/22.
 //
 
-#ifndef S21_DECIMAL_MAIN_H
-#define S21_DECIMAL_MAIN_H
-
+#ifndef SRC_ST_TEST_MAIN_H_
+#define SRC_ST_TEST_MAIN_H_
 
 #define PYTHON "python3"
 #define TRUNCATE_PATH " py_test/print_truncate_testcase.py"
@@ -22,15 +21,16 @@
 #define REDIRECT " >> "
 #define REDIRECT_FILE "input"
 
-#include "../s21_decimal.h"
-
+#include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <stdio.h>
+
+#include "../s21_decimal.h"
 
 #define EPS 1e-7
 
 static long long cur_testcase = 0;
+
 static char ** numbers;
 static char ** results;
 static char ** results2;
@@ -60,4 +60,4 @@ void run_int_to_dec_test(int count);
 // compracion
 void run_eq_test(int count);
 
-#endif //S21_DECIMAL_MAIN_H
+#endif  // SRC_ST_TEST_MAIN_H_

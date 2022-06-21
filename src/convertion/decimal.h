@@ -1,10 +1,9 @@
-#ifndef DECIMAL_H_
-#define DECIMAL_H_
+#ifndef SRC_CONVERTION_DECIMAL_H_
+#define SRC_CONVERTION_DECIMAL_H_
 
 #include <math.h>
 
 #include "../core/decimal_core.h"
-
 
 // typedef struct
 // {
@@ -19,4 +18,4 @@ void change_endian(s21_decimal *my_struct);
 void set_sign2(s21_decimal *my_struct);
 void set_null(s21_decimal *my_struct);
 
-#endif
+#endif  // SRC_CONVERTION_DECIMAL_H_
