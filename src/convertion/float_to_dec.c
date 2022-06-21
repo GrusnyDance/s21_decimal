@@ -137,7 +137,7 @@ int s21_from_float_to_decimal(float src, s21_decimal *dst) {
     int ten_pow = get_ten_pow(reserve);
 
     return_code = add_int_part(&temp, &ten_pow, reserve);
-    for (int i = 0; i < 4; i++) {
+    // for (int i = 0; i < 4; i++) {
       //   for (int j = 31; j >= 0; j--) {
       //     if (temp.bits[i] & (1 << j))
       //       printf("1");
@@ -147,6 +147,7 @@ int s21_from_float_to_decimal(float src, s21_decimal *dst) {
       //   printf(" ");
       // }
       // printf("\n");
+  // }
       if (!return_code) {
         if (ten_pow != 0) add_frac_part(&temp, ten_pow, reserve);
         for (int i = 0; i < 4; i++) dst->bits[i] = temp.bits[i];
@@ -154,6 +155,5 @@ int s21_from_float_to_decimal(float src, s21_decimal *dst) {
         dst->bits[3] |= ten_pow << 16;
       }
     }
-  }
   return return_code;
 }
