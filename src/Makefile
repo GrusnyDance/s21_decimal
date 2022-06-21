@@ -72,10 +72,6 @@ gcov_report: test
 	lcov/bin/./lcov -c -d $(OBJ_GCOV_DIR)/. -o $(OBJ_GCOV_DIR)/coverage.info
 	lcov/bin/./genhtml $(OBJ_GCOV_DIR)/coverage.info --output-directory out
 
-gcov_report: test
-	lcov/bin/./lcov -c -d $(OBJ_GCOV_DIR)/. -o $(OBJ_GCOV_DIR)/coverage.info
-	lcov/bin/./genhtml $(OBJ_GCOV_DIR)/coverage.info --output-directory out
-
 $(OBJ_DIR)/%.o: %.c $(HEADER)
 	@$(CC) $(CFLAGS) -c $< -o $(subst /,_,$@) $(LIN_FLAGS)
 	@mv *.o $(OBJ_DIR)/
