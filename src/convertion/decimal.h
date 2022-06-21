@@ -4,6 +4,7 @@
 #include <math.h>
 
 #include "../core/decimal_core.h"
+#include "../arithmetic/decimal_arithmetic.h"
 
 // typedef struct
 // {
