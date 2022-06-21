@@ -41,7 +41,7 @@ int main() {
   mpz_init(num2);
 
   ptr = fopen("log.txt", "a");
-  for (int i = 0; i < 100000; i++) {
+  for (int i = 0; i < 1000; i++) {
     generate_it(num1_helper, num1, num2_helper, num2, rstate);
   }
   fclose(ptr);
@@ -231,13 +231,14 @@ void convert_decimal_to_mpz(int *bits, mpz_t s21_rop) {
   // printf("\nten_pow is %d\n", ten_pow);
   mpz_import(s21_rop, 3, 1, 4, -1, 0, reserve);
   if (sign) mpz_mul_si(s21_rop, s21_rop, -1);
-  // if (ten_pow > 0) {
-  //   mpz_ui_pow_ui(divide_by_10, 10, ten_pow);
-  //   mpz_cdiv_q(s21_rop, s21_rop, divide_by_10);
-  // }
+  if (ten_pow > 0) {
+    mpz_ui_pow_ui(divide_by_10, 10, ten_pow);
+    mpz_cdiv_q(s21_rop, s21_rop, divide_by_10);
+  }
   // gmp_printf("\ns21 res is %Zd\n", s21_rop);
   // printf("s21 bin res is\n");
   // print_bits(s21_rop);
+  mpz_clear(divide_by_10);
 }
 
 void compare(mpz_t rop, mpz_t s21_rop, mpz_t num1, mpz_t num2) {

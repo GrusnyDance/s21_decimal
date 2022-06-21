@@ -1,4 +1,4 @@
-CC = gcc #-g -fsanitize=address
+CC = gcc -g #-fsanitize=address
 
 SOURCES:= ../../core/bit.c \
 	../../core/sign.c \
@@ -37,42 +37,42 @@ PHONY: all
 
 test_int_add: $(SOURCES) $(OBJECTS) addition_test.c
 	@$(CC) $(OBJECTS) addition_test.c -o $@ -lgmp -lm
-	./test_int_add
+	valgrind --leak-check=full --show-leak-kinds=all ./test_int_add
 	@rm -rf test_int_add
 
 test_int_sub: $(SOURCES) $(OBJECTS) subtraction_test.c
 	@$(CC) $(OBJECTS) subtraction_test.c -o $@ -lgmp -lm
-	./test_int_sub
+	valgrind --leak-check=full --show-leak-kinds=all ./test_int_sub
 	@rm -rf test_int_sub
 
 test_int_mul: $(SOURCES) $(OBJECTS) multiplication_test.c
 	@$(CC) $(OBJECTS) multiplication_test.c -o $@ -lgmp -lm
-	./test_int_mul
+	valgrind --leak-check=full --show-leak-kinds=all ./test_int_mul
 	@rm -rf test_int_mul
 
 test_int_div: $(SOURCES) $(OBJECTS) division_test.c
 	@$(CC) $(OBJECTS) division_test.c -o $@ -lgmp -lm
-	./test_int_div
+	valgrind --leak-check=full --show-leak-kinds=all ./test_int_div
 	@rm -rf test_int_div
 
 test_float_add: $(SOURCES) $(OBJECTS) float_addition_test.c
 	@$(CC) $(OBJECTS) float_addition_test.c -o $@ -lgmp -lm
-	./test_float_add
+	valgrind --leak-check=full --show-leak-kinds=all ./test_float_add
 	@rm -rf test_float_add
 
 test_float_sub: $(SOURCES) $(OBJECTS) float_subtraction_test.c
 	@$(CC) $(OBJECTS) float_subtraction_test.c -o $@ -lgmp -lm
-	./test_float_sub
+	valgrind --leak-check=full --show-leak-kinds=all ./test_float_sub
 	@rm -rf test_float_sub
 
 test_float_mul: $(SOURCES) $(OBJECTS) float_multiplication_test.c
 	@$(CC) $(OBJECTS) float_multiplication_test.c -o $@ -lgmp -lm
-	./test_float_mul
+	valgrind --leak-check=full --show-leak-kinds=all ./test_float_mul
 	@rm -rf test_float_mul
 
 test_float_div: $(SOURCES) $(OBJECTS) float_division_test.c
 	@$(CC) $(OBJECTS) float_division_test.c -o $@ -lgmp -lm
-	./test_float_div
+	valgrind --leak-check=full --show-leak-kinds=all ./test_float_div
 	@rm -rf test_float_div
 
 %.o: %.c
