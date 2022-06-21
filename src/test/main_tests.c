@@ -361,6 +361,7 @@ int main(void) {
   tcase_add_test(tc1_1, trunc_t);
   tcase_add_test(tc1_1, neg);
 
+  srunner_set_fork_status(sr, CK_NOFORK);
   srunner_run_all(sr, CK_ENV);
   nf = srunner_ntests_failed(sr);
   srunner_free(sr);

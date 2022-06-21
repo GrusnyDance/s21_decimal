@@ -125,11 +125,11 @@ void check_ret_value(int ret_value, mpz_t num1, mpz_t num2, mpz_t rop) {
       create_neg_infinity(neg_infinity);
       if (mpz_cmp(neg_infinity, rop) > 0) {
         printf("\033[32mCHECK PASSED\033[0m\n");
-      } 
+      }
     } else {
       printf("\033[31mCHECK NOT PASSED\033[0m\n");
     }
-  } else if (ret_value == 1){
+  } else if (ret_value == 1) {
     mpz_tdiv_q(rop, num1, num2);
     gmp_printf("mpz result is %Zd\n", rop);
     create_infinity(pos_infinity);
@@ -191,6 +191,7 @@ void convert_decimal_to_mpz(int *bits, mpz_t s21_rop) {
   gmp_printf("\ns21 res is %Zd\n", s21_rop);
   printf("s21 bin res is\n");
   print_bits(s21_rop);
+  mpz_clear(divide_by_10);
 }
 
 void compare(mpz_t rop, mpz_t s21_rop) {

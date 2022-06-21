@@ -40,16 +40,17 @@ int main() {
   mpz_init(num2);
 
   ptr = fopen("log.txt", "a");
-  for (int i = 0; i < 1000; i++) {
+  for (int i = 0; i < 10; i++) {
     generate_it(num1_helper, num1, num2_helper, num2, rstate);
   }
   gmp_randclear(rstate);
+  fclose(ptr);
   clear_it(num1, num2, num1_helper, num2_helper);
   printf("\033[32mSUCCESS\033[0m %d / \033[31mFAIL\033[0m %d\n", success_count,
          fail_count);
   printf("\033[32mSUCCESS\033[0m %d%% / \033[31mFAIL\033[0m %d%%\n",
-         (int)((float)success_count / (float)1000 * (float)100),
-         (int)((float)fail_count / (float)1000 * (float)100));
+         (int)((float)success_count / (float)10 * (float)100),
+         (int)((float)fail_count / (float)10 * (float)100));
   return 0;
 }
 
@@ -238,6 +239,7 @@ void convert_decimal_to_mpz(int *bits, mpz_t s21_rop) {
   // gmp_printf("\ns21 res is %Zd\n", s21_rop);
   // printf("s21 bin res is\n");
   // print_bits(s21_rop);
+  mpz_clear(divide_by_10);
 }
 
 void compare(mpz_t rop, mpz_t s21_rop, mpz_t num1, mpz_t num2) {

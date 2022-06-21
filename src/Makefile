@@ -1,7 +1,15 @@
 CC = gcc
 
-CFLAGS = -lm
-CFLAGS += -Wall -Wextra -Werror -g -fsanitize=address
+#  УБРАТЬ САНИТАЙЗ ПЕРЕД СДАЧЕЙ
+
+CFLAGS = -Wall -Wextra -Werror -g -fsanitize=address
+GCOVFLAGS := -fprofile-arcs -ftest-coverage
+LDFLAGS := -fprofile-arcs --coverage
+LCHECK = -lcheck -lgmp
+LIN_FLAGS := -lpthread -pthread -lrt -lm -lsubunit
+ifeq ($(shell uname), Linux)
+LCHECK += $(LIN_FLAGS)
+endif
 
 SOURCES:= core/bit.c \
 	core/sign.c \
@@ -32,25 +40,32 @@ SOURCES:= core/bit.c \
 	arithmetic/div.c \
 	arithmetic/fmod.c \
 
-BUILD_DIR := ./build
-OBJECTS:= $(SOURCES:%=$(BUILD_DIR)/%.o)
+OBJ_DIR := ./obj
+OBJ_GCOV_DIR := ./obj_gcov
+OBJECTS := $(addprefix obj/,$(SOURCES:.c=.o))
+OBJECTS_GCOV := $(addprefix obj_gcov/,$(SOURCES:.c=.o))
+HEADER = s21_decimal.h
 
 TARGET_EXEC := s21_decimal.a
 
-RM:= rm -rf
+RM := rm -rf
 
-.PHONY: all
+.PHONY: all clean rebuild test
+
 all: $(TARGET_EXEC)
 
-$(TARGET_EXEC): $(OBJECTS)
-	ar rcs $@ $^
+$(TARGET_EXEC): create_dir $(OBJECTS)
+	ar rcs $@ $(OBJ_DIR)/*.o
 
-$(BUILD_DIR)/%.c.o: %.c
-	mkdir -p $(dir $@)
-	$(CC) $(CPPFLAGS) $(CFLAGS) -c $< -o $@
+create_dir:
+	mkdir -p $(OBJ_DIR)
 
+$(OBJ_DIR)/%.o: %.c $(HEADER)
+	@$(CC) $(CFLAGS) -c $< -o $(subst /,_,$@)
+	@mv *.o $(OBJ_DIR)/
 
-.PHONY: clean
 clean:
-	$(RM) $(BUILD_DIR)
-	rm -f $(TARGET_EXEC)
+	$(RM) $(OBJ_DIR)
+	$(RM) $(TARGET_EXEC)
+	$(RM) *.o
+	

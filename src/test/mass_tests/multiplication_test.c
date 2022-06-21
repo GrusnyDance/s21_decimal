@@ -233,6 +233,7 @@ void convert_decimal_to_mpz(int *bits, mpz_t s21_rop) {
   // gmp_printf("\ns21 res is %Zd\n", s21_rop);
   // printf("s21 bin res is\n");
   // print_bits(s21_rop);
+  mpz_clear(divide_by_10);
 }
 
 void compare(mpz_t rop, mpz_t s21_rop, mpz_t num1, mpz_t num2) {
