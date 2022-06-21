@@ -63,13 +63,14 @@ create_dir:
 	mkdir -p $(OBJ_DIR) $(OBJ_GCOV_DIR)
 
 test: main_tests.c $(HEADER) lib_gcov.a
-	$(CC) $(CFLAGS) $^ -o $(OBJ_GCOV_DIR)/$@ $(LCHECK) $(LDFLAGS) $(GCOV_FLAGS)
-	$(OBJ_GCOV_DIR)/./test
-	@mv *gcda $(OBJ_GCOV_DIR)/
+	$(CC) $(CFLAGS) $^ -o test_test $(LCHECK) $(LDFLAGS) $(GCOV_FLAGS)
+	./test_test
+	@mv *gcda *gcno $(OBJ_GCOV_DIR)/
 
 gcov_report: test
-	lcov/bin/./lcov -c -d $(OBJ_GCOV_DIR)/. -o $(OBJ_GCOV_DIR)/coverage.info
-	lcov/bin/./genhtml $(OBJ_GCOV_DIR)/coverage.info --output-directory out
+	@rm -f $(OBJ_GCOV_DIR)/*tests*
+	@lcov/bin/./lcov -c -d $(OBJ_GCOV_DIR)/. -o $(OBJ_GCOV_DIR)/coverage.info
+	@lcov/bin/./genhtml $(OBJ_GCOV_DIR)/coverage.info --output-directory out
 
 $(OBJ_DIR)/%.o: %.c $(HEADER)
 	@$(CC) $(CFLAGS) -c $< -o $(subst /,_,$@) $(LIN_FLAGS)
@@ -82,8 +83,7 @@ $(OBJ_GCOV_DIR)/%.o: %.c $(HEADER)
 clean:
 	$(RM) $(OBJ_DIR) $(OBJ_GCOV_DIR)
 	$(RM) $(TARGET_EXEC) lib_gcov.a
-	$(RM) *.o *gc* s21_test
-	$(RM) out
+	$(RM) *.o *gc* test_test out
 
 lint:
 	cp ../materials/linters/CPPLINT.cfg ./
@@ -96,5 +96,5 @@ lint:
 
 rebuild: clean all
 
-.PHONY: all clean rebuild test lint create_dir
+.PHONY: all clean rebuild test lint create_dir gcov_report
 	

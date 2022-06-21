@@ -15,7 +15,6 @@ int s21_from_decimal_to_int(s21_decimal src, int *dst);
 int s21_from_float_to_decimal(float src, s21_decimal *dst);
 int s21_from_int_to_decimal(int src, s21_decimal *dst);
 void change_endian(s21_decimal *my_struct);
-void set_sign2(s21_decimal *my_struct);
 void set_null(s21_decimal *my_struct);
 
 #endif  // SRC_CONVERTION_DECIMAL_H_
