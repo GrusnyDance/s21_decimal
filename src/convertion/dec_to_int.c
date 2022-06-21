@@ -12,10 +12,11 @@ int s21_from_decimal_to_int(s21_decimal src, int *dst) {
     return_code = CONVERTION_ERROR;
   } else {
     s21_truncate(src, &src);
-    if (src.bits[3] < 0)
+    if (get_sign(src) == NEGATIVE)
       *dst = 0 - src.bits[0];
     else
       *dst = src.bits[0];
+    if (*dst) *dst = set_bit(*dst, 31, get_sign(src));
   }
   return return_code;
 }

@@ -5,7 +5,8 @@ from sys import argv
 def print_dec_to_int_testcase():
     a = MyDecimal()
     a.print()
-    print(int(a.decimal) % 2**31)
+    g = abs(int(a.decimal))
+    print(f'{"-" if a.decimal < 0 else ""}{g % 2**31}')
 
 
 if __name__ == '__main__':
