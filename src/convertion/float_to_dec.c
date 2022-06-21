@@ -38,7 +38,7 @@ int s21_from_float_to_decimal(float src, s21_decimal *dst) {
     for (int j = new_exp - 1, k = 22; k >= 0; j--, k--) {
       if (final_num & (1 << k)) dst->bits[j / 32] |= (1 << (j % 32));
     }
-    if (sign) set_sign2(dst);
+    if (sign) dst->bits[3] |= 1 << 31;
     dst->bits[3] |= ten_pow << 16;
   } else {
     return_code = CONVERTION_ERROR;
