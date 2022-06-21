@@ -15,6 +15,7 @@
 #define DEC_TO_FLOAT_PATH " py_test/print_dec_to_float_testcase.py"
 #define DEC_TO_INT_PATH " py_test/print_dec_to_int_testcase.py"
 #define FLOAT_TO_DEC_PATH " py_test/print_float_to_dec_testcase.py"
+#define INT_TO_DEC_PATH " py_test/print_int_to_dec_testcase.py"
 
 #define REDIRECT " >> "
 #define REDIRECT_FILE "input"
@@ -49,5 +50,6 @@ void run_negate_test(int count);
 void run_dec_to_float_test(int count);
 void run_dec_to_int_test(int count);
 void run_float_to_dec_test(int count);
+void run_int_to_dec_test(int count);
 
 #endif //S21_DECIMAL_MAIN_H
