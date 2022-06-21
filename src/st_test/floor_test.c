@@ -31,7 +31,7 @@ void run_floor_test(int count) {
             d_print_decimal(s21_decimal_res);
             printf("%s%s%s\n", COLOR_CYAN, "NEEDED RESULT", COLOR_END);
             d_print_decimal(decimal_res);
-            scanf("*c");
+            scanf("*c"); rewind(stdin);
         } else {
             printf("%d - OK\n", count);
         }
