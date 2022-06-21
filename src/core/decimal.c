@@ -2,6 +2,8 @@
 // Created by Nana Daughterless on 6/5/22.
 //
 
+#include <time.h>
+
 #include "decimal_core.h"
 
 s21_decimal init_zero_decimal() {
@@ -10,6 +12,7 @@ s21_decimal init_zero_decimal() {
 }
 
 s21_decimal init_random_decimal() {
+  srand(time(NULL));
   s21_decimal new_decimal = {
       {rand() * ((rand() % 2) ? -1 : 1), rand() * ((rand() % 2) ? -1 : 1),
        rand() * ((rand() % 2) ? -1 : 1), rand() * ((rand() % 2) ? -1 : 1)}};

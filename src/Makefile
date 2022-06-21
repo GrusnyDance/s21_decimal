@@ -91,7 +91,7 @@ lint:
 	python3 ../materials/linters/cpplint.py --extensions=c \
 	./core/*.h ./core/*.c ./another/*.h ./another/*.c \
 	./comparison/*.h ./comparison/*.c ./convertion/*.h ./convertion/*.c \
-	./arithmetic/*.h ./arithmetic/*.c ./test/*.h ./test/*.c \
+	./arithmetic/*.h ./arithmetic/*.c ./test/*.h ./test/*.c
 	$(RM) CPPLINT.cfg
 
 rebuild: clean all
