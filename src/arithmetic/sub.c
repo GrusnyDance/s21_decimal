@@ -13,9 +13,8 @@ int very_stupid_sub(s21_decimal value_1, s21_decimal value_2,
     int b = get_gbit(value_2, i);
     if (b && !a) {
       int j;
-      for (j = i + 1; !get_gbit(value_1, j) && j < ALL_BIT;) {
-        j++;
-      }
+      for (j = i + 1; !get_gbit(value_1, j) && j < ALL_BIT;) j++;
+
       *p_get_bits(&value_1, j) = set_bit(get_bits(value_1, j), j, 0);
       for (j--; j != i; j--) {
         *p_get_bits(&value_1, j) = set_bit(get_bits(value_1, j), j, 1);
