@@ -43,13 +43,11 @@ int s21_sub(s21_decimal value_1, s21_decimal value_2, s21_decimal *result) {
     status = s21_sub(value_2, value_1, result);
   } else if (sign_1) {
     set_sign(&value_1, !sign_1);
-    status = very_stupid_add(value_1, value_2, result, get_exponent(value_1),
-                             get_exponent(value_2));
+    status = very_stupid_add(value_1, value_2, result);
     set_sign(result, NEGATIVE);
   } else if (sign_2) {
     set_sign(&value_2, !sign_2);
-    status = very_stupid_add(value_1, value_2, result, get_exponent(value_1),
-                             get_exponent(value_2));
+    status = very_stupid_add(value_1, value_2, result);
   } else if (s21_is_less(value_1, value_2)) {
     status = very_stupid_sub(value_2, value_1, result);
     set_sign(result, NEGATIVE);

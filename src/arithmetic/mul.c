@@ -13,7 +13,7 @@ int stupid_mul(s21_decimal value_1, s21_decimal value_2, s21_decimal *result) {
 
   while (!is_zero(value_2) && !status) {
     if (get_gbit(value_2, 0)) {
-      status = very_stupid_add(tmp, value_1, &tmp, 0, 0);
+      status = very_stupid_add(tmp, value_1, &tmp);
     }
     if (get_gbit(value_1, ALL_BIT - 1)) status = 1;
     right_shift(&value_2);
