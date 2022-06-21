@@ -2,8 +2,8 @@
 // Created by Nana Daughterless on 6/13/22.
 //
 
-#ifndef S21_DECIMAL_COLOR_H
-#define S21_DECIMAL_COLOR_H
+#ifndef SRC_MYLIB_COLOR_H_
+#define SRC_MYLIB_COLOR_H_
 
 #define COLOR_HEADER "\033[95m"
 #define COLOR_BLUE "\033[94m"
@@ -15,4 +15,4 @@
 #define COLOR_BOLD "\033[1m"
 #define COLOR_UNDERLINE "\033[4m"
 
-#endif //S21_DECIMAL_COLOR_H
+#endif  // SRC_MYLIB_COLOR_H_

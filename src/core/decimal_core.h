@@ -2,15 +2,15 @@
 // Created by Nana Daughterless on 6/3/22.
 //
 
-#ifndef S21_DECIMAL_DECIMAL_CORE_H
-#define S21_DECIMAL_DECIMAL_CORE_H
+#ifndef SRC_CORE_DECIMAL_CORE_H_
+#define SRC_CORE_DECIMAL_CORE_H_
 
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 
-#include "../MyLib/style.h"
 #include "../MyLib/color.h"
+#include "../MyLib/style.h"
 #include "constants.h"
 
 #define _2(bit) (1 << bit)
@@ -49,4 +49,4 @@ int right_shift(s21_decimal *a);
 
 s21_decimal init_zero_decimal();
 s21_decimal init_random_decimal();
-#endif  // S21_DECIMAL_DECIMAL_CORE_H
+#endif  // SRC_CORE_DECIMAL_CORE_H_

@@ -2,17 +2,10 @@
 // Created by Nana Daughterless on 6/3/22.
 //
 
-#ifndef S21_DECIMAL_CONSTANTS_H
-#define S21_DECIMAL_CONSTANTS_H
+#ifndef SRC_CORE_CONSTANTS_H_
+#define SRC_CORE_CONSTANTS_H_
 
-
-enum {
-    OK = 0,
-    CONVERTION_ERROR = 1,
-    BIG_VALUE = 1,
-    SMALL_VALUE,
-    DIV_ZERO
-};
+enum { OK = 0, CONVERTION_ERROR = 1, BIG_VALUE = 1, SMALL_VALUE, DIV_ZERO };
 
 #define BITS_IN_INT 32
 #define BITS_COUNT 3
@@ -25,4 +18,4 @@ enum {
 
 #define MAX_EXPONENT 28
 
-#endif //S21_DECIMAL_CONSTANTS_H
+#endif  // SRC_CORE_CONSTANTS_H_

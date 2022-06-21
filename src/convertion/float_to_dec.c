@@ -20,7 +20,7 @@ int s21_from_float_to_decimal(float src, s21_decimal *dst) {
   int exp = (conv.res >> 23) - 127;
 
   if (exp > -95 && exp <= 95) {
-    double reserve = (double)src;
+    double reserve = fabs(src);
     int ten_pow = 0;
     for (int i = 0; ten_pow < 28 && reserve < (int)pow(2, 21); i++, ten_pow++) {
       reserve *= 10;

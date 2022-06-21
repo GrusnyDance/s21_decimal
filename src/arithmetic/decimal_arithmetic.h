@@ -2,8 +2,8 @@
 // Created by Nana Daughterless on 6/3/22.
 //
 
-#ifndef S21_DECIMAL_DECIMAL_ARITHMETIC_H
-#define S21_DECIMAL_DECIMAL_ARITHMETIC_H
+#ifndef SRC_ARITHMETIC_DECIMAL_ARITHMETIC_H_
+#define SRC_ARITHMETIC_DECIMAL_ARITHMETIC_H_
 
 #include "../another/decimal_another.h"
 #include "../comparison/decimal_comparison.h"
@@ -26,4 +26,4 @@ int int_div(s21_decimal value_1, s21_decimal value_2, s21_decimal *result);
 int s21_mod(s21_decimal value_1, s21_decimal value_2, s21_decimal *result);
 int stupid_mod(s21_decimal value_1, s21_decimal value_2, s21_decimal *result);
 
-#endif  // S21_DECIMAL_DECIMAL_ARITHMETIC_H
+#endif  // SRC_ARITHMETIC_DECIMAL_ARITHMETIC_H_
