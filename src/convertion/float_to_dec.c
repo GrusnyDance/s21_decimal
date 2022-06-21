@@ -49,16 +49,33 @@ int add_int_part(s21_decimal *temp, int *ten_pow, double num) {
     int_num /= 10;
     frac = fmod(int_num, 10.0);
   }
+  // for (int i = 0; i < 4; i++) {
+  //   for (int j = 31; j >= 0; j--) {
+  //     if (res.bits[i] & (1 << j))
+  //       printf("1");
+  //     else
+  //       printf("0");
+  //   }
+  //   printf(" ");
+  // }
+  // printf("\n");
   while (ret_val != 0) {
-    s21_from_int_to_decimal(10, &first_num);
-    for (int j = 0; j < ((*ten_pow) - 1); j++) {
-      s21_mul(first_num, ten_dec, &first_num);
+    if ((*ten_pow) != 0) {
+      s21_from_int_to_decimal(10, &first_num);
+      for (int j = 0; j < ((*ten_pow) - 1); j++) {
+        s21_mul(first_num, ten_dec, &first_num);
+      }
+      ret_val = s21_mul(res, first_num, &second_num);
+      for (int i = 0; i < 4; i++) {
+        temp->bits[i] = second_num.bits[i];
+      }
+      if (ret_val != 0) (*ten_pow)--;
+    } else {
+      for (int i = 0; i < 4; i++) {
+        temp->bits[i] = res.bits[i];
+      }
+      break;
     }
-    ret_val = s21_mul(res, first_num, &second_num);
-    if (ret_val != 0) (*ten_pow)--;
-  }
-  for (int i = 0; i < 4; i++) {
-    temp->bits[i] = second_num.bits[i];
   }
   return stop_flag;
 }
@@ -118,14 +135,24 @@ int s21_from_float_to_decimal(float src, s21_decimal *dst) {
   if (exp > -95 && exp <= 95) {
     double reserve = fabs(src);
     int ten_pow = get_ten_pow(reserve);
+
     return_code = add_int_part(&temp, &ten_pow, reserve);
-    if (!return_code) {
-      add_frac_part(&temp, ten_pow, reserve);
-      printf("i received frac part\n");
-      for (int i = 0; i < 4; i++) dst->bits[i] = temp.bits[i];
-      if (sign) dst->bits[3] |= 1 << 31;
-      dst->bits[3] |= ten_pow << 16;
+    for (int i = 0; i < 4; i++) {
+      //   for (int j = 31; j >= 0; j--) {
+      //     if (temp.bits[i] & (1 << j))
+      //       printf("1");
+      //     else
+      //       printf("0");
+      //   }
+      //   printf(" ");
+      // }
+      // printf("\n");
+      if (!return_code) {
+        if (ten_pow != 0) add_frac_part(&temp, ten_pow, reserve);
+        for (int i = 0; i < 4; i++) dst->bits[i] = temp.bits[i];
+        if (sign) dst->bits[3] |= 1 << 31;
+        dst->bits[3] |= ten_pow << 16;
+      }
     }
+    return return_code;
   }
-  return return_code;
-}
