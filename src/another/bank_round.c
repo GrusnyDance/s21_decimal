@@ -24,5 +24,5 @@ int bank_round(s21_decimal *number, int n) {
     }
   }
 
-  return 0;
+  return OK;
 }
