@@ -356,7 +356,7 @@ START_TEST(add_test_more_coverage) {
 END_TEST
 
 START_TEST(sub_test_more_coverage) {
-  s21_decimal a = {{1, 0, 0, 0}}, b = {{1, 0, 0, 0}}, c = {{0, 0, 0, 0}},
+  s21_decimal a = {{1, 0, 0, 0}}, b = {{1, 0, 0, 0}}, c = init_random_decimal(),
               d = {{2, 0, 0, 0}};
   set_sign(&a, 1);
   set_sign(&d, 1);
@@ -390,6 +390,19 @@ START_TEST(dec_to_int) {
 }
 END_TEST
 
+START_TEST(div_test_more_coverage) {
+  s21_decimal a = {{1, 0, 0, 0}}, b = {{1, 0, 0, 0}}, c,
+              d = {{100000, 0, 0, 0}};
+  set_exponent(&a, 0);
+  set_exponent(&b, 5);
+  s21_div(a, b, &c);
+  ck_assert_int_eq(c.bits[0], d.bits[0]);
+  ck_assert_int_eq(c.bits[1], d.bits[1]);
+  ck_assert_int_eq(c.bits[2], d.bits[2]);
+  ck_assert_int_eq(c.bits[3], d.bits[3]);
+}
+END_TEST
+
 int main(void) {
   Suite *s1 = suite_create("Core");
   TCase *tc1_1 = tcase_create("Core");
@@ -420,6 +433,7 @@ int main(void) {
   tcase_add_test(tc1_1, sub_test_more_coverage);
   tcase_add_test(tc1_1, int_to_dec);
   tcase_add_test(tc1_1, dec_to_int);
+  tcase_add_test(tc1_1, div_test_more_coverage);
 
   srunner_set_fork_status(sr, CK_NOFORK);
   srunner_run_all(sr, CK_ENV);
