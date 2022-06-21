@@ -12,8 +12,8 @@
 void clear_it(mpz_t num1, mpz_t num2, mpz_t num1_helper, mpz_t num2_helper);
 void generate_it(mpz_t num1_helper, mpz_t num1, mpz_t num2_helper, mpz_t num2,
                  gmp_randstate_t rstate);
-void check_multiplication(mpz_t num1, int sign1, mpz_t num2, int sign2, int *result1,
-                    int *result2);
+void check_multiplication(mpz_t num1, int sign1, mpz_t num2, int sign2,
+                          int *result1, int *result2);
 void check_ret_value(int ret_value, mpz_t num1, mpz_t num2, mpz_t rop);
 void create_infinity(mpz_t infinity);
 void create_neg_infinity(mpz_t neg_infinity);
@@ -76,8 +76,8 @@ void generate_it(mpz_t num1_helper, mpz_t num1, mpz_t num2_helper, mpz_t num2,
   check_multiplication(num1, sign1, num2, sign2, result1, result2);
 }
 
-void check_multiplication(mpz_t num1, int sign1, mpz_t num2, int sign2, int *result1,
-                    int *result2) {
+void check_multiplication(mpz_t num1, int sign1, mpz_t num2, int sign2,
+                          int *result1, int *result2) {
   mpz_t rop;
   mpz_t s21_rop;
   mpz_init(rop);
@@ -128,7 +128,7 @@ void check_ret_value(int ret_value, mpz_t num1, mpz_t num2, mpz_t rop) {
     } else {
       printf("\033[31mCHECK NOT PASSED\033[0m\n");
     }
-  } else if (ret_value == 1){
+  } else if (ret_value == 1) {
     printf("positive infinity\n");
     mpz_mul(rop, num1, num2);
     gmp_printf("mpz result is %Zd\n", rop);
@@ -184,13 +184,14 @@ void convert_decimal_to_mpz(int *bits, mpz_t s21_rop) {
   printf("\nten_pow is %d\n", ten_pow);
   mpz_import(s21_rop, 3, 1, 4, -1, 0, reserve);
   if (sign) mpz_mul_si(s21_rop, s21_rop, -1);
-  // if (ten_pow > 0) {
-  //   mpz_ui_pow_ui(divide_by_10, 10, ten_pow);
-  //   mpz_cdiv_q(s21_rop, s21_rop, divide_by_10);
-  // }
+  if (ten_pow > 0) {
+    mpz_ui_pow_ui(divide_by_10, 10, ten_pow);
+    mpz_cdiv_q(s21_rop, s21_rop, divide_by_10);
+  }
   gmp_printf("\ns21 res is %Zd\n", s21_rop);
   printf("s21 bin res is\n");
   print_bits(s21_rop);
+  mpz_clear(divide_by_10);
 }
 
 void compare(mpz_t rop, mpz_t s21_rop) {

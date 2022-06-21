@@ -1,4 +1,4 @@
-CC = gcc #-g -fsanitize=address
+CC = gcc -g #-fsanitize=address
 
 SOURCES:= ../core/bit.c \
 	../core/sign.c \
@@ -36,8 +36,7 @@ RM:= rm -rf
 PHONY: all
 
 main: $(SOURCES) $(OBJECTS) main_tests.c
-	@$(CC) $(OBJECTS) main_tests.c -o $@ -lgmp -lcheck
-	# -lm  -lpthread -lrt -lsubunit
+	@$(CC) $(OBJECTS) main_tests.c -o $@ -lgmp -lcheck -lm  -lpthread -lrt -lsubunit
 	./main
 	@rm -rf main
 
