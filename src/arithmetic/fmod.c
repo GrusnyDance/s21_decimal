@@ -2,8 +2,8 @@
 
 s21_decimal fmod_core(s21_decimal value_1, s21_decimal value_2) {
   s21_decimal divcopy = value_2;
-  s21_decimal res = {0, 0, 0, 0};
-  s21_decimal temp = {0, 0, 0, 0};
+  s21_decimal res;
+  s21_decimal temp = {{0, 0, 0, 0}};
   // print_decimal(*divided);
   if (stupid_equal(value_1, value_2))
     return temp;
