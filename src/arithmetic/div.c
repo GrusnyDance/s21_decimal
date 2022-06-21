@@ -6,7 +6,7 @@ s21_decimal div_core(s21_decimal value_1, s21_decimal value_2,
                      s21_decimal *result, int *status) {
   s21_decimal divcopy = value_2;
   s21_decimal temp = init_zero_decimal();
-  s21_decimal temp2 = {1, 0, 0, 0};
+  s21_decimal temp2 = {{1, 0, 0, 0}};
   if (stupid_equal(value_1, value_2)) {
     return temp2;
   } else if (stupid_less(value_1, value_2)) {
@@ -82,7 +82,7 @@ int s21_div(s21_decimal value_1, s21_decimal value_2, s21_decimal *result) {
     // d_print_decimal(mod_res);
     if (!is_zero(mod_res)) {
       // set_exponent(&value_2, value_exp);
-      s21_decimal div_res = init_zero_decimal(), ten = {10, 0, 0, 0},
+      s21_decimal div_res = init_zero_decimal(), ten = {{10, 0, 0, 0}},
                   tmp = init_zero_decimal();
       int exp = get_exponent(mod_res);
       for (int sub_stat = 0; !sub_stat; tmp = init_zero_decimal()) {
