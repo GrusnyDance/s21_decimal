@@ -3,6 +3,7 @@ project(s21_decimal C)
 project(st_test C)
 
 set(CMAKE_C_STANDARD 11)
+set (CMAKE_C_FLAGS "-g -fsanitize=address")
 
 include_directories(src)
 
@@ -89,6 +90,7 @@ add_executable(st_test
         src/st_test/negate_test.c
         src/st_test/dec_to_float_test.c
         src/st_test/dec_to_int_test.c
+        src/st_test/float_to_dec_test.c
         )
 
 target_link_libraries(s21_decimal m)
