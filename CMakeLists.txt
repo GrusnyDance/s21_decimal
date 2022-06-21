@@ -88,6 +88,7 @@ add_executable(st_test
         src/st_test/round_test.c
         src/st_test/negate_test.c
         src/st_test/dec_to_float_test.c
+        src/st_test/dec_to_int_test.c
         )
 
 target_link_libraries(s21_decimal m)

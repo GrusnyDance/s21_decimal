@@ -71,25 +71,30 @@ int main() {
   clear_input();
 
   for (int i = 0; i < 1000; i++) {
-    printf(COLOR_GREEN "TRUNCATE:\n" COLOR_END);
-    run_truncate_test(10);
-
-    clear_input();
-    printf(COLOR_GREEN "ROUND:\n" COLOR_END);
-    run_round_test(10);
-
-    clear_input();
-    printf(COLOR_GREEN "FLOOR:\n" COLOR_END);
-    run_floor_test(10);
-
-    clear_input();
-    printf(COLOR_GREEN "NEGATE:\n" COLOR_END);
-    run_negate_test(10);
-
-    clear_input();
-    printf(COLOR_GREEN "DEC_TO_FLOAT:\n" COLOR_END);
-    run_dec_to_float_test(10);
-    clear_input();
+//    printf(COLOR_GREEN "TRUNCATE:\n" COLOR_END);
+//    run_truncate_test(10);
+//
+//    clear_input();
+//    printf(COLOR_GREEN "ROUND:\n" COLOR_END);
+//    run_round_test(10);
+//
+//    clear_input();
+//    printf(COLOR_GREEN "FLOOR:\n" COLOR_END);
+//    run_floor_test(10);
+//
+//    clear_input();
+//    printf(COLOR_GREEN "NEGATE:\n" COLOR_END);
+//    run_negate_test(10);
+//
+//    clear_input();
+//    printf(COLOR_GREEN "DEC_TO_FLOAT:\n" COLOR_END);
+//    run_dec_to_float_test(10);
+//    clear_input();
+//
+      clear_input();
+      printf(COLOR_GREEN "DEC_TO_INT:\n" COLOR_END);
+      run_dec_to_int_test(10);
+      clear_input();
 
     printf("\n");
   }
