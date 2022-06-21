@@ -3,7 +3,7 @@ CC = gcc
 #  УБРАТЬ САНИТАЙЗ ПЕРЕД СДАЧЕЙ
 
 CFLAGS = -Wall -Wextra -Werror -g -fsanitize=address
-GCOVFLAGS := -fprofile-arcs -ftest-coverage
+GCOV_FLAGS := -fprofile-arcs -ftest-coverage
 LDFLAGS := -fprofile-arcs --coverage
 LCHECK = -lcheck -lgmp
 LIN_FLAGS := -lpthread -pthread -lrt -lm -lsubunit
@@ -50,22 +50,46 @@ TARGET_EXEC := s21_decimal.a
 
 RM := rm -rf
 
-.PHONY: all clean rebuild test
 
 all: $(TARGET_EXEC)
 
 $(TARGET_EXEC): create_dir $(OBJECTS)
 	ar rcs $@ $(OBJ_DIR)/*.o
 
+lib_gcov.a: create_dir $(OBJECTS_GCOV)
+	ar rcs $@ $(OBJ_GCOV_DIR)/*.o
+
 create_dir:
-	mkdir -p $(OBJ_DIR)
+	mkdir -p $(OBJ_DIR) $(OBJ_GCOV_DIR)
+
+test: main_tests.c $(HEADER) lib_gcov.a
+	$(CC) $(CFLAGS) $^ -o $(OBJ_GCOV_DIR)/$@ $(LCHECK) $(LDFLAGS) $(GCOV_FLAGS)
+	$(OBJ_GCOV_DIR)/./test
+	@mv *gcda $(OBJ_GCOV_DIR)/
 
 $(OBJ_DIR)/%.o: %.c $(HEADER)
-	@$(CC) $(CFLAGS) -c $< -o $(subst /,_,$@)
+	@$(CC) $(CFLAGS) -c $< -o $(subst /,_,$@) $(LIN_FLAGS)
 	@mv *.o $(OBJ_DIR)/
 
+$(OBJ_GCOV_DIR)/%.o: %.c $(HEADER)
+	@$(CC) $(CFLAGS) $(GCOV_FLAGS) -c $< -o $(subst /,_,$@) $(LIN_FLAGS)
+	@mv *.o *gcno $(OBJ_GCOV_DIR)/
+
 clean:
-	$(RM) $(OBJ_DIR)
-	$(RM) $(TARGET_EXEC)
-	$(RM) *.o
+	$(RM) $(OBJ_DIR) $(OBJ_GCOV_DIR)
+	$(RM) $(TARGET_EXEC) lib_gcov.a
+	$(RM) *.o *gc* s21_test
+
+lint:
+	cp ../materials/linters/CPPLINT.cfg ./
+	python3 ../materials/linters/cpplint.py --extensions=c *.h *.c
+	python3 ../materials/linters/cpplint.py --extensions=c \
+	./core/*.h ./core/*.c ./another/*.h ./another/*.c \
+	./comparison/*.h ./comparison/*.c ./convertion/*.h ./convertion/*.c \
+	./arithmetic/*.h ./arithmetic/*.c ./test/*.h ./test/*.c \
+	$(RM) CPPLINT.cfg
+
+rebuild: clean all
+
+.PHONY: all clean rebuild test lint create_dir
 	
