@@ -14,12 +14,16 @@ class MyDecimal:
 
             value = int(''.join(number[1:]), base=2)
             self.decimal = Decimal(sign * value) / Decimal(10 ** self.exponent)
-        elif decimal and exponent is not None:
+        elif decimal:
             self.exponent = exponent
             self.decimal = decimal
         elif value:
-            self.exponent = exponent if exponent else 0
-            self.decimal = Decimal(value)
+            self.exponent = exponent
+            if exponent:
+                self.exponent = exponent
+            else:
+                self.exponent = 0
+            self.decimal = Decimal(value) / Decimal(10 ** self.exponent)
         else:
             sign = (-1 if randrange(0, 2) else 1)
             self.exponent = randrange(0, 29)
@@ -67,6 +71,9 @@ class MyDecimal:
         tmp_int = str(bin(int(self.decimal * 10 ** self.exponent))).split('b')[-1]
         line += '0' * (96 - len(tmp_int)) + tmp_int
         return line
+
+    def get_value(self) -> int:
+        return int(self.decimal * 10 ** self.exponent)
 
     def __add__(self, other):
         if isinstance(other, self.__class__):
