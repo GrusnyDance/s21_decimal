@@ -1,66 +1,77 @@
-#include <stdint.h>
-
 #include "decimal_arithmetic.h"
 
 s21_decimal div_core(s21_decimal value_1, s21_decimal value_2,
                      s21_decimal *result, int *status) {
-  s21_decimal divcopy = value_2;
+  s21_decimal one; s21_from_int_to_decimal(1, &one);
   s21_decimal temp = init_zero_decimal();
-  s21_decimal temp2 = {{1, 0, 0, 0}};
+
   if (stupid_equal(value_1, value_2)) {
-    return temp2;
+    *result = one;
   } else if (stupid_less(value_1, value_2)) {
-    return temp;
+    *result = temp;
+  } else {
+      s21_decimal divcopy = value_2;
+
+      // TODO replace less(a, b) || eq(a, b) -> less_or_eq(a, b)
+      while ((stupid_less(value_2, value_1) || stupid_equal(value_2, value_1)) &&
+             !get_gbit(value_2, ALL_BIT - 1)) {
+          left_shift(&value_2);
+          left_shift(result);
+      }
+
+      if (stupid_less(value_1, value_2)) {
+          right_shift(&value_2);
+          right_shift(result);
+      }
+
+      very_stupid_sub(value_1, value_2, &temp);
+      one = div_core(temp, divcopy, &one, status);
+      *status = very_stupid_add(*result, one, result, 0, 0);
   }
-  while ((stupid_less(value_2, value_1) || stupid_equal(value_2, value_1)) &&
-         !get_gbit(value_2, ALL_BIT - 1)) {
-    left_shift(&value_2);
-    left_shift(result);
-  }
-  if (stupid_less(value_1, value_2)) {
-    right_shift(&value_2);
-    right_shift(result);
-  }
-  // d_print_decimal(value_1);
-  // d_print_decimal(value_2);
-  // d_print_decimal(*result);
-  // d_print_decimal(*result);
-  very_stupid_sub(value_1, value_2, &temp);
-  temp2 = div_core(temp, divcopy, &temp2, status);
-  *status = very_stupid_add(*result, temp2, result, 0, 0);
+
   return *result;
 }
 
 int int_div(s21_decimal value_1, s21_decimal value_2, s21_decimal *result) {
-  if (is_zero(value_2)) return DIV_ZERO;
   int status = OK;
-  int res_exp = get_exponent(value_1) - get_exponent(value_2);
-  s21_from_int_to_decimal(1, result);
 
-  set_sign(result, get_sign(value_1) ^ get_sign(value_2));
-  set_sign(&value_1, 0);
-  set_sign(&value_2, 0);
+  if (is_zero(value_2)) {
+      status = DIV_ZERO;
+  } else {
+      s21_from_int_to_decimal(1, result);
 
-  set_exponent(&value_1, 0);
-  set_exponent(&value_2, 0);
+      set_sign(result, get_sign(value_1) ^ get_sign(value_2));
+      set_sign(&value_1, 0);
+      set_sign(&value_2, 0);
 
-  *result = div_core(value_1, value_2, result, &status);
-  if (res_exp < 0) {
-    status = shifting(result, -res_exp);
-    status += -res_exp << 2;
-    res_exp = 0;
+      int res_exp = get_exponent(value_1) - get_exponent(value_2);
+      set_exponent(&value_1, 0);
+      set_exponent(&value_2, 0);
+
+      *result = div_core(value_1, value_2, result, &status);
+      if (res_exp < 0) {
+          status = shifting(result, -res_exp);
+          status += -res_exp << 2;
+
+          res_exp = 0;
+      }
+      set_exponent(result, res_exp);
   }
-  set_exponent(result, res_exp);
+
   return status;
 }
 
 int additional_int_prec(s21_decimal value_1, s21_decimal value_2,
                         s21_decimal *result, int status) {
   set_exponent(&value_2, get_exponent(value_2) - status);
+
   s21_decimal mod_res = init_zero_decimal(), div_res = init_zero_decimal();
+
   s21_mod(value_1, value_2, &mod_res);
-  set_exponent(&value_2, get_exponent(value_2) + status);
   shifting(&mod_res, -1);
+
+  set_exponent(&value_2, get_exponent(value_2) + status);
+
   while (stupid_less(mod_res, value_2)) bank_round(&value_2, 1);
   int_div(mod_res, value_2, &div_res);
   // d_print_decimal(*result);
