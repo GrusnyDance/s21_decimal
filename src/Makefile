@@ -65,12 +65,12 @@ create_dir:
 test: main_tests.c $(HEADER) lib_gcov.a
 	$(CC) $(CFLAGS) $^ -o test_test $(LCHECK) $(LDFLAGS) $(GCOV_FLAGS)
 	./test_test
-	# rm -f *gcda *gcno
 	@mv *gcda *gcno $(OBJ_GCOV_DIR)/
 
 gcov_report: test
-	lcov/bin/./lcov -c -d $(OBJ_GCOV_DIR)/. -o $(OBJ_GCOV_DIR)/coverage.info
-	lcov/bin/./genhtml $(OBJ_GCOV_DIR)/coverage.info --output-directory out
+	@rm -f $(OBJ_GCOV_DIR)/*tests*
+	@lcov/bin/./lcov -c -d $(OBJ_GCOV_DIR)/. -o $(OBJ_GCOV_DIR)/coverage.info
+	@lcov/bin/./genhtml $(OBJ_GCOV_DIR)/coverage.info --output-directory out
 
 $(OBJ_DIR)/%.o: %.c $(HEADER)
 	@$(CC) $(CFLAGS) -c $< -o $(subst /,_,$@) $(LIN_FLAGS)
