@@ -120,40 +120,41 @@ int s21_from_float_to_decimal(float src, s21_decimal *dst) {
   int return_code = OK;
   int sign = (src < 0) ? 1 : 0;
 
-  if (!dst) return CONVERTION_ERROR;
-  if (isinf(src) || isnan(src)) {
-    set_null(dst);
-    return CONVERTION_ERROR;
-  }
-  set_null(dst);
-  conv union_first;
-  union_first.float_num = fabs(src);
-  int exp = (union_first.int_num >> 23) - 127;
-  s21_decimal temp;
-  set_null(&temp);
+  if (!dst || isinf(src) || isnan(src)) {
+      set_null(dst);
+      return_code = CONVERTION_ERROR;
+  } else {
+      set_null(dst);
+      conv union_first;
+      union_first.float_num = fabsf(src);
+      int exp = (union_first.int_num >> 23) - 127;
+      s21_decimal temp;
+      set_null(&temp);
 
-  if (exp > -95 && exp <= 95) {
-    double reserve = fabs(src);
-    int ten_pow = get_ten_pow(reserve);
+      if (exp > -95 && exp <= 95) {
+          double reserve = fabsf(src);
+          int ten_pow = get_ten_pow(reserve);
 
-    return_code = add_int_part(&temp, &ten_pow, reserve);
-    // for (int i = 0; i < 4; i++) {
-      //   for (int j = 31; j >= 0; j--) {
-      //     if (temp.bits[i] & (1 << j))
-      //       printf("1");
-      //     else
-      //       printf("0");
-      //   }
-      //   printf(" ");
-      // }
-      // printf("\n");
-  // }
-      if (!return_code) {
-        if (ten_pow != 0) add_frac_part(&temp, ten_pow, reserve);
-        for (int i = 0; i < 4; i++) dst->bits[i] = temp.bits[i];
-        if (sign) dst->bits[3] |= 1 << 31;
-        dst->bits[3] |= ten_pow << 16;
+          return_code = add_int_part(&temp, &ten_pow, reserve);
+          // for (int i = 0; i < 4; i++) {
+          //   for (int j = 31; j >= 0; j--) {
+          //     if (temp.bits[i] & (1 << j))
+          //       printf("1");
+          //     else
+          //       printf("0");
+          //   }
+          //   printf(" ");
+          // }
+          // printf("\n");
+          // }
+          if (!return_code) {
+              if (ten_pow != 0) add_frac_part(&temp, ten_pow, reserve);
+              for (int i = 0; i < 4; i++) dst->bits[i] = temp.bits[i];
+              if (sign) dst->bits[3] |= 1 << 31;
+              dst->bits[3] |= ten_pow << 16;
+          }
       }
-    }
+  }
+
   return return_code;
 }
