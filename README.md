@@ -6,3 +6,5 @@ Long arithmetic in C. Addition, subtraction, division, multiplication + other he
 Tests provided in `src\test` can be used to assess the output of functions compared to GMP lib code (gmp.h should be installed locally on your PC).
 
 credits to @co-cy and @kolesnikoff17 🌸
+
+![pic](./meme.png)
