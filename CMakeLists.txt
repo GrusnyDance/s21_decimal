@@ -3,7 +3,6 @@ project(s21_decimal C)
 project(st_test C)
 
 set(CMAKE_C_STANDARD 11)
-set (CMAKE_C_FLAGS "-g -fsanitize=address")
 
 include_directories(src)
 
